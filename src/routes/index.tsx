@@ -1,23 +1,340 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  ArrowDownRight,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  CircleHelp,
+  Code2,
+  ExternalLink,
+  FileText,
+  Flower2,
+  Layers3,
+  Mail,
+  Menu,
+  MessageCircle,
+  MonitorSmartphone,
+  MoveUpRight,
+  Palette,
+  Send,
+  Sparkles,
+  X,
+  Zap,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { prices, projectCategories, projects } from "@/lib/ht-dev-data";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "HT Dev — Solusi Digital Cepat & Rapi" },
+      { name: "description", content: "Website, aplikasi Android, UI/UX, dan integrasi AI yang rapi dengan harga masuk akal. Lihat karya dan mulai konsultasi bersama HT Dev." },
+      { property: "og:title", content: "HT Dev — Solusi Digital Cepat & Rapi" },
+      { property: "og:description", content: "Website, aplikasi Android, UI/UX, dan integrasi AI yang rapi dengan harga masuk akal." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: HTDevSite,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const panels = [
+  { id: "portofolio", label: "Portofolio" },
+  { id: "beranda", label: "Beranda" },
+  { id: "order", label: "Harga & Order" },
+] as const;
+
+const motionEase = [0.22, 1, 0.36, 1] as const;
+const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+
+function HTDevSite() {
+  const [activePanel, setActivePanel] = useState(() => {
+    if (typeof window === "undefined") return 1;
+    const hash = window.location.hash.slice(1);
+    const index = panels.findIndex((panel) => panel.id === hash);
+    return index === -1 ? 1 : index;
+  });
+  const [selectedCategory, setSelectedCategory] = useState<string>(projectCategories[0] ?? "Web Statis");
+  const touchStart = useRef<{ x: number; y: number; eligible: boolean } | null>(null);
+  const reduceMotion = useReducedMotion();
+
+  const changePanel = useCallback((nextPanel: number) => {
+    const boundedIndex = Math.max(0, Math.min(panels.length - 1, nextPanel));
+    setActivePanel(boundedIndex);
+    const id = panels[boundedIndex]?.id;
+    if (id) window.history.replaceState(null, "", `#${id}`);
+  }, []);
+
+  useEffect(() => {
+    const syncHash = () => {
+      const hashIndex = panels.findIndex((panel) => panel.id === window.location.hash.slice(1));
+      if (hashIndex !== -1) setActivePanel(hashIndex);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      const tag = (event.target as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.key === "ArrowLeft") changePanel(activePanel - 1);
+      if (event.key === "ArrowRight") changePanel(activePanel + 1);
+    };
+    window.addEventListener("hashchange", syncHash);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("hashchange", syncHash);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activePanel, changePanel]);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement;
+    const excluded = target.closest("button, a, input, textarea, select, [data-no-panel-swipe]");
+    const point = event.touches[0];
+    touchStart.current = point ? { x: point.clientX, y: point.clientY, eligible: !excluded } : null;
+  };
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStart.current;
+    const point = event.changedTouches[0];
+    touchStart.current = null;
+    if (!start?.eligible || !point) return;
+    const dx = point.clientX - start.x;
+    const dy = point.clientY - start.y;
+    if (Math.abs(dx) > 85 && Math.abs(dx) > Math.abs(dy) * 1.4) changePanel(activePanel + (dx < 0 ? 1 : -1));
+  };
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <main className="site-backdrop min-h-screen px-0 py-0 sm:px-3 sm:py-3">
+      <div className="site-shell mx-auto flex min-h-screen max-w-[1480px] flex-col overflow-hidden sm:min-h-[calc(100vh-24px)]">
+        <header className="site-header grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 sm:flex sm:justify-between sm:px-8 sm:py-5">
+          <a className="brand-lockup min-w-0" href="#beranda" onClick={() => changePanel(1)} aria-label="HT Dev, ke beranda">
+            <span className="brand-mark"><span>ht</span><Sparkles size={12} aria-hidden="true" /></span>
+            <span className="brand-name">HT Dev<span className="brand-period">.</span><span className="brand-caption">Studio digital independen</span></span>
+          </a>
+          <nav className="panel-tabs" aria-label="Navigasi utama" role="tablist">
+            {panels.map((panel, index) => (
+              <button
+                key={panel.id}
+                type="button"
+                role="tab"
+                aria-selected={activePanel === index}
+                aria-controls={`panel-${panel.id}`}
+                className={`panel-tab ${activePanel === index ? "is-active" : ""}`}
+                onClick={() => changePanel(index)}
+              >
+                {activePanel === index && <motion.span layoutId="active-tab" className="tab-indicator" transition={{ duration: reduceMotion ? 0 : 0.32, ease: motionEase }} />}
+                <span>{panel.label}</span>
+              </button>
+            ))}
+          </nav>
+        </header>
+
+        <div
+          className="panel-window flex-1"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <motion.div
+            className="panel-track"
+            animate={{ x: `${activePanel * -33.333333}%` }}
+            transition={{ duration: reduceMotion ? 0 : 0.62, ease: motionEase }}
+          >
+            <section id="panel-portofolio" className="panel-slide" role="tabpanel" aria-label="Portofolio">
+              <PortfolioPanel onOrder={(category) => { setSelectedCategory(category); changePanel(2); }} />
+            </section>
+            <section id="panel-beranda" className="panel-slide" role="tabpanel" aria-label="Beranda">
+              <HomePanel onPanelChange={changePanel} />
+            </section>
+            <section id="panel-order" className="panel-slide" role="tabpanel" aria-label="Harga dan Order">
+              <OrderPanel selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+            </section>
+          </motion.div>
+        </div>
+
+        <footer className="site-footer flex flex-col gap-2 border-t border-border/70 px-5 py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <span>© 2026 HT Dev. Dibuat dengan perhatian pada detail.</span>
+          <span className="footer-services">Web <i>·</i> Aplikasi <i>·</i> UI/UX <i>·</i> AI</span>
+        </footer>
+      </div>
+      <button className="edge-navigation edge-previous" aria-label="Buka panel sebelumnya" onClick={() => changePanel(activePanel - 1)} disabled={activePanel === 0}>
+        <ArrowLeft size={17} />
+      </button>
+      <button className="edge-navigation edge-next" aria-label="Buka panel berikutnya" onClick={() => changePanel(activePanel + 1)} disabled={activePanel === panels.length - 1}>
+        <ArrowRight size={17} />
+      </button>
+    </main>
+  );
+}
+
+function HomePanel({ onPanelChange }: { onPanelChange: (index: number) => void }) {
+  const features = [
+    { icon: <Zap />, title: "Cepat & terukur", text: "Waktu pengerjaan bisa disesuaikan kebutuhan." },
+    { icon: <Code2 />, title: "Kode + panduan", text: "Alur sistem rapi dan mudah dikembangkan." },
+    { icon: <MessageCircle />, title: "Diskusi transparan", text: "Konsultasi awal tanpa biaya tersembunyi." },
+    { icon: <Palette />, title: "Diskon Rp25 ribu", text: "Potongan harga untuk karya portofolio." },
+  ];
+  return (
+    <div className="home-panel content-wrap">
+      <div className="hero-intro">
+        <div className="hero-topline"><span className="availability-dot" /> Terbuka untuk proyek baru <span className="topline-divider">·</span> Web, aplikasi, UI/UX & AI</div>
+        <Sparkles className="sparkle sparkle-one" aria-hidden="true" />
+        <Sparkles className="sparkle sparkle-two" aria-hidden="true" />
+        <p className="eyebrow"><span className="eyebrow-line" /> STUDIO DIGITAL INDEPENDEN</p>
+        <h1>Solusi digital<br className="desktop-break" /> <span className="headline-highlight">cepat & rapi</span> untuk<br className="desktop-break" /> ide yang jadi nyata.</h1>
+        <p className="hero-copy">Dari website dan aplikasi Android, hingga desain UI/UX dan integrasi AI. Dibuat dengan alur yang jelas, kode yang bersih, dan harga yang masuk akal.</p>
+        <div className="hero-actions">
+          <Button className="pill-button pill-primary" onClick={() => onPanelChange(2)}>Lihat harga & order <span className="button-icon"><ArrowUpRight /></span></Button>
+          <Button variant="outline" className="pill-button pill-secondary" onClick={() => onPanelChange(0)}><span className="button-icon button-icon-lilac"><ArrowLeft /></span> Intip portofolio</Button>
+        </div>
+        <div className="hero-proof"><span>Web</span><i /> <span>App</span><i /> <span>UI/UX</span><i /> <span>Integrasi AI</span></div>
+      </div>
+      <section className="feature-section" aria-label="Keunggulan HT Dev">
+        <div className="section-kicker"><span>01 / CARA KAMI BEKERJA</span><span>Rapi dari awal, sampai selesai.</span></div>
+        <div className="feature-grid">
+          {features.map((feature, index) => (
+            <motion.article className={`feature-card feature-tint-${index + 1}`} key={feature.title} whileHover={{ y: -4 }} transition={{ duration: 0.22 }}>
+              <div className="feature-icon">{feature.icon}</div>
+              <h2>{feature.title}</h2>
+              <p>{feature.text}</p>
+              <span className="feature-number">0{index + 1}</span>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+      <div className="home-note"><span className="note-star">✳</span><p>Mulai dari ide kecil, lalu kita rancang langkah terbaik bersama.</p><Button variant="ghost" className="text-link-button" onClick={() => onPanelChange(2)}>Mulai diskusi <MoveUpRight size={15} /></Button></div>
+    </div>
+  );
+}
+
+function PortfolioPanel({ onOrder }: { onOrder: (category: string) => void }) {
+  const [activeProject, setActiveProject] = useState(0);
+  const [showLightbox, setShowLightbox] = useState(false);
+  const project = projects[activeProject] ?? projects[0];
+  const associatedCategory = activeProject === 0 ? "Web Sistem Fullstack" : activeProject === 2 ? "Mobile App Android" : activeProject === 3 ? "Paket Eksklusif" : "Web Sistem Fullstack";
+
+  useEffect(() => {
+    if (!showLightbox) return;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setShowLightbox(false); };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [showLightbox]);
+
+  return (
+    <div className="portfolio-panel content-wrap">
+      <div className="page-heading-row">
+        <div><p className="eyebrow"><span className="eyebrow-line" /> PILIHAN KARYA</p><h1 className="page-title">Hal yang pernah <span className="title-underline">kami buat.</span></h1><p className="page-subtitle">Setiap proyek dimulai dari cerita yang berbeda. Ini beberapa di antaranya.</p></div>
+        <div className="gallery-counter"><span>0{activeProject + 1}</span> <i>/</i> 0{projects.length}</div>
+      </div>
+      <div className="portfolio-gallery" aria-label="Galeri proyek">
+        {projects.map((item, index) => (
+          <button
+            key={item.name}
+            className={`project-card ${activeProject === index ? "project-expanded" : "project-collapsed"}`}
+            onClick={() => setActiveProject(index)}
+            aria-label={`Lihat ${item.name}, ${item.category}`}
+            aria-expanded={activeProject === index}
+          >
+            <img src={item.image} alt={`Tampilan proyek ${item.name}`} loading="lazy" />
+            <span className="project-shade" />
+            {activeProject === index ? (
+              <span className="project-cover-copy"><span className="project-logo">{item.icon}</span><span><strong>{item.name}</strong><small>{item.title}</small></span><span className="project-category-pill">{item.category}</span></span>
+            ) : (
+              <span className="collapsed-project-mark"><span>{item.icon}</span><small>{item.name}</small></span>
+            )}
+            {activeProject === index && <span className="project-expand-icon"><ArrowUpRight size={18} /></span>}
+          </button>
+        ))}
+      </div>
+      <div className="gallery-pagination" aria-label="Pilih proyek">
+        <button className="gallery-arrow" onClick={() => setActiveProject((activeProject + projects.length - 1) % projects.length)} aria-label="Proyek sebelumnya"><ChevronLeft size={18} /></button>
+        {projects.map((item, index) => <button key={item.name} className={`gallery-dot ${index === activeProject ? "dot-active" : ""}`} aria-label={`Tampilkan ${item.name}`} onClick={() => setActiveProject(index)} />)}
+        <button className="gallery-arrow" onClick={() => setActiveProject((activeProject + 1) % projects.length)} aria-label="Proyek berikutnya"><ChevronRight size={18} /></button>
+      </div>
+      <AnimatePresence mode="wait">
+        {project && <motion.article className="project-details" key={project.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.24 }}>
+          <div className="project-detail-copy"><div className="detail-title-row"><span className="detail-project-index">0{activeProject + 1}</span><h2>{project.name} <span>—</span> {project.title}</h2></div><p>{project.description}</p><div className="project-tags">{project.features.map((feature) => <span key={feature}><Check size={12} /> {feature}</span>)}</div></div>
+          <div className="project-detail-action"><span className="category-tag">{project.category}</span><strong>Mulai {project.price}</strong><div className="project-actions"><Button variant="outline" className="small-pill-button" onClick={() => onOrder(associatedCategory)}>Pesan yang serupa <ArrowUpRight /></Button><Button variant="ghost" className="icon-button lightbox-trigger" aria-label="Lihat gambar penuh" title="Lihat gambar penuh" onClick={() => setShowLightbox(true)}><ExternalLink size={17} /></Button></div></div>
+        </motion.article>}
+      </AnimatePresence>
+      <div className="portfolio-end-note"><span className="end-note-mark">✳</span><span>Punya ide sendiri? Kita bisa mulai dari sana.</span><Button variant="ghost" className="text-link-button" onClick={() => onOrder("Web Statis")}>Ceritakan idemu <ArrowUpRight size={15} /></Button></div>
+      {showLightbox && project && <div className="lightbox-backdrop" role="presentation" onClick={() => setShowLightbox(false)}><div className="lightbox-content" role="dialog" aria-modal="true" aria-label={`Gambar proyek ${project.name}`} onClick={(event) => event.stopPropagation()}><img src={project.image} alt={`Tampilan penuh proyek ${project.name}`} /><div className="lightbox-caption"><span><strong>{project.name}</strong><small>{project.category}</small></span><Button variant="ghost" className="lightbox-close icon-button" onClick={() => setShowLightbox(false)} aria-label="Tutup gambar"><X /></Button></div></div></div>}
+    </div>
+  );
+}
+
+function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategory: string; setSelectedCategory: (category: string) => void }) {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [status, setStatus] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  async function submitOrder(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitting(true);
+    setStatus("");
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.append("subject", "Permintaan proyek baru — HT Dev");
+    formData.append("from_name", "HT Dev — Situs");
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+      const result = await response.json() as { success?: boolean; message?: string };
+      if (!response.ok || !result.success) throw new Error(result.message || "Pengiriman belum berhasil. Coba lagi sebentar, ya.");
+      setStatus("success");
+      form.reset();
+      setSelectedCategory(projectCategories[0] ?? "Web Statis");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Formulir belum terkirim. Silakan coba lagi.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="order-panel content-wrap">
+      <div className="page-heading-row order-heading-row"><div><p className="eyebrow"><span className="eyebrow-line" /> JELAS SEJAK AWAL</p><h1 className="page-title">Pilih paket, <span className="title-underline">lalu mulai.</span></h1><p className="page-subtitle">Harga awal yang transparan. Lingkup pastinya kita obrolkan bersama.</p></div><div className="order-heading-icon"><Layers3 /></div></div>
+      <div className="order-layout">
+        <section className="price-column" aria-labelledby="price-list-heading">
+          <div className="column-heading"><div><span className="column-kicker">PILIH YANG SESUAI</span><h2 id="price-list-heading">Daftar harga</h2></div><span className="price-note">Harga awal</span></div>
+          <div className="price-list">
+            {prices.map((item, index) => (
+              <button type="button" key={item.name} className={`price-row ${item.featured ? "price-row-featured" : ""} ${selectedCategory === item.name ? "price-row-selected" : ""}`} onClick={() => { setSelectedCategory(item.name); document.getElementById("order-form")?.scrollIntoView({ behavior: "smooth", block: "center" }); }}>
+                <span className="price-row-number">0{index + 1}</span><span className="price-row-copy"><strong>{item.name}</strong><small>{item.note}</small></span><span className="price-value">{item.price}</span><span className="price-arrow"><ArrowUpRight size={16} /></span>
+              </button>
+            ))}
+          </div>
+          <div className={`terms-block ${detailsOpen ? "terms-open" : ""}`}>
+            <button className="terms-toggle" onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}><span><FileText size={17} /> Add-on & syarat pengerjaan</span><ChevronDown size={17} /></button>
+            {detailsOpen && <div className="terms-copy"><p><strong>Dokumen formal — Rp280k</strong><br />Paket bundel SRS / DPPL, ERD, Use Case, dan Class Diagram.</p><p><strong>Revisi</strong><br />Termasuk hingga 3 kali revisi sesuai lingkup awal yang disepakati.</p><p><strong>Domain & hosting</strong><br />Pilihan domain dan hosting dibicarakan saat konsultasi, mengikuti kebutuhan dan ketersediaan.</p></div>}
+          </div>
+          <div className="help-note"><CircleHelp size={17} /><span>Masih bingung pilih paket? Kita bantu cari yang pas.</span></div>
+        </section>
+
+        <section className="order-form-card" id="order-form" aria-labelledby="order-form-heading">
+          <div className="form-heading"><div><span className="form-kicker">CERITAKAN IDEMU</span><h2 id="order-form-heading">Mari mulai obrolan.</h2><p>Isi yang sudah kamu tahu — detail lain kita bicarakan bersama.</p></div><div className="form-sparkle"><Flower2 /></div></div>
+          <form className="order-form" onSubmit={submitOrder}>
+            <label className="form-field"><span>Nama / alias <i>*</i></span><input name="nama" type="text" placeholder="Namamu" autoComplete="name" required minLength={2} /></label>
+            <div className="form-field-grid">
+              <label className="form-field"><span>Kontak pilihan <i>*</i></span><select name="platform_kontak" required defaultValue="WhatsApp"><option>Telegram</option><option>WhatsApp</option><option>DM X</option><option>DM Facebook</option><option>DM Threads</option><option>Email</option></select></label>
+              <label className="form-field"><span>Username / nomor <i>*</i></span><input name="kontak" type="text" placeholder="@namamu / nomor" required /></label>
+            </div>
+            <div className="form-field-grid">
+              <label className="form-field"><span>Kategori proyek <i>*</i></span><select name="kategori" required value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>{projectCategories.map((category) => <option key={category}>{category}</option>)}</select></label>
+              <label className="form-field"><span>Target durasi <i>*</i></span><select name="durasi" required defaultValue="Standar"><option>Standar</option><option>Cepat</option><option>Mendesak</option></select></label>
+            </div>
+            <label className="form-field"><span>Kebutuhan & fitur <i>*</i></span><textarea name="deskripsi" placeholder="Ceritakan tujuan, fitur yang dibutuhkan, atau contoh yang kamu suka..." rows={4} required minLength={10} /></label>
+            <label className="portfolio-consent"><input name="izin_portofolio" type="checkbox" value="Ya, dengan diskon Rp25.000" /><span className="consent-check"><Check size={13} /></span><span>Izinkan hasil karya dipakai untuk portofolio <strong>(diskon Rp25.000)</strong></span></label>
+            {status === "success" ? <div className="form-success" role="status"><span><Sparkles /></span><div><strong>Pesanmu berhasil dikirim!</strong><small>Terima kasih sudah menghubungi HT Dev. Kami akan segera menyapa lewat kontak pilihanmu.</small></div></div> : status && <p className="form-error" role="alert">{status}</p>}
+            <Button type="submit" className="pill-button form-submit" disabled={submitting}>{submitting ? "Sedang mengirim..." : "Kirim permintaan"}<span className="button-icon"><ArrowUpRight /></span></Button>
+          </form>
+          <div className="form-divider"><span>atau, langsung menyapa</span></div>
+          <div className="quick-contact"><a href="https://t.me/" target="_blank" rel="noreferrer"><Send size={15} /> Chat cepat via Telegram <ArrowUpRight size={14} /></a><span><a href="mailto:hello@htdev.id" aria-label="Email HT Dev"><Mail size={15} /></a><a href="https://www.threads.net/" target="_blank" rel="noreferrer" aria-label="Threads HT Dev"><Menu size={15} /></a><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram HT Dev"><MonitorSmartphone size={15} /></a></span></div>
+          <p className="contact-disclaimer">Kontak langsung di atas menggunakan halaman umum; alamat surel dapat disesuaikan.</p>
+        </section>
+      </div>
     </div>
   );
 }

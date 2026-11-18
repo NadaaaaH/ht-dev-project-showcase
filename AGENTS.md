@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## HT Dev site structure
+
+- Keep the HT Dev page as a single hash-synchronized horizontal panel experience at `/`; keep editable project and price content centralized in `src/lib/ht-dev-data.ts` so the portfolio gallery and order flow share consistent data.
