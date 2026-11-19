@@ -47,11 +47,39 @@ export const projects = [
 ] as const;
 
 export const prices = [
-  { name: "Web Statis", price: "Rp90k", note: "Landing page & profil bisnis", points: ["Tampilan responsif", "Satu halaman utama", "Revisi 3x"] },
-  { name: "Web Sistem Fullstack", price: "Rp400k", note: "Website dengan alur dan data", points: ["Login & pengelolaan data", "Alur sesuai kebutuhan", "Panduan starter"] },
-  { name: "Mobile App Android", price: "Rp500k", note: "Aplikasi Android sesuai ide", points: ["Rancangan alur", "Fitur inti aplikasi", "Panduan penggunaan"] },
-  { name: "Desain UI/UX Figma", price: "Rp150k", note: "Rancangan layar dan alur", points: ["Wireframe", "Desain antarmuka", "File Figma"] },
-  { name: "Paket Eksklusif", price: "Rp2,5jt+", note: "Kebutuhan khusus, dirancang bersama", points: ["Konsultasi kebutuhan", "Lingkup fleksibel", "Penawaran khusus"], featured: true },
+  { name: "Website Static", price: "Mulai Rp90.000", note: "Portofolio, company profile, landing page, undangan digital, atau event tanpa server dan backend.", points: ["Tampilan responsif", "Cocok untuk website sederhana"], featured: false },
+  { name: "Website Full-Stack", price: "Mulai Rp400.000", note: "Sistem web dengan frontend, backend, database, dan konfigurasi deployment.", points: ["Alur dan data sesuai kebutuhan", "Source code dan panduan"], featured: true },
+  { name: "Mobile App (Android)", price: "Mulai Rp500.000", note: "Aplikasi Android siap pakai dalam bentuk file installer APK.", points: ["Penyimpanan lokal atau cloud", "Fitur inti sesuai ide"], featured: false },
+  { name: "UI/UX Design (Figma)", price: "Rp15.000–20.000/halaman", note: "Satu halaman mencakup wireframe low-fidelity dan desain high-fidelity.", points: ["Desain baru Rp20.000/halaman", "Redesign Rp15.000/halaman"], featured: false },
 ] as const;
 
 export const projectCategories = prices.map(({ name }) => name);
+
+export const addons = [
+  { name: "Machine Learning / Computer Vision", price: "+Rp300.000/fitur", note: "Integrasi deteksi objek, klasifikasi, pengenalan gambar, atau rekomendasi." },
+  { name: "Mockup UI/UX Figma — tanpa verifikasi", price: "+Rp20.000/halaman", note: "Desain langsung dilanjutkan ke proses pengerjaan." },
+  { name: "Mockup UI/UX Figma — dengan verifikasi", price: "+Rp25.000/halaman", note: "Desain disetujui terlebih dahulu sebelum proses coding." },
+  { name: "Verifikasi & persetujuan sebelum coding", price: "+Rp50.000", note: "Sesi review alur atau desain sebelum pengembangan dimulai." },
+  { name: "Bundle dokumen sistem", price: "+Rp280.000", note: "SRS/DPPL, Class Diagram, ERD, dan Use Case Diagram." },
+  { name: "Satu dokumen sistem", price: "+Rp75.000/dokumen", note: "SRS/DPPL, Class Diagram, ERD, atau Use Case Diagram." },
+  { name: "Revisi tambahan", price: "+Rp5.000–25.000/revisi", note: "Biaya mengikuti tingkat kompleksitas revisi." },
+] as const;
+
+export const includedBenefits = [
+  "Diskon Rp25.000 jika proyek diizinkan tampil sebagai portofolio dan media promosi HT Dev.",
+  "Starter Guide PDF tentang alur sistem dan kode, beserta README.md untuk instalasi dan deployment mandiri.",
+  "Akses repository GitHub dengan source code yang bersih dan terstruktur.",
+  "Bantuan deployment awal melalui layanan free-tier selama sekitar satu bulan.",
+  "Tiga kali revisi minor gratis setelah proyek selesai.",
+  "Garansi perbaikan bug selama 14 hari setelah serah terima, selama kode belum diubah mandiri.",
+] as const;
+
+export const serviceTerms = [
+  "Harga paket adalah harga minimum untuk spesifikasi dasar; domain dan hosting berbayar belum termasuk.",
+  "Deployment awal memakai layanan free-tier sekitar satu bulan. Biaya perpanjangan dibayar klien dari akun pribadi; HT Dev siap membantu setup.",
+  "DP 50% dibayar sebelum pengerjaan dan tidak dapat dikembalikan bila proyek dibatalkan sepihak. Pelunasan 50% dibayar setelah proyek selesai dan revisi ditutup.",
+  "Biaya tambahan berdasarkan kompleksitas, jumlah halaman, fitur, dan tenggat disepakati secara transparan sebelum DP.",
+  "Sampaikan poin revisi dengan terperinci saat proyek selesai agar penyesuaian tetap sesuai kesepakatan awal.",
+  "Kedua pihak menjaga kerahasiaan data, kredensial akun, dan informasi sensitif selama maupun setelah proyek.",
+  "Garansi bug 14 hari otomatis gugur apabila klien mengubah kode secara mandiri.",
+] as const;

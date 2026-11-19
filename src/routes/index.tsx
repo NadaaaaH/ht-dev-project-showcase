@@ -28,7 +28,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { prices, projectCategories, projects } from "@/lib/ht-dev-data";
+import { addons, includedBenefits, prices, projectCategories, projects, serviceTerms } from "@/lib/ht-dev-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -266,7 +266,9 @@ function PortfolioPanel({ onOrder }: { onOrder: (category: string) => void }) {
 }
 
 function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategory: string; setSelectedCategory: (category: string) => void }) {
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [addonsOpen, setAddonsOpen] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
+  const [includeAddons, setIncludeAddons] = useState(false);
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -295,44 +297,58 @@ function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategor
 
   return (
     <div className="order-panel content-wrap">
-      <div className="page-heading-row order-heading-row"><div><p className="eyebrow"><span className="eyebrow-line" /> JELAS SEJAK AWAL</p><h1 className="page-title">Pilih paket, <span className="title-underline">lalu mulai.</span></h1><p className="page-subtitle">Harga awal yang transparan. Lingkup pastinya kita obrolkan bersama.</p></div><div className="order-heading-icon"><Layers3 /></div></div>
+      <div className="page-heading-row order-heading-row"><div><p className="eyebrow"><span className="eyebrow-line" /> JELAS SEJAK AWAL</p><h1 className="page-title">Pilih layanan, <span className="title-underline">lalu mulai.</span></h1><p className="page-subtitle">Harga dasar untuk kebutuhan standar. Total akhir disesuaikan dengan lingkup, fitur, dan tenggat proyek.</p></div><div className="order-heading-icon"><Layers3 /></div></div>
       <div className="order-layout">
         <section className="price-column" aria-labelledby="price-list-heading">
-          <div className="column-heading"><div><span className="column-kicker">PILIH YANG SESUAI</span><h2 id="price-list-heading">Daftar harga</h2></div><span className="price-note">Harga awal</span></div>
+          <div className="column-heading"><div><span className="column-kicker">PILIH YANG SESUAI</span><h2 id="price-list-heading">Layanan utama</h2></div><span className="price-note">Harga dasar</span></div>
           <div className="price-list">
             {prices.map((item, index) => (
-              <button type="button" key={item.name} className={`price-row ${item.featured ? "price-row-featured" : ""} ${selectedCategory === item.name ? "price-row-selected" : ""}`} onClick={() => { setSelectedCategory(item.name); document.getElementById("order-form")?.scrollIntoView({ behavior: "smooth", block: "center" }); }}>
-                <span className="price-row-number">0{index + 1}</span><span className="price-row-copy"><strong>{item.name}</strong><small>{item.note}</small></span><span className="price-value">{item.price}</span><span className="price-arrow"><ArrowUpRight size={16} /></span>
+              <button type="button" key={item.name} className={`price-row ${item.featured ? "price-row-featured" : ""} ${selectedCategory === item.name ? "price-row-selected" : ""}`} onClick={() => { setSelectedCategory(item.name); document.getElementById("order-form")?.scrollIntoView({ behavior: "smooth", block: "center" }); }} aria-pressed={selectedCategory === item.name}>
+                <span className="price-row-number">0{index + 1}</span><span className="price-row-copy"><strong>{item.name}</strong><small>{item.note}</small><span className="price-points">{item.points.join(" · ")}</span></span><span className="price-value">{item.price}</span><span className="price-arrow"><ArrowUpRight size={16} /></span>
               </button>
             ))}
           </div>
-          <div className={`terms-block ${detailsOpen ? "terms-open" : ""}`}>
-            <button className="terms-toggle" onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}><span><FileText size={17} /> Add-on & syarat pengerjaan</span><ChevronDown size={17} /></button>
-            {detailsOpen && <div className="terms-copy"><p><strong>Dokumen formal — Rp280k</strong><br />Paket bundel SRS / DPPL, ERD, Use Case, dan Class Diagram.</p><p><strong>Revisi</strong><br />Termasuk hingga 3 kali revisi sesuai lingkup awal yang disepakati.</p><p><strong>Domain & hosting</strong><br />Pilihan domain dan hosting dibicarakan saat konsultasi, mengikuti kebutuhan dan ketersediaan.</p></div>}
+          <div className={`terms-block ${addonsOpen ? "terms-open" : ""}`}>
+            <button type="button" className="terms-toggle" onClick={() => setAddonsOpen(!addonsOpen)} aria-expanded={addonsOpen}><span><FileText size={17} /> Layanan tambahan</span><ChevronDown size={17} /></button>
+            {addonsOpen && <div className="terms-copy addon-list">{addons.map((addon) => <div className="addon-row" key={addon.name}><span><strong>{addon.name}</strong><small>{addon.note}</small></span><b>{addon.price}</b></div>)}</div>}
+          </div>
+          <div className="benefits-block">
+            <span className="column-kicker">TERMASUK DI SETIAP PROYEK</span>
+            <ul className="benefits-list">{includedBenefits.map((benefit) => <li key={benefit}><Check size={14} />{benefit}</li>)}</ul>
+          </div>
+          <div className={`terms-block ${termsOpen ? "terms-open" : ""}`}>
+            <button type="button" className="terms-toggle" onClick={() => setTermsOpen(!termsOpen)} aria-expanded={termsOpen}><span><FileText size={17} /> Syarat & ketentuan</span><ChevronDown size={17} /></button>
+            {termsOpen && <div className="terms-copy"><ol className="terms-list">{serviceTerms.map((term) => <li key={term}>{term}</li>)}</ol></div>}
           </div>
           <div className="help-note"><CircleHelp size={17} /><span>Masih bingung pilih paket? Kita bantu cari yang pas.</span></div>
         </section>
 
         <section className="order-form-card" id="order-form" aria-labelledby="order-form-heading">
-          <div className="form-heading"><div><span className="form-kicker">CERITAKAN IDEMU</span><h2 id="order-form-heading">Mari mulai obrolan.</h2><p>Isi yang sudah kamu tahu — detail lain kita bicarakan bersama.</p></div><div className="form-sparkle"><Flower2 /></div></div>
+          <div className="form-heading"><div><span className="form-kicker">CERITAKAN IDEMU</span><h2 id="order-form-heading">Mulai konsultasi & pemesanan</h2><p>Isi kebutuhanmu di bawah ini. Tim HT Dev akan menghubungimu dalam waktu kurang dari 24 jam.</p></div><div className="form-sparkle"><Flower2 /></div></div>
           <form className="order-form" onSubmit={submitOrder}>
-            <label className="form-field"><span>Nama / alias <i>*</i></span><input name="nama" type="text" placeholder="Namamu" autoComplete="name" required minLength={2} /></label>
+            <label className="form-field"><span>Nama lengkap / panggilan <i>*</i></span><input name="nama" type="text" placeholder="Masukkan namamu atau nama brand/instansi..." autoComplete="name" required minLength={2} /></label>
             <div className="form-field-grid">
-              <label className="form-field"><span>Kontak pilihan <i>*</i></span><select name="platform_kontak" required defaultValue="WhatsApp"><option>Telegram</option><option>WhatsApp</option><option>DM X</option><option>DM Facebook</option><option>DM Threads</option><option>Email</option></select></label>
-              <label className="form-field"><span>Username / nomor <i>*</i></span><input name="kontak" type="text" placeholder="@namamu / nomor" required /></label>
+              <label className="form-field"><span>Kontak yang bisa dihubungi <i>*</i></span><select name="platform_kontak" required defaultValue="Telegram (Diutamakan)"><option>Telegram (Diutamakan)</option><option>WhatsApp</option></select></label>
+              <label className="form-field"><span>Username / nomor <i>*</i></span><input name="kontak" type="text" placeholder="Contoh: @username atau 0812xxxxxxxx" required /></label>
             </div>
             <div className="form-field-grid">
-              <label className="form-field"><span>Kategori proyek <i>*</i></span><select name="kategori" required value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>{projectCategories.map((category) => <option key={category}>{category}</option>)}</select></label>
-              <label className="form-field"><span>Target durasi <i>*</i></span><select name="durasi" required defaultValue="Standar"><option>Standar</option><option>Cepat</option><option>Mendesak</option></select></label>
+              <label className="form-field"><span>Skema layanan <i>*</i></span><select name="kategori" required value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>{prices.map((item) => <option key={item.name} value={item.name}>{item.name} ({item.price})</option>)}</select></label>
+              <label className="form-field"><span>Target tenggat waktu <i>*</i></span><input name="deadline" type="text" placeholder="Contoh: 25 November 2026 atau 7 hari kerja" required /></label>
             </div>
-            <label className="form-field"><span>Kebutuhan & fitur <i>*</i></span><textarea name="deskripsi" placeholder="Ceritakan tujuan, fitur yang dibutuhkan, atau contoh yang kamu suka..." rows={4} required minLength={10} /></label>
-            <label className="portfolio-consent"><input name="izin_portofolio" type="checkbox" value="Ya, dengan diskon Rp25.000" /><span className="consent-check"><Check size={13} /></span><span>Izinkan hasil karya dipakai untuk portofolio <strong>(diskon Rp25.000)</strong></span></label>
+            <fieldset className="addon-choice">
+              <legend>Butuh layanan tambahan?</legend>
+              <label><input type="radio" name="pilih_addon" value="Tidak ada tambahan" checked={!includeAddons} onChange={() => setIncludeAddons(false)} /><span>Tidak ada tambahan</span></label>
+              <label><input type="radio" name="pilih_addon" value="Ya, pilih layanan tambahan" checked={includeAddons} onChange={() => setIncludeAddons(true)} /><span>Ya, pilih layanan tambahan</span></label>
+            </fieldset>
+            {includeAddons && <fieldset className="addon-options"><legend>Pilih layanan tambahan</legend>{addons.map((addon) => <label className="addon-option" key={addon.name}><input type="checkbox" name="layanan_tambahan" value={`${addon.name} (${addon.price})`} /><span><strong>{addon.name}</strong><small>{addon.price}</small></span></label>)}</fieldset>}
+            <label className="form-field"><span>Penjelasan desain & alur sistem <i>*</i></span><textarea name="deskripsi" placeholder="Ceritakan gambaran proyek, fitur utama, referensi desain, atau pertanyaan lainnya..." rows={4} required minLength={10} /></label>
+            <label className="portfolio-consent"><input name="izin_portofolio" type="checkbox" value="Ya, dengan diskon Rp25.000" /><span className="consent-check"><Check size={13} /></span><span>Saya mengizinkan proyek ditampilkan sebagai portofolio HT Dev <strong>(diskon Rp25.000)</strong></span></label>
             {status === "success" ? <div className="form-success" role="status"><span><Sparkles /></span><div><strong>Pesanmu berhasil dikirim!</strong><small>Terima kasih sudah menghubungi HT Dev. Kami akan segera menyapa lewat kontak pilihanmu.</small></div></div> : status && <p className="form-error" role="alert">{status}</p>}
-            <Button type="submit" className="pill-button form-submit" disabled={submitting}>{submitting ? "Sedang mengirim..." : "Kirim permintaan"}<span className="button-icon"><ArrowUpRight /></span></Button>
+            <Button type="submit" className="pill-button form-submit" disabled={submitting}>{submitting ? "Sedang mengirim..." : "Kirim permintaan via email"}<span className="button-icon"><ArrowUpRight /></span></Button>
+            <p className="response-note">Respon cepat, kurang dari 24 jam kerja.</p>
           </form>
           <div className="form-divider"><span>atau, langsung menyapa</span></div>
-          <div className="quick-contact"><a href="https://t.me/" target="_blank" rel="noreferrer"><Send size={15} /> Chat cepat via Telegram <ArrowUpRight size={14} /></a><span><a href="mailto:hello@htdev.id" aria-label="Email HT Dev"><Mail size={15} /></a><a href="https://www.threads.net/" target="_blank" rel="noreferrer" aria-label="Threads HT Dev"><Menu size={15} /></a><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram HT Dev"><MonitorSmartphone size={15} /></a></span></div>
-          <p className="contact-disclaimer">Kontak langsung di atas menggunakan halaman umum; alamat surel dapat disesuaikan.</p>
+          <div className="quick-contact"><a href="https://t.me/" target="_blank" rel="noreferrer"><Send size={15} /> Atau langsung order via Telegram <ArrowUpRight size={14} /></a><span><a href="mailto:hello@htdev.id" aria-label="Email HT Dev"><Mail size={15} /></a><a href="https://www.threads.net/" target="_blank" rel="noreferrer" aria-label="Threads HT Dev"><Menu size={15} /></a><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram HT Dev"><MonitorSmartphone size={15} /></a></span></div>
         </section>
       </div>
     </div>
