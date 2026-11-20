@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowDownRight,
@@ -7,10 +8,8 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  CircleHelp,
   Code2,
   ExternalLink,
   FileText,
@@ -21,14 +20,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  addons,
-  includedBenefits,
-  prices,
-  projectCategories,
-  projects,
-  serviceTerms,
-} from "@/lib/ht-dev-data";
+import { addons, includedBenefits, prices, projectCategories, projects } from "@/lib/ht-dev-data";
 import { LocalizedContent, type Language } from "@/lib/localization";
 
 export const Route = createFileRoute("/")({
@@ -554,6 +546,20 @@ function OrderPanel({
   const [termsOpen, setTermsOpen] = useState(false);
   const [includeAddons, setIncludeAddons] = useState(false);
 
+  useEffect(() => {
+    if (!termsOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setTermsOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [termsOpen]);
+
   function submitOrder(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -586,15 +592,24 @@ function OrderPanel({
   return (
     <div className="order-panel content-wrap">
       <LocalizedContent language={language}>
-        <div className="page-heading-row order-heading-row">
-          <div>
-            <h1 className="page-title">
-              <span className="title-underline">Pricelist</span>
-            </h1>
-          </div>
-        </div>
         <div className="order-layout">
           <section className="price-column" aria-labelledby="price-list-heading">
+            <div className="price-title-row">
+              <h1 className="page-title">
+                <span className="title-underline">Pricelist</span>
+              </h1>
+              <button
+                type="button"
+                className="terms-pill"
+                onClick={() => setTermsOpen(true)}
+                aria-haspopup="dialog"
+                aria-expanded={termsOpen}
+                aria-controls="terms-dialog"
+              >
+                <FileText size={14} aria-hidden="true" />
+                Syarat &amp; Ketentuan
+              </button>
+            </div>
             <div className="column-heading">
               <div>
                 <h2 id="price-list-heading">Skema</h2>
@@ -686,32 +701,148 @@ function OrderPanel({
                 </span>
               </button>
             )}
-            <div className={`terms-block ${termsOpen ? "terms-open" : ""}`}>
-              <button
-                type="button"
-                className="terms-toggle"
-                onClick={() => setTermsOpen(!termsOpen)}
-                aria-expanded={termsOpen}
-              >
-                <span>
-                  <FileText size={17} /> Syarat & Ketentuan
-                </span>
-                <ChevronDown size={17} />
-              </button>
-              {termsOpen && (
-                <div className="terms-copy">
-                  <ol className="terms-list">
-                    {serviceTerms.map((term) => (
-                      <li key={term}>{term}</li>
-                    ))}
-                  </ol>
-                </div>
-              )}
-            </div>
-            <div className="help-note">
-              <CircleHelp size={17} />
-              <span>Masih bingung pilih paket? Kita bantu cari yang pas.</span>
-            </div>
+            {createPortal(
+              <AnimatePresence>
+                {termsOpen && (
+                  <motion.div
+                    className="terms-modal-backdrop"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onMouseDown={(event) => {
+                      if (event.target === event.currentTarget) setTermsOpen(false);
+                    }}
+                  >
+                    <motion.section
+                      id="terms-dialog"
+                      className="terms-modal"
+                      role="dialog"
+                      aria-modal="true"
+                      aria-labelledby="terms-modal-title"
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <header className="terms-modal-header">
+                        <h2 id="terms-modal-title">
+                          {language === "en" ? "Terms & Conditions" : "Syarat & Ketentuan"}
+                        </h2>
+                        <button
+                          type="button"
+                          className="terms-modal-close"
+                          onClick={() => setTermsOpen(false)}
+                          aria-label={
+                            language === "en"
+                              ? "Close terms and conditions"
+                              : "Tutup syarat dan ketentuan"
+                          }
+                        >
+                          <X size={18} aria-hidden="true" />
+                        </button>
+                      </header>
+                      <div className="terms-modal-content">
+                        {[
+                          {
+                            id: "pricing",
+                            title: language === "en" ? "Pricing & costs" : "Harga & biaya",
+                            items:
+                              language === "en"
+                                ? [
+                                    "Listed prices are minimum prices for basic specifications. The final cost depends on complexity, number of pages, features, and add-ons, and is agreed before the deposit.",
+                                    "Timeline affects pricing: Standard (more than 14 business days) ×1.0, Express (7–14 business days) ×1.25, Urgent (under 7 business days) ×1.5.",
+                                    "A Rp25,000 discount applies if the project may be featured in our portfolio. Private projects are charged at the standard rate.",
+                                    "Paid domain and hosting fees are not included.",
+                                  ]
+                                : [
+                                    "Harga yang tertera adalah harga minimum untuk spesifikasi dasar. Biaya akhir menyesuaikan kompleksitas, jumlah halaman, fitur, dan add-on, dan disepakati sebelum DP.",
+                                    "Durasi pengerjaan memengaruhi harga: Normal (lebih dari 14 hari kerja) ×1,0, Ekspres (7–14 hari kerja) ×1,25, Mendesak (kurang dari 7 hari kerja) ×1,5.",
+                                    "Diskon Rp25.000 berlaku jika proyek boleh dijadikan portofolio. Untuk proyek privat berlaku harga normal.",
+                                    "Biaya domain dan hosting berbayar tidak termasuk.",
+                                  ],
+                          },
+                          {
+                            id: "payment",
+                            title: language === "en" ? "Payment" : "Pembayaran",
+                            items:
+                              language === "en"
+                                ? [
+                                    "A 50% deposit is due before work begins. It is non-refundable if the client cancels the project unilaterally.",
+                                    "The remaining 50% is due after the demo and revision period end.",
+                                  ]
+                                : [
+                                    "DP 50% dibayar sebelum pengerjaan dimulai. DP tidak dapat dikembalikan jika proyek dibatalkan sepihak oleh klien.",
+                                    "Pelunasan 50% dibayar setelah demo dan masa revisi berakhir.",
+                                  ],
+                          },
+                          {
+                            id: "work",
+                            title: language === "en" ? "Work & revisions" : "Pengerjaan & revisi",
+                            items:
+                              language === "en"
+                                ? [
+                                    "Three minor revisions are included within 7 days after the demo. Revisions are limited to the original specifications. New features or additional revisions incur extra charges.",
+                                    "If the client is more than 3 days late providing content or answers, the deadline moves by the length of the delay.",
+                                    "Mobile apps are for Android only (APK file). iOS versions and Google Play Store publishing are not included.",
+                                  ]
+                                : [
+                                    "Gratis 3x revisi minor dalam 7 hari setelah demo. Revisi hanya perbaikan dari spesifikasi awal. Fitur baru atau revisi tambahan dikenakan biaya.",
+                                    "Jika klien terlambat menyediakan konten atau jawaban lebih dari 3 hari, deadline mundur sesuai keterlambatan.",
+                                    "Aplikasi mobile hanya untuk Android (file APK). Tidak termasuk versi iOS dan publikasi ke Google Play Store.",
+                                  ],
+                          },
+                          {
+                            id: "handoff",
+                            title:
+                              language === "en" ? "Handoff & warranty" : "Serah terima & garansi",
+                            items:
+                              language === "en"
+                                ? [
+                                    "The demo runs on an HT Dev account. After full payment, the repository, hosting, and database are transferred to the client’s account.",
+                                    "Initial deployment assistance is provided for about 1 month. Hosting and domain renewal costs are the client’s responsibility.",
+                                    "Bug-fix warranty lasts 14 days after handoff and is void if the client modifies the code.",
+                                  ]
+                                : [
+                                    "Demo dijalankan di akun HT Dev. Setelah pelunasan, repository, hosting, dan database dipindahkan ke akun milik klien.",
+                                    "Bantuan deployment awal sekitar 1 bulan. Biaya perpanjangan hosting/domain ditanggung klien.",
+                                    "Garansi perbaikan bug 14 hari setelah serah terima, gugur jika kode diubah sendiri oleh klien.",
+                                  ],
+                          },
+                          {
+                            id: "privacy",
+                            title: language === "en" ? "Confidentiality" : "Kerahasiaan",
+                            items: [
+                              language === "en"
+                                ? "Both parties keep data, account credentials, and sensitive information confidential during and after the project."
+                                : "Kedua pihak menjaga kerahasiaan data, kredensial akun, dan informasi sensitif selama dan setelah proyek.",
+                            ],
+                          },
+                        ].map((group) => (
+                          <section className="terms-group" key={group.id}>
+                            <h3>{group.title}</h3>
+                            <ul>
+                              {group.items.map((item) => (
+                                <li key={item}>
+                                  <Check size={13} aria-hidden="true" />
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </section>
+                        ))}
+                        <p className="terms-modal-footnote">
+                          {language === "en"
+                            ? "Any other details are agreed via chat before the DP."
+                            : "Rincian lain disepakati lewat chat sebelum DP."}
+                        </p>
+                      </div>
+                    </motion.section>
+                  </motion.div>
+                )}
+              </AnimatePresence>,
+              document.body,
+            )}
           </section>
 
           <section className="order-form-card" id="order-form" aria-labelledby="order-form-heading">
