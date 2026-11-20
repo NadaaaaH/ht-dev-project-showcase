@@ -147,9 +147,6 @@ function HTDevSite() {
               onClick={() => changePanel(1)}
               aria-label="HT Dev, ke beranda"
             >
-              <span className="brand-mark">
-                <img className="brand-logo" src="/haifateam-logo.png" alt="" />
-              </span>
               <span className="brand-name">
                 HT Dev<span className="brand-period">.</span>
                 <span className="brand-caption">
@@ -307,40 +304,18 @@ function HomePanel({
         <div className="hero-intro">
           <Sparkles className="sparkle sparkle-one" aria-hidden="true" />
           <Sparkles className="sparkle sparkle-two" aria-hidden="true" />
-          <h1>
+          <p className="hero-headline">
             Solusi Digital
             <br className="desktop-break" />{" "}
             <span className="headline-highlight">Cepat &amp; Rapi</span> untuk
             <br className="desktop-break" /> Bisnis, Tugas, dan Ide Kreatifmu.
-          </h1>
-          <p className="hero-copy">
-            HT Dev membantu mewujudkan website, aplikasi Android, hingga integrasi AI dengan kode
-            yang bersih, alur jelas, dan harga masuk akal.
           </p>
-          <div className="hero-actions">
-            <Button className="pill-button pill-primary" onClick={() => onPanelChange(2)}>
-              Lihat harga & order{" "}
-              <span className="button-icon">
-                <ArrowUpRight />
-              </span>
-            </Button>
-            <Button
-              variant="outline"
-              className="pill-button pill-secondary"
-              onClick={() => onPanelChange(0)}
-            >
-              <span className="button-icon button-icon-lilac">
-                <ArrowLeft />
-              </span>{" "}
-              Intip portofolio
-            </Button>
-          </div>
-          <div className="hero-proof">
-            <span>Web</span>
-            <i /> <span>App</span>
-            <i /> <span>UI/UX</span>
-            <i /> <span>Integrasi AI</span>
-          </div>
+          <h1 className="hero-copy">
+            Jasa Pembuatan Website, Aplikasi Android, UI/UX Design, &amp; Machine Learning dengan
+            kode yang bersih, alur jelas, dan harga masuk akal.
+          </h1>
+          <div className="hero-actions" />
+          <div className="hero-proof" />
         </div>
         <section className="feature-section" aria-label="Keunggulan HT Dev">
           <div className="section-kicker">
