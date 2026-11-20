@@ -21,15 +21,21 @@ describe("App routing", () => {
   });
 
   it("lists the full-stack website minimum at Rp400,000", () => {
-    expect(prices.find((item) => item.name === "Website Full-Stack")?.price).toBe("Mulai Rp400.000");
+    expect(prices.find((item) => item.name === "Website Full-Stack")?.price).toBe(
+      "Mulai Rp400.000",
+    );
   });
 
   it("lists the Android app minimum at Rp500,000", () => {
-    expect(prices.find((item) => item.name === "Mobile App (Android)")?.price).toBe("Mulai Rp500.000");
+    expect(prices.find((item) => item.name === "Mobile App (Android)")?.price).toBe(
+      "Mulai Rp500.000",
+    );
   });
 
   it("lists both UI/UX design rates per page", () => {
-    expect(prices.find((item) => item.name === "UI/UX Design (Figma)")?.price).toBe("Rp15.000–20.000/halaman");
+    expect(prices.find((item) => item.name === "UI/UX Design (Figma)")?.price).toBe(
+      "Rp15.000–20.000/halaman",
+    );
   });
 
   it("maps every portfolio order button to an available service", () => {
