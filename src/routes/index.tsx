@@ -1015,7 +1015,7 @@ function OrderPanel({
                   >
                     {prices.map((item) => (
                       <option key={item.name} value={item.name}>
-                        {item.name} ({item.price})
+                        {item.name}
                       </option>
                     ))}
                   </select>
@@ -1024,12 +1024,7 @@ function OrderPanel({
                   <span>
                     Target tenggat waktu <i>*</i>
                   </span>
-                  <input
-                    name="deadline"
-                    type="text"
-                    placeholder="Contoh: 25 November 2026 atau 7 hari kerja"
-                    required
-                  />
+                  <input name="deadline" type="text" placeholder="Contoh: 7 hari kerja" required />
                 </label>
               </div>
               <fieldset className="addon-choice">

@@ -607,3 +607,64 @@ button, input, textarea, select { font: inherit; }
     color: var(--color-foreground);
   }
 }
+
+:root {
+  --type-ref: 13px;
+  --type-body: var(--type-ref);
+  --type-helper: 12px;
+  --type-title: 14px;
+  --type-section: 21px;
+  --type-minor: 12px;
+  --type-footer: 11px;
+  --type-eyebrow: 10px;
+}
+
+.type-section-title { font-size: var(--type-section); font-weight: 700; line-height: 1.3; }
+.type-item-title { font-size: var(--type-title); font-weight: 600; line-height: 1.4; }
+.type-body { font-size: var(--type-body); line-height: 1.65; }
+.type-helper { font-size: var(--type-helper); line-height: 1.5; }
+.type-eyebrow { font-size: var(--type-eyebrow); font-weight: 600; letter-spacing: .06em; }
+.type-navigation { font-size: 14px; white-space: nowrap; }
+.type-button { font-size: var(--type-body); font-weight: 600; }
+.type-footer { font-size: var(--type-footer); }
+.type-field-label { font-size: var(--type-body); font-weight: 500; }
+.type-field-control { font-size: var(--type-body); }
+.type-option { font-size: var(--type-body); line-height: 1.5; }
+
+@media (min-width: 768px) {
+  .site-footer { font-size: var(--type-footer); }
+  .panel-tab, .language-toggle { font-size: 14px; white-space: nowrap; }
+  .panel-tab { padding-inline: 12px; }
+  .panel-tabs { width: min(100%, 390px); }
+  .brand-caption, .hero-topline, .hero-proof, .gallery-counter,
+  .feature-number, .detail-project-index, .terms-group h3, .column-kicker,
+  .lightbox-caption small, .eyebrow, .page-heading-row .eyebrow { font-size: var(--type-eyebrow); }
+  .hero-copy, .page-subtitle, .process-heading p, .project-detail-copy > p,
+  .project-tags span, .portfolio-end-note, .terms-group li, .terms-modal-footnote,
+  .price-row-copy small, .price-points, .addon-row small, .addon-inline-note,
+  .terms-copy p, .benefits-list li, .exclusive-note, .form-heading p,
+  .response-note, .form-success small, .form-error, .quick-contact > a,
+  .contact-disclaimer { font-size: var(--type-body); line-height: 1.6; }
+  .feature-detail p, .process-step-copy p, .project-cover-copy small,
+  .project-category-pill, .category-tag, .price-note, .help-note,
+  .addon-choice label, .addon-option, .addon-option strong, .addon-option small,
+  .portfolio-consent, .exclusive-points > span, .addon-choice legend,
+  .addon-options legend, .terms-toggle, .terms-pill { font-size: var(--type-minor); line-height: 1.55; }
+  .feature-card h2, .process-step-copy h3, .project-cover-copy strong,
+  .project-detail-copy h2, .price-row-copy strong, .price-value, .addon-heading,
+  .addon-row strong, .addon-card-heading > b, .addon-option-heading b,
+  .addon-form-row strong, .addon-form-row b, .exclusive-name, .exclusive-price,
+  .form-success strong { font-size: var(--type-title); line-height: 1.4; }
+  .column-heading h2, .form-heading h2, .terms-modal-header h2,
+  .process-heading h2 { font-size: var(--type-section); line-height: 1.3; }
+  .project-detail-action > strong, .lightbox-caption strong { font-size: var(--type-title); }
+  .form-field { font-size: var(--type-body); font-weight: 500; }
+  .form-field input, .form-field textarea, .form-field select {
+    min-height: 48px;
+    padding: 11px 12px;
+    font-size: var(--type-body);
+  }
+  .form-field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
+  .form-field-grid .form-field { grid-template-rows: auto 1fr; }
+  .form-field-grid .form-field input, .form-field-grid .form-field select { height: 48px; }
+}
