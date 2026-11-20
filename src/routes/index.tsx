@@ -14,7 +14,6 @@ import {
   Code2,
   ExternalLink,
   FileText,
-  Flower2,
   Layers3,
   Languages,
   Mail,
@@ -596,29 +595,18 @@ function OrderPanel({
       <LocalizedContent language={language}>
         <div className="page-heading-row order-heading-row">
           <div>
-            <p className="eyebrow">
-              <span className="eyebrow-line" /> JELAS SEJAK AWAL
-            </p>
             <h1 className="page-title">
-              Pilih layanan, <span className="title-underline">lalu mulai.</span>
+              <span className="title-underline">Pricelist</span>
             </h1>
-            <p className="page-subtitle">
-              Harga dasar untuk kebutuhan standar. Total akhir disesuaikan dengan lingkup, fitur,
-              dan tenggat proyek.
-            </p>
-          </div>
-          <div className="order-heading-icon">
-            <Layers3 />
           </div>
         </div>
         <div className="order-layout">
           <section className="price-column" aria-labelledby="price-list-heading">
             <div className="column-heading">
               <div>
-                <span className="column-kicker">PILIH YANG SESUAI</span>
-                <h2 id="price-list-heading">Layanan utama</h2>
+                <h2 id="price-list-heading">Skema</h2>
               </div>
-              <span className="price-note">Harga dasar</span>
+              <span className="price-note">harga akhir menyesuaikan kompleksitas proyek.</span>
             </div>
             <div className="price-list">
               {prices.map((item, index) => (
@@ -715,15 +703,11 @@ function OrderPanel({
           <section className="order-form-card" id="order-form" aria-labelledby="order-form-heading">
             <div className="form-heading">
               <div>
-                <span className="form-kicker">CERITAKAN IDEMU</span>
-                <h2 id="order-form-heading">Mulai konsultasi & pemesanan</h2>
+                <h2 id="order-form-heading">Pemesanan / Diskusi Harga</h2>
                 <p>
                   Isi kebutuhanmu di bawah ini. Tim HT Dev akan menghubungimu dalam waktu kurang
                   dari 24 jam.
                 </p>
-              </div>
-              <div className="form-sparkle">
-                <Flower2 />
               </div>
             </div>
             <form className="order-form" onSubmit={submitOrder}>
