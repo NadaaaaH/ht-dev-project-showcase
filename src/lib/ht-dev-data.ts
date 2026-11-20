@@ -51,23 +51,81 @@ export const projects = [
 ] as const;
 
 export const prices = [
-  { name: "Website Static", price: "Mulai Rp90.000", note: "Portofolio, company profile, landing page, undangan digital, maupun website event tanpa server dan backend.", points: ["Tampilan responsif", "Website sederhana tanpa backend"], featured: false },
-  { name: "Website Full-Stack", price: "Mulai Rp400.000", note: "Sistem web dengan frontend, backend, database, dan konfigurasi deployment.", points: ["Alur dan data sesuai kebutuhan", "Source code dan panduan"], featured: true },
-  { name: "Mobile App Android", price: "Mulai Rp500.000", note: "Aplikasi Android siap pakai dalam bentuk file installer APK.", points: ["Penyimpanan lokal atau cloud", "Fitur inti sesuai ide"], featured: false },
-  { name: "Desain UI/UX Figma", price: "Rp15.000–20.000/halaman", note: "Satu halaman mencakup Wireframe Lo-Fi dan Desain Hi-Fi.", points: ["Desain baru Rp20.000/halaman", "Redesign Rp15.000/halaman"], featured: false },
-  { name: "Paket Eksklusif", price: "Custom / Rp2.500.000+", note: "Solusi digital dan ruang lingkup proyek sesuai kebutuhan.", points: ["Rincian biaya disepakati di awal", "Menyesuaikan fitur dan kompleksitas"], featured: true },
+  {
+    name: "Website Static",
+    price: "Mulai Rp90.000",
+    note: "Portofolio, company profile, landing page, undangan digital, maupun website event tanpa server dan backend.",
+    points: ["Tampilan responsif", "Website sederhana tanpa backend"],
+    featured: false,
+  },
+  {
+    name: "Website Full-Stack",
+    price: "Mulai Rp400.000",
+    note: "Sistem web dengan frontend, backend, database, dan konfigurasi deployment.",
+    points: ["Alur dan data sesuai kebutuhan", "Source code dan panduan"],
+    featured: true,
+  },
+  {
+    name: "Mobile App (Android)",
+    price: "Mulai Rp500.000",
+    note: "Aplikasi Android siap pakai dalam bentuk file installer APK.",
+    points: ["Penyimpanan lokal atau cloud", "Fitur inti sesuai ide"],
+    featured: false,
+  },
+  {
+    name: "UI/UX Design (Figma)",
+    price: "Rp15.000–20.000/halaman",
+    note: "Satu halaman mencakup Wireframe Lo-Fi dan Desain Hi-Fi.",
+    points: ["Desain baru Rp20.000/halaman", "Redesign Rp15.000/halaman"],
+    featured: false,
+  },
+  {
+    name: "Paket Eksklusif",
+    price: "Custom / Rp2.500.000+",
+    note: "Solusi digital dan ruang lingkup proyek sesuai kebutuhan.",
+    points: ["Rincian biaya disepakati di awal", "Menyesuaikan fitur dan kompleksitas"],
+    featured: true,
+  },
 ] as const;
 
 export const projectCategories = prices.map(({ name }) => name);
 
 export const addons = [
-  { name: "Machine Learning / Computer Vision", price: "+Rp300.000/fitur", note: "Integrasi deteksi objek, klasifikasi, pengenalan gambar, atau rekomendasi." },
-  { name: "Mockup UI/UX Figma — tanpa verifikasi", price: "+Rp20.000/halaman", note: "Desain langsung dilanjutkan ke proses pengerjaan." },
-  { name: "Mockup UI/UX Figma — dengan verifikasi", price: "+Rp25.000/halaman", note: "Desain disetujui terlebih dahulu sebelum proses coding." },
-  { name: "Verifikasi & persetujuan sebelum coding", price: "+Rp50.000", note: "Sesi review alur atau desain sebelum pengembangan dimulai." },
-  { name: "Bundle dokumen sistem", price: "+Rp280.000", note: "SRS/DPPL, Class Diagram, ERD, dan Use Case Diagram." },
-  { name: "Satu dokumen sistem", price: "+Rp75.000/dokumen", note: "SRS/DPPL, Class Diagram, ERD, atau Use Case Diagram." },
-  { name: "Revisi tambahan", price: "+Rp5.000–25.000/revisi", note: "Biaya mengikuti tingkat kompleksitas revisi." },
+  {
+    name: "Machine Learning / Computer Vision",
+    price: "+Rp300.000/fitur",
+    note: "Integrasi deteksi objek, klasifikasi, pengenalan gambar, atau rekomendasi.",
+  },
+  {
+    name: "Mockup UI/UX Figma — tanpa verifikasi",
+    price: "+Rp20.000/halaman",
+    note: "Desain langsung dilanjutkan ke proses pengerjaan.",
+  },
+  {
+    name: "Mockup UI/UX Figma — dengan verifikasi",
+    price: "+Rp25.000/halaman",
+    note: "Desain disetujui terlebih dahulu sebelum proses coding.",
+  },
+  {
+    name: "Verifikasi & persetujuan sebelum coding",
+    price: "+Rp50.000",
+    note: "Sesi review alur atau desain sebelum pengembangan dimulai.",
+  },
+  {
+    name: "Bundle dokumen sistem",
+    price: "+Rp280.000",
+    note: "SRS/DPPL, Class Diagram, ERD, dan Use Case Diagram.",
+  },
+  {
+    name: "Satu dokumen sistem",
+    price: "+Rp75.000/dokumen",
+    note: "SRS/DPPL, Class Diagram, ERD, atau Use Case Diagram.",
+  },
+  {
+    name: "Revisi tambahan",
+    price: "+Rp5.000–25.000/revisi",
+    note: "Biaya mengikuti tingkat kompleksitas revisi.",
+  },
 ] as const;
 
 export const includedBenefits = [
