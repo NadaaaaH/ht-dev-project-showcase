@@ -16,6 +16,7 @@ import {
   FileText,
   Flower2,
   Layers3,
+  Languages,
   Mail,
   Menu,
   MessageCircle,
@@ -29,6 +30,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { addons, includedBenefits, prices, projectCategories, projects, serviceTerms } from "@/lib/ht-dev-data";
+import { LocalizedContent, type Language } from "@/lib/localization";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -61,6 +63,7 @@ function HTDevSite() {
     return index === -1 ? 1 : index;
   });
   const [selectedCategory, setSelectedCategory] = useState<string>(projectCategories[0] ?? "Web Statis");
+  const [language, setLanguage] = useState<Language>("id");
   const touchStart = useRef<{ x: number; y: number; eligible: boolean } | null>(null);
   const reduceMotion = useReducedMotion();
 
@@ -108,9 +111,10 @@ function HTDevSite() {
   };
 
   return (
-    <main className="site-backdrop min-h-screen px-0 py-0 sm:px-3 sm:py-3">
+    <main className="site-backdrop min-h-screen px-0 py-0 sm:px-3 sm:py-3" lang={language}>
           <div className="site-shell mx-auto flex max-w-[1480px] flex-col overflow-hidden">
-        <header className="site-header grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 sm:flex sm:justify-between sm:px-8 sm:py-5">
+        <LocalizedContent language={language}>
+        <header className="site-header items-center gap-3 px-4 py-4 sm:px-8 sm:py-5">
           <a className="brand-lockup min-w-0" href="#beranda" onClick={() => changePanel(1)} aria-label="HT Dev, ke beranda">
             <span className="brand-mark"><span>ht</span><Sparkles size={12} aria-hidden="true" /></span>
             <span className="brand-name">HT Dev<span className="brand-period">.</span><span className="brand-caption">Studio digital independen</span></span>
@@ -131,13 +135,24 @@ function HTDevSite() {
               </button>
             ))}
           </nav>
+          <button
+            type="button"
+            className="language-toggle"
+            aria-label={language === "id" ? "Change language to English" : "Ganti bahasa ke Indonesia"}
+            onClick={() => setLanguage((current) => current === "id" ? "en" : "id")}
+          >
+            <Languages size={16} aria-hidden="true" />
+            <span>{language === "id" ? "EN" : "ID"}</span>
+          </button>
         </header>
+        </LocalizedContent>
 
         <div
           className="panel-window flex-1"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
+          <LocalizedContent language={language}>
           <motion.div
             className="panel-track"
             initial={false}
@@ -145,21 +160,24 @@ function HTDevSite() {
             transition={{ duration: reduceMotion ? 0 : 0.62, ease: motionEase }}
           >
             <section id="panel-portofolio" className="panel-slide" role="tabpanel" aria-label="Portofolio">
-              <PortfolioPanel onOrder={(category) => { setSelectedCategory(category); changePanel(2); }} />
+              <PortfolioPanel language={language} onOrder={(category) => { setSelectedCategory(category); changePanel(2); }} />
             </section>
             <section id="panel-beranda" className="panel-slide" role="tabpanel" aria-label="Beranda">
-              <HomePanel onPanelChange={changePanel} />
+              <HomePanel language={language} onPanelChange={changePanel} />
             </section>
             <section id="panel-order" className="panel-slide" role="tabpanel" aria-label="Harga dan Order">
-              <OrderPanel selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+              <OrderPanel language={language} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
             </section>
           </motion.div>
+          </LocalizedContent>
         </div>
 
+        <LocalizedContent language={language}>
         <footer className="site-footer flex flex-col gap-2 border-t border-border/70 px-5 py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <span>© 2026 HT Dev. Dibuat dengan perhatian pada detail.</span>
           <span className="footer-services">Web <i>·</i> Aplikasi <i>·</i> UI/UX <i>·</i> AI</span>
         </footer>
+        </LocalizedContent>
       </div>
       <button className="edge-navigation edge-previous" aria-label="Buka panel sebelumnya" onClick={() => changePanel(activePanel - 1)} disabled={activePanel === 0}>
         <ArrowLeft size={17} />
@@ -171,7 +189,7 @@ function HTDevSite() {
   );
 }
 
-function HomePanel({ onPanelChange }: { onPanelChange: (index: number) => void }) {
+function HomePanel({ language, onPanelChange }: { language: Language; onPanelChange: (index: number) => void }) {
   const features = [
     { icon: <Zap />, title: "Pengerjaan Cepat & Terukur", text: "Pilihan durasi fleksibel mulai dari standar hingga mendesak." },
     { icon: <Code2 />, title: "Code + Starter Guide", text: "Setiap proyek dilengkapi panduan alur sistem agar mudah dikembangkan." },
@@ -180,11 +198,10 @@ function HomePanel({ onPanelChange }: { onPanelChange: (index: number) => void }
   ];
   return (
     <div className="home-panel content-wrap">
+      <LocalizedContent language={language}>
       <div className="hero-intro">
-        <div className="hero-topline"><span className="availability-dot" /> Terbuka untuk proyek baru <span className="topline-divider">·</span> Web, aplikasi, UI/UX & AI</div>
         <Sparkles className="sparkle sparkle-one" aria-hidden="true" />
         <Sparkles className="sparkle sparkle-two" aria-hidden="true" />
-        <p className="eyebrow"><span className="eyebrow-line" /> STUDIO DIGITAL INDEPENDEN</p>
         <h1>Solusi Digital<br className="desktop-break" /> <span className="headline-highlight">Cepat &amp; Rapi</span> untuk<br className="desktop-break" /> Bisnis, Tugas, dan Ide Kreatifmu.</h1>
         <p className="hero-copy">HT Dev membantu mewujudkan website, aplikasi Android, hingga integrasi AI dengan kode yang bersih, alur jelas, dan harga masuk akal.</p>
         <div className="hero-actions">
@@ -207,11 +224,12 @@ function HomePanel({ onPanelChange }: { onPanelChange: (index: number) => void }
         </div>
       </section>
       <div className="home-note"><span className="note-star">✳</span><p>Mulai dari ide kecil, lalu kita rancang langkah terbaik bersama.</p><Button variant="ghost" className="text-link-button" onClick={() => onPanelChange(2)}>Mulai diskusi <MoveUpRight size={15} /></Button></div>
+      </LocalizedContent>
     </div>
   );
 }
 
-function PortfolioPanel({ onOrder }: { onOrder: (category: string) => void }) {
+function PortfolioPanel({ language, onOrder }: { language: Language; onOrder: (category: string) => void }) {
   const [activeProject, setActiveProject] = useState(0);
   const [showLightbox, setShowLightbox] = useState(false);
   const project = projects[activeProject] ?? projects[0];
@@ -226,6 +244,7 @@ function PortfolioPanel({ onOrder }: { onOrder: (category: string) => void }) {
 
   return (
     <div className="portfolio-panel content-wrap">
+      <LocalizedContent language={language}>
       <div className="page-heading-row">
         <div><p className="eyebrow"><span className="eyebrow-line" /> PILIHAN KARYA</p><h1 className="page-title">Hal yang pernah <span className="title-underline">kami buat.</span></h1><p className="page-subtitle">Setiap proyek dimulai dari cerita yang berbeda. Ini beberapa di antaranya.</p></div>
         <div className="gallery-counter"><span>0{activeProject + 1}</span> <i>/</i> 0{projects.length}</div>
@@ -263,11 +282,12 @@ function PortfolioPanel({ onOrder }: { onOrder: (category: string) => void }) {
       </AnimatePresence>
       <div className="portfolio-end-note"><span className="end-note-mark">✳</span><span>Punya ide sendiri? Kita bisa mulai dari sana.</span><Button variant="ghost" className="text-link-button" onClick={() => onOrder("Web Statis")}>Ceritakan idemu <ArrowUpRight size={15} /></Button></div>
       {showLightbox && project && <div className="lightbox-backdrop" role="presentation" onClick={() => setShowLightbox(false)}><div className="lightbox-content" role="dialog" aria-modal="true" aria-label={`Gambar proyek ${project.name}`} onClick={(event) => event.stopPropagation()}><img src={project.image} alt={`Tampilan penuh proyek ${project.name}`} /><div className="lightbox-caption"><span><strong>{project.name}</strong><small>{project.category}</small></span><Button variant="ghost" className="lightbox-close icon-button" onClick={() => setShowLightbox(false)} aria-label="Tutup gambar"><X /></Button></div></div></div>}
+      </LocalizedContent>
     </div>
   );
 }
 
-function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategory: string; setSelectedCategory: (category: string) => void }) {
+function OrderPanel({ language, selectedCategory, setSelectedCategory }: { language: Language; selectedCategory: string; setSelectedCategory: (category: string) => void }) {
   const [addonsOpen, setAddonsOpen] = useState(false);
   const [termsOpen, setTermsOpen] = useState(false);
   const [includeAddons, setIncludeAddons] = useState(false);
@@ -299,6 +319,7 @@ function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategor
 
   return (
     <div className="order-panel content-wrap">
+      <LocalizedContent language={language}>
       <div className="page-heading-row order-heading-row"><div><p className="eyebrow"><span className="eyebrow-line" /> JELAS SEJAK AWAL</p><h1 className="page-title">Pilih layanan, <span className="title-underline">lalu mulai.</span></h1><p className="page-subtitle">Harga dasar untuk kebutuhan standar. Total akhir disesuaikan dengan lingkup, fitur, dan tenggat proyek.</p></div><div className="order-heading-icon"><Layers3 /></div></div>
       <div className="order-layout">
         <section className="price-column" aria-labelledby="price-list-heading">
@@ -353,6 +374,7 @@ function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategor
           <div className="quick-contact"><a href="https://t.me/" target="_blank" rel="noreferrer"><Send size={15} /> Atau langsung order via Telegram <ArrowUpRight size={14} /></a><span><a href="mailto:hello@htdev.id" aria-label="Email HT Dev"><Mail size={15} /></a><a href="https://www.threads.net/" target="_blank" rel="noreferrer" aria-label="Threads HT Dev"><Menu size={15} /></a><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram HT Dev"><MonitorSmartphone size={15} /></a></span></div>
         </section>
       </div>
+      </LocalizedContent>
     </div>
   );
 }

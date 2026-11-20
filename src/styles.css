@@ -176,14 +176,17 @@ button, input, textarea, select { font: inherit; }
 }
 
 .site-shell { height: calc(100dvh - 24px); min-height: 0; border: 1px solid color-mix(in oklab, var(--primary-foreground) 55%, transparent); border-radius: 22px; background: var(--background); box-shadow: 0 22px 72px color-mix(in oklab, var(--foreground) 14%, transparent); }
-.site-header { position: relative; z-index: 5; border-bottom: 1px solid color-mix(in oklab, var(--border) 76%, transparent); background: color-mix(in oklab, var(--background) 96%, transparent); }
-.brand-lockup { display: inline-flex; align-items: center; gap: 10px; color: var(--foreground); text-decoration: none; }
+.site-header { position: relative; z-index: 5; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); border-bottom: 1px solid color-mix(in oklab, var(--border) 76%, transparent); background: color-mix(in oklab, var(--background) 96%, transparent); }
+.brand-lockup { grid-column: 1; display: inline-flex; align-items: center; gap: 10px; color: var(--foreground); text-decoration: none; }
 .brand-mark { position: relative; display: grid; width: 37px; height: 37px; place-items: center; border-radius: 12px; background: var(--primary); color: var(--primary-foreground); font-size: 17px; font-weight: 800; letter-spacing: -1px; }
 .brand-mark svg { position: absolute; top: -4px; right: -5px; color: var(--peach); }
 .brand-name { display: block; font-size: 18px; font-weight: 800; line-height: 1.05; white-space: nowrap; }
 .brand-period { color: var(--peach-dark); }
 .brand-caption { display: block; margin-top: 4px; color: var(--muted-foreground); font-size: 9px; font-weight: 500; letter-spacing: .04em; }
-.panel-tabs { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 350px); padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--muted); }
+.panel-tabs { position: relative; grid-column: 2; justify-self: center; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 350px); padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--muted); }
+.language-toggle { grid-column: 3; justify-self: end; display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; padding: 0 13px; border: 1px solid var(--border); border-radius: 999px; background: var(--background); color: var(--foreground); font-size: 11px; font-weight: 700; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+.language-toggle:hover { border-color: var(--primary); background: var(--muted); }
+.language-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .panel-tab { position: relative; z-index: 1; min-width: 0; min-height: 36px; padding: 7px 11px; border: 0; border-radius: 999px; background: transparent; color: var(--muted-foreground); font-size: 12px; font-weight: 650; white-space: nowrap; cursor: pointer; transition: color .2s ease; }
 .panel-tab.is-active { color: var(--foreground); }
 .tab-indicator { position: absolute; z-index: -1; inset: 0; border: 1px solid var(--border); border-radius: 999px; background: var(--background); box-shadow: 0 2px 7px color-mix(in oklab, var(--foreground) 7%, transparent); }
@@ -388,12 +391,13 @@ button, input, textarea, select { font: inherit; }
 
 @media (max-width: 767px) {
   .site-shell { height: 100dvh; border: 0; border-radius: 0; box-shadow: none; }
-  .site-header { gap: 8px; padding: 12px; }
+  .site-header { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 12px; }
   .brand-mark { width: 32px; height: 32px; border-radius: 10px; font-size: 15px; }
   .brand-lockup { gap: 7px; }
   .brand-name { font-size: 15px; }
   .brand-caption { font-size: 8px; }
-  .panel-tabs { grid-column: 1 / -1; grid-row: 2; width: 100%; }
+  .language-toggle { grid-column: 2; grid-row: 1; min-height: 32px; padding-inline: 10px; }
+  .panel-tabs { grid-column: 1 / -1; grid-row: 2; justify-self: stretch; width: 100%; }
   .panel-tab { min-height: 34px; padding-inline: 6px; font-size: 11px; }
   .panel-slide { padding-inline: 18px; }
   .home-panel { padding-top: 31px; }
