@@ -51,6 +51,24 @@ const english: Record<string, string> = {
     "Get a direct discount when you let us showcase the finished work.",
   "Mulai dari ide kecil, lalu kita rancang langkah terbaik bersama.":
     "Start with a small idea, and we’ll plan the best next steps together.",
+  "Cara Kerja": "How It Works",
+  "Dari pesan sampai proyek jadi, ini alurnya.": "From order to delivery, here’s the flow.",
+  Pemesanan: "Order",
+  "Mau tanya-tanya dulu atau minta perkiraan harga? Boleh lewat DM sosial media. Kalau sudah siap memesan, isi form order di halaman Harga & Order. Pemesanan resmi selalu lewat form ini.":
+    "Have questions or want a price estimate first? Feel free to message us on social media. When you’re ready to order, fill out the form on the Pricing & Order page. All official orders must go through this form.",
+  "Ke form order →": "Go to the order form →",
+  "DP & Persiapan Bahan": "Down Payment & Preparation",
+  "Bayar DP 50% dan kamu akan menerima invoice. Setelah itu ada 3 hari untuk menyiapkan bahan: warna, desain, isi konten, referensi, dan gambaran proyek yang kamu mau. Format bebas, lewat chat atau dokumen lengkap. Makin lengkap, makin pas hasilnya.":
+    "Pay a 50% down payment and you’ll receive an invoice. You then have 3 days to prepare the project details: colors, design, content, references, and your vision for the project. Share them however you prefer, in chat or a detailed document. The more complete the brief, the closer the result will match your vision.",
+  "Proses Pengerjaan": "Development",
+  "Untuk pengerjaan lebih dari 7 hari, kami mengirim laporan progres setiap 3 hari. Kamu selalu tahu apa yang sudah jadi, jadi tidak perlu khawatir proyekmu terbengkalai.":
+    "For projects that take more than 7 days, we send a progress report every 3 days. You’ll always know what’s done, so you never have to worry that your project has been left unattended.",
+  "Review & Revisi": "Review & Revisions",
+  "Hasil dicek dulu olehmu lewat versi demo. Tersedia 7 hari dan maksimal 3x revisi untuk perbaikan fitur atau desain yang sudah disepakati. Penambahan fitur baru tidak termasuk revisi.":
+    "Review the work through a demo version. You have 7 days and up to 3 rounds of revisions for agreed-upon features or design. Adding new features is not included as a revision.",
+  "Pelunasan & Serah Terima": "Final Payment & Handover",
+  "Lunasi sisa pembayaran, lalu kamu menerima Starter Guide PDF, README, dan repository GitHub. Kami memandu langkah deployment di akunmu sendiri. Setelah itu proyek selesai dan semuanya jadi milikmu.":
+    "Pay the remaining balance to receive the Starter Guide PDF, README, and GitHub repository. We’ll guide you through deploying to your own account. Once that’s done, the project is complete and everything is yours.",
   "Mulai diskusi": "Start a conversation",
   "PILIHAN KARYA": "SELECTED WORK",
   "Hal yang pernah": "Things we’ve",

@@ -319,6 +319,75 @@ function HomePanel({
             ))}
           </div>
         </section>
+        <section className="process-section" aria-labelledby="process-title">
+          <header className="process-heading">
+            <h2 id="process-title">Cara Kerja</h2>
+            <span className="process-heading-accent" aria-hidden="true" />
+            <p>Dari pesan sampai proyek jadi, ini alurnya.</p>
+          </header>
+          <div className="process-steps">
+            {[
+              {
+                number: "01",
+                title: "Pemesanan",
+                description:
+                  "Mau tanya-tanya dulu atau minta perkiraan harga? Boleh lewat DM sosial media. Kalau sudah siap memesan, isi form order di halaman Harga & Order. Pemesanan resmi selalu lewat form ini.",
+                link: true,
+              },
+              {
+                number: "02",
+                title: "DP & Persiapan Bahan",
+                description:
+                  "Bayar DP 50% dan kamu akan menerima invoice. Setelah itu ada 3 hari untuk menyiapkan bahan: warna, desain, isi konten, referensi, dan gambaran proyek yang kamu mau. Format bebas, lewat chat atau dokumen lengkap. Makin lengkap, makin pas hasilnya.",
+              },
+              {
+                number: "03",
+                title: "Proses Pengerjaan",
+                description:
+                  "Untuk pengerjaan lebih dari 7 hari, kami mengirim laporan progres setiap 3 hari. Kamu selalu tahu apa yang sudah jadi, jadi tidak perlu khawatir proyekmu terbengkalai.",
+              },
+              {
+                number: "04",
+                title: "Review & Revisi",
+                description:
+                  "Hasil dicek dulu olehmu lewat versi demo. Tersedia 7 hari dan maksimal 3x revisi untuk perbaikan fitur atau desain yang sudah disepakati. Penambahan fitur baru tidak termasuk revisi.",
+              },
+              {
+                number: "05",
+                title: "Pelunasan & Serah Terima",
+                description:
+                  "Lunasi sisa pembayaran, lalu kamu menerima Starter Guide PDF, README, dan repository GitHub. Kami memandu langkah deployment di akunmu sendiri. Setelah itu proyek selesai dan semuanya jadi milikmu.",
+              },
+            ].map((step, index) => (
+              <motion.article
+                className={`process-step ${index % 2 === 1 ? "process-step-reverse" : ""}`}
+                key={step.number}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.45, ease: motionEase }}
+              >
+                <div className="process-step-copy">
+                  <h3>{step.title}</h3>
+                  <span className="process-step-accent" aria-hidden="true" />
+                  <p>{step.description}</p>
+                  {step.link && (
+                    <button
+                      type="button"
+                      className="process-order-link"
+                      onClick={() => onPanelChange(2)}
+                    >
+                      Ke form order →
+                    </button>
+                  )}
+                </div>
+                <span className="process-step-number" aria-hidden="true">
+                  {step.number}
+                </span>
+              </motion.article>
+            ))}
+          </div>
+        </section>
         <div className="home-note">
           <span className="note-star">✳</span>
           <p>Mulai dari ide kecil, lalu kita rancang langkah terbaik bersama.</p>
