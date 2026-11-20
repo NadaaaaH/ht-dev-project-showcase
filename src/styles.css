@@ -667,4 +667,11 @@ button, input, textarea, select { font: inherit; }
   .form-field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
   .form-field-grid .form-field { grid-template-rows: auto 1fr; }
   .form-field-grid .form-field input, .form-field-grid .form-field select { height: 48px; }
+
+  .addon-options legend { font-size: 12px; font-weight: 500; line-height: 1.5; }
+  .addon-options .addon-option { align-items: center; font-size: 12px; line-height: 1.5; }
+  .addon-options .addon-option > span { flex-wrap: wrap; align-items: center; }
+  .addon-options .addon-option strong,
+  .addon-options .addon-option b { font-size: 12px; font-weight: 400; line-height: 1.5; }
+  .addon-options .addon-option b { color: var(--primary); white-space: normal; }
 }
