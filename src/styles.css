@@ -359,26 +359,22 @@ button, input, textarea, select { font: inherit; }
 .addon-heading span { display: inline-flex; align-items: center; gap: 8px; }
 .addon-heading svg { color: var(--primary); }
 .addon-list { display: grid; gap: 0; }
-.addon-row { display: grid; gap: 7px; padding: 12px 13px; }
+.addon-row { display: grid; gap: 10px; padding: 12px 13px; }
 .addon-row + .addon-row { border-top: 1px solid var(--border); }
-.addon-card-heading, .addon-option-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.addon-card-heading, .addon-option-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.addon-card-heading > div { display: grid; gap: 3px; }
 .addon-row strong { color: var(--foreground); font-size: 11px; }
 .addon-row small { color: var(--muted-foreground); font-size: 10px; line-height: 1.5; }
-.addon-row > b, .addon-option-heading b { color: var(--primary); font-size: 11px; white-space: nowrap; }
-.addon-badge { flex: 0 0 auto; padding: 3px 7px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted-foreground); font-size: 9px; font-weight: 650; }
-.addon-suboptions { display: grid; gap: 6px; }
-.addon-suboption { display: grid; gap: 5px; padding: 8px 9px; border: 1px solid var(--border); border-radius: 8px; background: color-mix(in oklab, var(--background) 78%, var(--muted)); }
-.addon-doc-chips { display: flex; flex-wrap: wrap; gap: 5px; }
-.addon-doc-chips span { padding: 3px 7px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted-foreground); font-size: 9px; }
-.addon-form-group { display: grid; gap: 7px; }
-.addon-nested-options { display: grid; gap: 8px; margin: 0 0 0 22px; padding: 8px 0 2px 10px; border: 0; border-left: 1px solid var(--border); }
-.addon-nested-options legend { margin-bottom: 3px; color: var(--muted-foreground); font-size: 10px; }
-.addon-form-row { display: flex; width: 100%; align-items: flex-start; gap: 8px; }
-.addon-form-row > span { display: grid; min-width: 0; flex: 1; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 3px 8px; }
+.addon-card-heading > b, .addon-option-heading b { color: var(--primary); font-size: 11px; font-weight: 650; white-space: nowrap; }
+.addon-suboptions { display: grid; gap: 12px; padding-left: 16px; }
+.addon-suboption { display: grid; gap: 3px; }
+.addon-option-heading strong { display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px; }
+.addon-inline-note { color: var(--muted-foreground); font-size: 10px; font-weight: 400; }
+.addon-form-row { display: flex; width: 100%; align-items: center; gap: 8px; }
+.addon-form-row > span { display: flex; min-width: 0; flex: 1; align-items: baseline; justify-content: space-between; gap: 8px; }
 .addon-form-row strong { font-size: 11px; }
 .addon-form-row b { color: var(--primary); font-size: 10px; font-weight: 700; white-space: nowrap; }
-.addon-form-row small { grid-column: 1 / -1; color: var(--muted-foreground); font-size: 10px; line-height: 1.5; }
-.addon-form-row input { margin-top: 2px; }
+.addon-form-row input { margin: 0; }
 .terms-copy { padding: 0 14px 13px; border-top: 1px solid var(--border); }
 .terms-copy p { margin: 11px 0 0; color: var(--muted-foreground); font-size: 11px; line-height: 1.7; }
 .terms-copy strong { color: var(--foreground); }
@@ -411,11 +407,15 @@ button, input, textarea, select { font: inherit; }
 .form-field textarea { min-height: 88px; resize: vertical; line-height: 1.55; }
 .form-field input::placeholder, .form-field textarea::placeholder { color: var(--muted-foreground); opacity: .8; }
 .form-field input:focus, .form-field textarea:focus, .form-field select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 12%, transparent); }
-.addon-choice, .addon-options { display: grid; gap: 8px 14px; margin: 0; padding: 0; border: 0; }
+.addon-choice, .addon-options { display: grid; gap: 10px 14px; margin: 0; padding: 0; border: 0; }
+.addon-choice { grid-template-columns: auto auto; justify-content: start; column-gap: 18px; row-gap: 10px; margin-top: 4px; }
 .addon-choice legend, .addon-options legend { margin: 0; padding: 0; color: var(--foreground); font-size: 12px; font-weight: 700; }
 .addon-choice label, .addon-option { display: inline-flex; align-items: center; gap: 8px; color: var(--foreground); font-size: 11px; line-height: 1.5; cursor: pointer; }
+.addon-choice legend { grid-column: 1 / -1; margin-bottom: 0; }
 .addon-choice input, .addon-option input { width: 14px; height: 14px; flex: 0 0 14px; margin: 0; accent-color: var(--primary); }
-.addon-option span { display: grid; gap: 3px; }
+.addon-options { gap: 12px; }
+.addon-options legend { margin-bottom: 0; }
+.addon-option span { display: flex; min-width: 0; flex: 1; align-items: baseline; justify-content: space-between; gap: 8px; }
 .addon-option strong { font-size: 11px; }
 .addon-option small { color: var(--muted-foreground); font-size: 10px; }
 .portfolio-consent { position: relative; display: flex; align-items: flex-start; gap: 9px; color: var(--muted-foreground); font-size: 9px; line-height: 1.6; cursor: pointer; }

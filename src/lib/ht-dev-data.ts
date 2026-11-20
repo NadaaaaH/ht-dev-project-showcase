@@ -119,8 +119,8 @@ export const addons = [
   },
   {
     id: "system-documents",
-    name: "Dokumen Perancangan Sistem",
-    note: "Dokumen formal untuk proyek yang butuh perancangan terdokumentasi.",
+    name: "Dokumen Formal Perancangan Sistem",
+    note: "Dokumen formal untuk proyek yang butuh perancangan terdokumentasi, terdiri dari SRS/DPPL, Class Diagram, ERD, dan Use Case Diagram.",
     documents: ["SRS/DPPL", "Class Diagram", "ERD", "Use Case Diagram"],
     options: [
       {

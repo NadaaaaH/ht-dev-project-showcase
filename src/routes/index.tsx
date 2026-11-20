@@ -541,9 +541,6 @@ function OrderPanel({
   const [termsOpen, setTermsOpen] = useState(false);
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
   const [includeAddons, setIncludeAddons] = useState(false);
-  const [machineLearningSelected, setMachineLearningSelected] = useState(false);
-  const [figmaSelected, setFigmaSelected] = useState(false);
-  const [documentsSelected, setDocumentsSelected] = useState(false);
 
   useEffect(() => {
     setPortalTarget(document.body);
@@ -567,21 +564,16 @@ function OrderPanel({
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const selectedAddons = Array.from(
-      form.querySelectorAll<HTMLInputElement>(
-        'input[name="layanan_tambahan"]:checked, input[name="figma_option"]:checked, input[name="documents_option"]:checked',
-      ),
-    ).map((input) => {
-      const label = input.closest("label");
-      const optionName = label?.querySelector("strong")?.textContent?.trim() ?? input.value;
-      const price = label?.querySelector("b")?.textContent?.trim();
-      const category = input
-        .closest(".addon-form-group")
-        ?.querySelector(".addon-form-row > span > strong")
-        ?.textContent?.trim();
-      const selection = `${optionName}${price ? ` (${price})` : ""}`;
-      return category && category !== optionName ? `${category}: ${selection}` : selection;
-    });
+    const selectedAddons = includeAddons
+      ? Array.from(
+          form.querySelectorAll<HTMLInputElement>('input[name="layanan_tambahan"]:checked'),
+        ).map((input) => {
+          const label = input.closest("label");
+          const optionName = label?.querySelector("strong")?.textContent?.trim() ?? "";
+          const price = label?.querySelector("b")?.textContent?.trim() ?? "";
+          return `${optionName} (${price})`;
+        })
+      : [];
     const name = String(formData.get("nama") ?? "").trim();
     const deadline = String(formData.get("deadline") ?? "").trim();
     const category =
@@ -672,18 +664,18 @@ function OrderPanel({
                     {addon.id === "machine-learning" || addon.id === "additional-revisions" ? (
                       <>
                         <div className="addon-card-heading">
-                          <strong>{addon.name}</strong>
+                          <div>
+                            <strong>{addon.name}</strong>
+                            <small>{addon.note}</small>
+                          </div>
+                          <b>{addon.price}</b>
                         </div>
-                        <small>{addon.note}</small>
-                        <b>{addon.price}</b>
                       </>
                     ) : addon.id === "figma" ? (
                       <>
                         <div className="addon-card-heading">
-                          <strong>{addon.name}</strong>
-                          <span className="addon-badge">{addon.badge}</span>
+                          <strong>{addon.name} (Wireframe Lo-Fi + Desain Hi-Fi)</strong>
                         </div>
-                        <small>{addon.note}</small>
                         <div className="addon-suboptions">
                           {addon.options.map((option) => (
                             <div className="addon-suboption" key={option.id}>
@@ -699,24 +691,25 @@ function OrderPanel({
                     ) : (
                       <>
                         <div className="addon-card-heading">
-                          <strong>{addon.name}</strong>
+                          <strong>
+                            {language === "en"
+                              ? "Formal System Design Documents"
+                              : "Dokumen Formal Perancangan Sistem"}
+                          </strong>
                         </div>
                         <small>{addon.note}</small>
-                        <div className="addon-doc-chips">
-                          {addon.documents.map((document) => (
-                            <span key={document}>{document}</span>
-                          ))}
-                        </div>
                         <div className="addon-suboptions">
                           {addon.options.map((option) => (
                             <div className="addon-suboption" key={option.id}>
                               <div className="addon-option-heading">
-                                <strong>{option.name}</strong>
+                                <strong>
+                                  {option.name}
+                                  {"badge" in option && (
+                                    <small className="addon-inline-note">{option.badge}</small>
+                                  )}
+                                </strong>
                                 <b>{option.price}</b>
                               </div>
-                              {"badge" in option && (
-                                <span className="addon-badge">{option.badge}</span>
-                              )}
                             </div>
                           ))}
                           <div className="addon-suboption">
@@ -976,148 +969,46 @@ function OrderPanel({
                   <input
                     type="radio"
                     name="pilih_addon"
-                    value="Tidak perlu add-on"
-                    checked={!includeAddons}
-                    onChange={() => setIncludeAddons(false)}
+                    value="Ya"
+                    checked={includeAddons}
+                    onChange={() => setIncludeAddons(true)}
                   />
-                  <span>Tidak perlu add-on</span>
+                  <span>Ya</span>
                 </label>
                 <label>
                   <input
                     type="radio"
                     name="pilih_addon"
-                    value="Ya, pilih add-on"
-                    checked={includeAddons}
-                    onChange={() => setIncludeAddons(true)}
+                    value="Tidak"
+                    checked={!includeAddons}
+                    onChange={() => setIncludeAddons(false)}
                   />
-                  <span>Ya, pilih add-on</span>
+                  <span>Tidak</span>
                 </label>
               </fieldset>
               {includeAddons && (
                 <fieldset className="addon-options">
                   <legend>Pilih add-on</legend>
-                  <label className="addon-option addon-form-row">
-                    <input
-                      type="checkbox"
-                      name="layanan_tambahan"
-                      value="Machine Learning / Computer Vision (+Rp300.000/fitur)"
-                      checked={machineLearningSelected}
-                      onChange={(event) => setMachineLearningSelected(event.target.checked)}
-                    />
-                    <span>
-                      <strong>Machine Learning / Computer Vision</strong>
-                      <b>+Rp300.000/fitur</b>
-                      <small>
-                        Integrasi deteksi objek, klasifikasi, pengenalan gambar, atau rekomendasi.
-                      </small>
-                    </span>
-                  </label>
-                  <div className="addon-form-group">
-                    <label className="addon-option addon-form-row">
+                  {[
+                    ["ml", "Machine Learning / Computer Vision", "+Rp300.000/fitur"],
+                    ["figma-parallel", "Mockup UI/UX Figma, tanpa verifikasi", "+Rp20.000/halaman"],
+                    ["figma-review", "Mockup UI/UX Figma, dengan verifikasi", "+Rp25.000/halaman"],
+                    ["docs-bundle", "Dokumen Formal, paket lengkap", "+Rp280.000"],
+                    ["docs-single", "Dokumen Formal, satuan", "+Rp75.000/dokumen"],
+                    ["docs-verification", "Dokumen Formal, verifikasi bertahap", "+Rp50.000"],
+                  ].map(([id, label, price]) => (
+                    <label className="addon-option addon-form-row" key={id}>
                       <input
                         type="checkbox"
-                        checked={figmaSelected}
-                        onChange={(event) => setFigmaSelected(event.target.checked)}
+                        name="layanan_tambahan"
+                        value={`${label} (${price})`}
                       />
                       <span>
-                        <strong>Mockup UI/UX Figma</strong>
-                        <small>Lo-Fi + Hi-Fi</small>
+                        <strong>{label}</strong>
+                        <b>{price}</b>
                       </span>
                     </label>
-                    {figmaSelected && (
-                      <fieldset className="addon-nested-options">
-                        <legend>Mockup UI/UX Figma · Per halaman</legend>
-                        <label className="addon-option addon-form-row">
-                          <input
-                            type="radio"
-                            name="figma_option"
-                            value="Mockup UI/UX Figma — Tanpa verifikasi (+Rp20.000/halaman)"
-                            defaultChecked
-                          />
-                          <span>
-                            <strong>Tanpa verifikasi</strong>
-                            <b>+Rp20.000/halaman</b>
-                            <small>
-                              Desain Figma dan pengembangan berjalan paralel. Semua hasil diserahkan
-                              di akhir, revisi dilakukan setelahnya.
-                            </small>
-                          </span>
-                        </label>
-                        <label className="addon-option addon-form-row">
-                          <input
-                            type="radio"
-                            name="figma_option"
-                            value="Mockup UI/UX Figma — Dengan verifikasi (+Rp25.000/halaman)"
-                          />
-                          <span>
-                            <strong>Dengan verifikasi</strong>
-                            <b>+Rp25.000/halaman</b>
-                            <small>
-                              Alur formal bertahap. Desain Figma disetujui klien dulu sebelum coding
-                              dimulai.
-                            </small>
-                          </span>
-                        </label>
-                      </fieldset>
-                    )}
-                  </div>
-                  <div className="addon-form-group">
-                    <label className="addon-option addon-form-row">
-                      <input
-                        type="checkbox"
-                        checked={documentsSelected}
-                        onChange={(event) => setDocumentsSelected(event.target.checked)}
-                      />
-                      <span>
-                        <strong>Dokumen Perancangan Sistem</strong>
-                        <small>Dokumen formal untuk proyek terdokumentasi</small>
-                      </span>
-                    </label>
-                    {documentsSelected && (
-                      <fieldset className="addon-nested-options">
-                        <legend>Paket dokumen</legend>
-                        <label className="addon-option addon-form-row">
-                          <input
-                            type="radio"
-                            name="documents_option"
-                            value="Dokumen Perancangan Sistem — Paket lengkap (4 dokumen) (+Rp280.000)"
-                            defaultChecked
-                          />
-                          <span>
-                            <strong>Paket lengkap (4 dokumen)</strong>
-                            <b>+Rp280.000</b>
-                            <small>Bundle · Hemat Rp20.000</small>
-                          </span>
-                        </label>
-                        <label className="addon-option addon-form-row">
-                          <input
-                            type="radio"
-                            name="documents_option"
-                            value="Dokumen Perancangan Sistem — Satuan (+Rp75.000/dokumen)"
-                          />
-                          <span>
-                            <strong>Satuan</strong>
-                            <b>+Rp75.000/dokumen</b>
-                          </span>
-                        </label>
-                        <label className="addon-option addon-form-row">
-                          <input
-                            type="checkbox"
-                            name="layanan_tambahan"
-                            value="Verifikasi bertahap (+Rp50.000)"
-                          />
-                          <span>
-                            <strong>Verifikasi bertahap</strong>
-                            <b>+Rp50.000</b>
-                            <small>
-                              Dokumen dibuat berurutan dan disetujui klien di tiap tahap sebelum
-                              lanjut ke tahap berikutnya (termasuk sebelum coding dimulai).
-                            </small>
-                          </span>
-                        </label>
-                      </fieldset>
-                    )}
-                  </div>
+                  ))}
                 </fieldset>
               )}
               <label className="form-field">

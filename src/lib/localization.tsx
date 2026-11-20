@@ -116,10 +116,20 @@ const english: Record<string, string> = {
     "Figma design and development run in parallel. All deliverables are handed over at the end, with revisions afterward.",
   "Alur formal bertahap. Desain Figma disetujui klien dulu sebelum coding dimulai.":
     "A formal, staged workflow. The client approves the Figma design before coding begins.",
-  "Dokumen Perancangan Sistem": "System Design Documents",
-  "Dokumen formal untuk proyek yang butuh perancangan terdokumentasi.":
-    "Formal documentation for projects that need a documented design process.",
+  "Dokumen Perancangan Sistem": "Formal System Design Documents",
+  "Dokumen Formal Perancangan Sistem": "Formal System Design Documents",
+  "Dokumen formal untuk proyek yang butuh perancangan terdokumentasi, terdiri dari SRS/DPPL, Class Diagram, ERD, dan Use Case Diagram.":
+    "Formal documents for projects requiring documented system design, consisting of SRS/DPPL, Class Diagram, ERD, and Use Case Diagram.",
   "Dokumen formal untuk proyek terdokumentasi": "Formal project documentation",
+  "Mockup UI/UX Figma (Wireframe Lo-Fi + Desain Hi-Fi)":
+    "Figma UI/UX Mockup (Low-Fidelity Wireframe + High-Fidelity Design)",
+  "Mockup UI/UX Figma, tanpa verifikasi": "Figma UI/UX Mockup, without verification",
+  "Mockup UI/UX Figma, dengan verifikasi": "Figma UI/UX Mockup, with verification",
+  "Dokumen Formal, paket lengkap": "Formal documents, complete package",
+  "Dokumen Formal, satuan": "Formal documents, individual",
+  "Dokumen Formal, verifikasi bertahap": "Formal documents, step-by-step verification",
+  Ya: "Yes",
+  Tidak: "No",
   "Paket lengkap (4 dokumen)": "Complete package (4 documents)",
   Satuan: "Individual document",
   "Verifikasi bertahap": "Step-by-step verification",
