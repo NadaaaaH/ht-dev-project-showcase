@@ -12,7 +12,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   vite: {
     server: {
-      allowedHosts: ["sb-5vae79fomzdk.vercel.run"],
+      allowedHosts: [".vercel.run"],
     },
   },
   tanstackStart: {
