@@ -3,7 +3,7 @@ import { createRouter, rootRouteId } from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
-import { prices } from "@/lib/ht-dev-data";
+import { prices, projects, projectCategories } from "@/lib/ht-dev-data";
 
 // Match routes without running loaders or rendering: loaders may need a server or
 // network the test run lacks, and jsdom never loads the stylesheets React waits on.
@@ -30,5 +30,11 @@ describe("App routing", () => {
 
   it("lists both UI/UX design rates per page", () => {
     expect(prices.find((item) => item.name === "UI/UX Design (Figma)")?.price).toBe("Rp15.000–20.000/halaman");
+  });
+
+  it("maps every portfolio order button to an available service", () => {
+    for (const project of projects) {
+      expect(projectCategories).toContain(project.orderCategory);
+    }
   });
 });

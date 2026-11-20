@@ -175,21 +175,21 @@ button, input, textarea, select { font: inherit; }
   background-image: radial-gradient(ellipse at 92% 6%, color-mix(in oklab, var(--lavender-soft) 35%, transparent), transparent 34%);
 }
 
-.site-shell { border: 1px solid color-mix(in oklab, var(--primary-foreground) 55%, transparent); border-radius: 22px; background: var(--background); box-shadow: 0 22px 72px color-mix(in oklab, var(--foreground) 14%, transparent); }
+.site-shell { height: calc(100dvh - 24px); min-height: 0; border: 1px solid color-mix(in oklab, var(--primary-foreground) 55%, transparent); border-radius: 22px; background: var(--background); box-shadow: 0 22px 72px color-mix(in oklab, var(--foreground) 14%, transparent); }
 .site-header { position: relative; z-index: 5; border-bottom: 1px solid color-mix(in oklab, var(--border) 76%, transparent); background: color-mix(in oklab, var(--background) 96%, transparent); }
 .brand-lockup { display: inline-flex; align-items: center; gap: 10px; color: var(--foreground); text-decoration: none; }
 .brand-mark { position: relative; display: grid; width: 37px; height: 37px; place-items: center; border-radius: 12px; background: var(--primary); color: var(--primary-foreground); font-size: 17px; font-weight: 800; letter-spacing: -1px; }
 .brand-mark svg { position: absolute; top: -4px; right: -5px; color: var(--peach); }
-.brand-name { display: grid; grid-template-columns: auto auto; align-items: baseline; column-gap: 2px; font-size: 18px; font-weight: 800; line-height: 1.05; white-space: nowrap; }
+.brand-name { display: block; font-size: 18px; font-weight: 800; line-height: 1.05; white-space: nowrap; }
 .brand-period { color: var(--peach-dark); }
-.brand-caption { grid-column: 1 / -1; margin-top: 4px; color: var(--muted-foreground); font-size: 9px; font-weight: 500; letter-spacing: .04em; }
+.brand-caption { display: block; margin-top: 4px; color: var(--muted-foreground); font-size: 9px; font-weight: 500; letter-spacing: .04em; }
 .panel-tabs { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 350px); padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--muted); }
 .panel-tab { position: relative; z-index: 1; min-width: 0; min-height: 36px; padding: 7px 11px; border: 0; border-radius: 999px; background: transparent; color: var(--muted-foreground); font-size: 12px; font-weight: 650; white-space: nowrap; cursor: pointer; transition: color .2s ease; }
 .panel-tab.is-active { color: var(--foreground); }
 .tab-indicator { position: absolute; z-index: -1; inset: 0; border: 1px solid var(--border); border-radius: 999px; background: var(--background); box-shadow: 0 2px 7px color-mix(in oklab, var(--foreground) 7%, transparent); }
-.panel-window { overflow: hidden; touch-action: pan-y; }
-.panel-track { display: flex; width: 300%; align-items: stretch; }
-.panel-slide { width: 33.333333%; min-width: 0; min-height: 600px; padding: 0 5.3%; }
+.panel-window { min-height: 0; overflow: hidden; touch-action: pan-y; }
+.panel-track { display: flex; width: 300%; height: 100%; min-height: 0; align-items: stretch; }
+.panel-slide { width: 33.333333%; height: 100%; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 clamp(20px, 4.5vw, 64px); }
 .content-wrap { width: 100%; max-width: 1260px; margin-inline: auto; }
 .home-panel { padding-top: 48px; }
 .hero-intro { position: relative; max-width: 860px; margin: 0 auto; text-align: center; }
@@ -255,7 +255,7 @@ button, input, textarea, select { font: inherit; }
 .gallery-counter { padding-bottom: 5px; color: var(--muted-foreground); font-size: 11px; white-space: nowrap; }
 .gallery-counter span { color: var(--primary); font-size: 19px; font-weight: 800; }
 .gallery-counter i { padding-inline: 5px; color: var(--border); font-style: normal; }
-.portfolio-gallery { display: flex; height: clamp(300px, 42vw, 440px); gap: 10px; }
+.portfolio-gallery { display: flex; height: clamp(400px, 50vw, 500px); gap: 10px; }
 .project-card { position: relative; display: block; min-width: 0; padding: 0; overflow: hidden; border: 0; border-radius: 19px; background: var(--muted); text-align: left; cursor: pointer; transition: flex .48s cubic-bezier(.22,1,.36,1), border-radius .25s ease; }
 .project-expanded { flex: 1 1 0; }
 .project-collapsed { flex: 0 0 64px; }
@@ -322,6 +322,7 @@ button, input, textarea, select { font: inherit; }
 .price-row-copy { display: grid; gap: 4px; min-width: 0; }
 .price-row-copy strong { font-size: 12px; font-weight: 750; }
 .price-row-copy small { overflow: hidden; color: var(--muted-foreground); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.price-points { display: block; color: var(--muted-foreground); font-size: 9px; line-height: 1.45; }
 .price-value { color: var(--primary); font-size: 12px; font-weight: 800; white-space: nowrap; }
 .price-row-featured .price-value { color: var(--peach-dark); }
 .price-arrow { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: var(--lilac-wash); color: var(--primary); }
@@ -381,13 +382,12 @@ button, input, textarea, select { font: inherit; }
 
 @media (min-width: 768px) {
   .site-shell { border-radius: 25px; }
-  .panel-slide { min-height: calc(100vh - 112px); }
   .home-panel { padding-top: clamp(46px, 7vh, 84px); }
   .edge-navigation { display: none; }
 }
 
 @media (max-width: 767px) {
-  .site-shell { border: 0; border-radius: 0; box-shadow: none; }
+  .site-shell { height: 100dvh; border: 0; border-radius: 0; box-shadow: none; }
   .site-header { gap: 8px; padding: 12px; }
   .brand-mark { width: 32px; height: 32px; border-radius: 10px; font-size: 15px; }
   .brand-lockup { gap: 7px; }
@@ -395,8 +395,7 @@ button, input, textarea, select { font: inherit; }
   .brand-caption { font-size: 8px; }
   .panel-tabs { grid-column: 1 / -1; grid-row: 2; width: 100%; }
   .panel-tab { min-height: 34px; padding-inline: 6px; font-size: 11px; }
-  .panel-track { min-height: calc(100vh - 145px); }
-  .panel-slide { min-height: calc(100vh - 145px); padding-inline: 18px; }
+  .panel-slide { padding-inline: 18px; }
   .home-panel { padding-top: 31px; }
   .hero-topline { max-width: 100%; gap: 7px; padding: 7px 9px; font-size: 9px; }
   .hero-intro .eyebrow { margin-top: 26px; }
@@ -437,6 +436,7 @@ button, input, textarea, select { font: inherit; }
   .gallery-counter { align-self: end; padding-bottom: 2px; font-size: 9px; }
   .gallery-counter span { font-size: 15px; }
   .portfolio-gallery { height: auto; flex-direction: column; gap: 8px; }
+  .portfolio-gallery { height: auto; }
   .project-card { width: 100%; min-height: 68px; flex: none; border-radius: 12px; }
   .project-expanded { height: 245px; }
   .project-collapsed { height: 72px; }

@@ -7,6 +7,7 @@ export const projects = [
   {
     name: "ReCircle",
     category: "Web Fullstack",
+    orderCategory: "Website Full-Stack",
     title: "Marketplace Barang Preloved",
     description: "Ruang jual-beli preloved dengan alur yang aman, ringkas, dan mudah dipercaya.",
     price: "Rp400k",
@@ -17,6 +18,7 @@ export const projects = [
   {
     name: "Preseden",
     category: "Web Sistem",
+    orderCategory: "Website Full-Stack",
     title: "Arsip Riset Putusan Hukum",
     description: "Pencarian putusan dan arsip hukum dalam satu ruang kerja yang teratur.",
     price: "Rp400k",
@@ -27,6 +29,7 @@ export const projects = [
   {
     name: "FaciCheck",
     category: "Aplikasi Android",
+    orderCategory: "Mobile App (Android)",
     title: "Inspeksi Fasilitas Lapangan",
     description: "Checklist kondisi fasilitas yang praktis dipakai langsung di lapangan.",
     price: "Rp500k",
@@ -37,6 +40,7 @@ export const projects = [
   {
     name: "Studio Lab",
     category: "AI & UI/UX",
+    orderCategory: "UI/UX Design (Figma)",
     title: "Eksperimen Alur Kerja Kreatif",
     description: "Contoh konsep dashboard kreatif yang menghubungkan ide dan alur AI.",
     price: "Custom",
@@ -47,10 +51,11 @@ export const projects = [
 ] as const;
 
 export const prices = [
-  { name: "Website Static", price: "Mulai Rp90.000", note: "Portofolio, company profile, landing page, undangan digital, atau event tanpa server dan backend.", points: ["Tampilan responsif", "Cocok untuk website sederhana"], featured: false },
+  { name: "Website Static", price: "Mulai Rp90.000", note: "Portofolio, company profile, landing page, undangan digital, maupun website event tanpa server dan backend.", points: ["Tampilan responsif", "Website sederhana tanpa backend"], featured: false },
   { name: "Website Full-Stack", price: "Mulai Rp400.000", note: "Sistem web dengan frontend, backend, database, dan konfigurasi deployment.", points: ["Alur dan data sesuai kebutuhan", "Source code dan panduan"], featured: true },
-  { name: "Mobile App (Android)", price: "Mulai Rp500.000", note: "Aplikasi Android siap pakai dalam bentuk file installer APK.", points: ["Penyimpanan lokal atau cloud", "Fitur inti sesuai ide"], featured: false },
-  { name: "UI/UX Design (Figma)", price: "Rp15.000–20.000/halaman", note: "Satu halaman mencakup wireframe low-fidelity dan desain high-fidelity.", points: ["Desain baru Rp20.000/halaman", "Redesign Rp15.000/halaman"], featured: false },
+  { name: "Mobile App Android", price: "Mulai Rp500.000", note: "Aplikasi Android siap pakai dalam bentuk file installer APK.", points: ["Penyimpanan lokal atau cloud", "Fitur inti sesuai ide"], featured: false },
+  { name: "Desain UI/UX Figma", price: "Rp15.000–20.000/halaman", note: "Satu halaman mencakup Wireframe Lo-Fi dan Desain Hi-Fi.", points: ["Desain baru Rp20.000/halaman", "Redesign Rp15.000/halaman"], featured: false },
+  { name: "Paket Eksklusif", price: "Custom / Rp2.500.000+", note: "Solusi digital dan ruang lingkup proyek sesuai kebutuhan.", points: ["Rincian biaya disepakati di awal", "Menyesuaikan fitur dan kompleksitas"], featured: true },
 ] as const;
 
 export const projectCategories = prices.map(({ name }) => name);

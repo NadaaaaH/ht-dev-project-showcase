@@ -76,6 +76,7 @@ function HTDevSite() {
       const hashIndex = panels.findIndex((panel) => panel.id === window.location.hash.slice(1));
       if (hashIndex !== -1) setActivePanel(hashIndex);
     };
+    if (!window.location.hash) window.history.replaceState(null, "", "#beranda");
     const onKeyDown = (event: KeyboardEvent) => {
       const tag = (event.target as HTMLElement | null)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || event.altKey || event.ctrlKey || event.metaKey) return;
@@ -108,7 +109,7 @@ function HTDevSite() {
 
   return (
     <main className="site-backdrop min-h-screen px-0 py-0 sm:px-3 sm:py-3">
-      <div className="site-shell mx-auto flex min-h-screen max-w-[1480px] flex-col overflow-hidden sm:min-h-[calc(100vh-24px)]">
+          <div className="site-shell mx-auto flex max-w-[1480px] flex-col overflow-hidden">
         <header className="site-header grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 sm:flex sm:justify-between sm:px-8 sm:py-5">
           <a className="brand-lockup min-w-0" href="#beranda" onClick={() => changePanel(1)} aria-label="HT Dev, ke beranda">
             <span className="brand-mark"><span>ht</span><Sparkles size={12} aria-hidden="true" /></span>
@@ -139,6 +140,7 @@ function HTDevSite() {
         >
           <motion.div
             className="panel-track"
+            initial={false}
             animate={{ x: `${activePanel * -33.333333}%` }}
             transition={{ duration: reduceMotion ? 0 : 0.62, ease: motionEase }}
           >
@@ -171,10 +173,10 @@ function HTDevSite() {
 
 function HomePanel({ onPanelChange }: { onPanelChange: (index: number) => void }) {
   const features = [
-    { icon: <Zap />, title: "Cepat & terukur", text: "Waktu pengerjaan bisa disesuaikan kebutuhan." },
-    { icon: <Code2 />, title: "Kode + panduan", text: "Alur sistem rapi dan mudah dikembangkan." },
-    { icon: <MessageCircle />, title: "Diskusi transparan", text: "Konsultasi awal tanpa biaya tersembunyi." },
-    { icon: <Palette />, title: "Diskon Rp25 ribu", text: "Potongan harga untuk karya portofolio." },
+    { icon: <Zap />, title: "Pengerjaan Cepat & Terukur", text: "Pilihan durasi fleksibel mulai dari standar hingga mendesak." },
+    { icon: <Code2 />, title: "Code + Starter Guide", text: "Setiap proyek dilengkapi panduan alur sistem agar mudah dikembangkan." },
+    { icon: <MessageCircle />, title: "Konsultasi Santai & Transparan", text: "Bebas diskusi kebutuhan di awal tanpa biaya tersembunyi." },
+    { icon: <Palette />, title: "Diskon Portofolio Rp25k", text: "Potongan harga langsung jika hasil karya diizinkan untuk showcase." },
   ];
   return (
     <div className="home-panel content-wrap">
@@ -183,8 +185,8 @@ function HomePanel({ onPanelChange }: { onPanelChange: (index: number) => void }
         <Sparkles className="sparkle sparkle-one" aria-hidden="true" />
         <Sparkles className="sparkle sparkle-two" aria-hidden="true" />
         <p className="eyebrow"><span className="eyebrow-line" /> STUDIO DIGITAL INDEPENDEN</p>
-        <h1>Solusi digital<br className="desktop-break" /> <span className="headline-highlight">cepat & rapi</span> untuk<br className="desktop-break" /> ide yang jadi nyata.</h1>
-        <p className="hero-copy">Dari website dan aplikasi Android, hingga desain UI/UX dan integrasi AI. Dibuat dengan alur yang jelas, kode yang bersih, dan harga yang masuk akal.</p>
+        <h1>Solusi Digital<br className="desktop-break" /> <span className="headline-highlight">Cepat &amp; Rapi</span> untuk<br className="desktop-break" /> Bisnis, Tugas, dan Ide Kreatifmu.</h1>
+        <p className="hero-copy">HT Dev membantu mewujudkan website, aplikasi Android, hingga integrasi AI dengan kode yang bersih, alur jelas, dan harga masuk akal.</p>
         <div className="hero-actions">
           <Button className="pill-button pill-primary" onClick={() => onPanelChange(2)}>Lihat harga & order <span className="button-icon"><ArrowUpRight /></span></Button>
           <Button variant="outline" className="pill-button pill-secondary" onClick={() => onPanelChange(0)}><span className="button-icon button-icon-lilac"><ArrowLeft /></span> Intip portofolio</Button>
@@ -213,7 +215,7 @@ function PortfolioPanel({ onOrder }: { onOrder: (category: string) => void }) {
   const [activeProject, setActiveProject] = useState(0);
   const [showLightbox, setShowLightbox] = useState(false);
   const project = projects[activeProject] ?? projects[0];
-  const associatedCategory = activeProject === 0 ? "Web Sistem Fullstack" : activeProject === 2 ? "Mobile App Android" : activeProject === 3 ? "Paket Eksklusif" : "Web Sistem Fullstack";
+  const associatedCategory = project?.orderCategory ?? projectCategories[0] ?? "Website Static";
 
   useEffect(() => {
     if (!showLightbox) return;
@@ -309,7 +311,7 @@ function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategor
             ))}
           </div>
           <div className={`terms-block ${addonsOpen ? "terms-open" : ""}`}>
-            <button type="button" className="terms-toggle" onClick={() => setAddonsOpen(!addonsOpen)} aria-expanded={addonsOpen}><span><FileText size={17} /> Layanan tambahan</span><ChevronDown size={17} /></button>
+            <button type="button" className="terms-toggle" onClick={() => setAddonsOpen(!addonsOpen)} aria-expanded={addonsOpen}><span><FileText size={17} /> Lihat Detail Add-On</span><ChevronDown size={17} /></button>
             {addonsOpen && <div className="terms-copy addon-list">{addons.map((addon) => <div className="addon-row" key={addon.name}><span><strong>{addon.name}</strong><small>{addon.note}</small></span><b>{addon.price}</b></div>)}</div>}
           </div>
           <div className="benefits-block">
@@ -317,7 +319,7 @@ function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategor
             <ul className="benefits-list">{includedBenefits.map((benefit) => <li key={benefit}><Check size={14} />{benefit}</li>)}</ul>
           </div>
           <div className={`terms-block ${termsOpen ? "terms-open" : ""}`}>
-            <button type="button" className="terms-toggle" onClick={() => setTermsOpen(!termsOpen)} aria-expanded={termsOpen}><span><FileText size={17} /> Syarat & ketentuan</span><ChevronDown size={17} /></button>
+            <button type="button" className="terms-toggle" onClick={() => setTermsOpen(!termsOpen)} aria-expanded={termsOpen}><span><FileText size={17} /> Syarat & Ketentuan</span><ChevronDown size={17} /></button>
             {termsOpen && <div className="terms-copy"><ol className="terms-list">{serviceTerms.map((term) => <li key={term}>{term}</li>)}</ol></div>}
           </div>
           <div className="help-note"><CircleHelp size={17} /><span>Masih bingung pilih paket? Kita bantu cari yang pas.</span></div>
@@ -332,7 +334,7 @@ function OrderPanel({ selectedCategory, setSelectedCategory }: { selectedCategor
               <label className="form-field"><span>Username / nomor <i>*</i></span><input name="kontak" type="text" placeholder="Contoh: @username atau 0812xxxxxxxx" required /></label>
             </div>
             <div className="form-field-grid">
-              <label className="form-field"><span>Skema layanan <i>*</i></span><select name="kategori" required value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>{prices.map((item) => <option key={item.name} value={item.name}>{item.name} ({item.price})</option>)}</select></label>
+              <label className="form-field"><span>Pilih skema layanan <i>*</i></span><select name="kategori" required value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>{prices.map((item) => <option key={item.name} value={item.name}>{item.name} ({item.price})</option>)}</select></label>
               <label className="form-field"><span>Target tenggat waktu <i>*</i></span><input name="deadline" type="text" placeholder="Contoh: 25 November 2026 atau 7 hari kerja" required /></label>
             </div>
             <fieldset className="addon-choice">
