@@ -54,7 +54,7 @@ export const prices = [
   {
     name: "Website Static",
     price: "Mulai Rp90.000",
-    note: "Portofolio, company profile, landing page, undangan digital, maupun website event tanpa server dan backend.",
+    note: "Portofolio, company profile, landing page, undangan digital, website event tanpa server dan backend.",
     points: ["Tampilan responsif", "Website sederhana tanpa backend"],
     featured: false,
   },
@@ -67,7 +67,7 @@ export const prices = [
   },
   {
     name: "Mobile App (Android)",
-    price: "Mulai Rp500.000",
+    price: "Mulai Rp700.000",
     note: "Aplikasi Android siap pakai dalam bentuk file installer APK.",
     points: ["Penyimpanan lokal atau cloud", "Fitur inti sesuai ide"],
     featured: false,
@@ -82,7 +82,7 @@ export const prices = [
   {
     name: "Paket Eksklusif",
     price: "Custom / Rp2.500.000+",
-    note: "Solusi digital dan ruang lingkup proyek sesuai kebutuhan.",
+    note: "Untuk website bisnis inti berskala besar dengan trafik tinggi, banyak pengguna, dan kebutuhan operasional penting.",
     points: ["Rincian biaya disepakati di awal", "Menyesuaikan fitur dan kompleksitas"],
     featured: true,
   },

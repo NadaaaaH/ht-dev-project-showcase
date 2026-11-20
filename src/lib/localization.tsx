@@ -125,8 +125,8 @@ const english: Record<string, string> = {
   "SRS/DPPL, Class Diagram, ERD, atau Use Case Diagram.":
     "SRS/DPPL, class diagram, ERD, or use case diagram.",
   "Biaya mengikuti tingkat kompleksitas revisi.": "Pricing depends on revision complexity.",
-  "Portofolio, company profile, landing page, undangan digital, maupun website event tanpa server dan backend.":
-    "Portfolios, company profiles, landing pages, digital invitations, or event sites without a server or backend.",
+  "Portofolio, company profile, landing page, undangan digital, website event tanpa server dan backend.":
+    "Portfolios, company profiles, landing pages, digital invitations, and event sites without a server or backend.",
   "Tampilan responsif": "Responsive design",
   "Website sederhana tanpa backend": "Simple website, no backend",
   "Sistem web dengan frontend, backend, database, dan konfigurasi deployment.":
@@ -143,8 +143,8 @@ const english: Record<string, string> = {
   "Desain baru Rp20.000/halaman": "New design Rp20,000/page",
   "Redesign Rp15.000/halaman": "Redesign Rp15,000/page",
   "Rp15.000–20.000/halaman": "Rp15,000–20,000/page",
-  "Solusi digital dan ruang lingkup proyek sesuai kebutuhan.":
-    "Digital solutions and project scope tailored to your needs.",
+  "Untuk website bisnis inti berskala besar dengan trafik tinggi, banyak pengguna, dan kebutuhan operasional penting.":
+    "For large-scale core business websites with high traffic, many users, and critical operational needs.",
   "Rincian biaya disepakati di awal": "Costs agreed upfront",
   "Menyesuaikan fitur dan kompleksitas": "Tailored to features and complexity",
   "Lihat Detail Add-On": "View add-on details",

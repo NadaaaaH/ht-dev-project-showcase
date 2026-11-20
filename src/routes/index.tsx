@@ -589,6 +589,8 @@ function OrderPanel({
     }
   }
 
+  const exclusivePackage = prices.find((item) => item.name === "Paket Eksklusif");
+
   return (
     <div className="order-panel content-wrap">
       <LocalizedContent language={language}>
@@ -608,31 +610,33 @@ function OrderPanel({
               <span className="price-note">harga akhir menyesuaikan kompleksitas proyek.</span>
             </div>
             <div className="price-list">
-              {prices.map((item, index) => (
-                <button
-                  type="button"
-                  key={item.name}
-                  className={`price-row ${item.featured ? "price-row-featured" : ""} ${selectedCategory === item.name ? "price-row-selected" : ""}`}
-                  onClick={() => {
-                    setSelectedCategory(item.name);
-                    document
-                      .getElementById("order-form")
-                      ?.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }}
-                  aria-pressed={selectedCategory === item.name}
-                >
-                  <span className="price-row-number">0{index + 1}</span>
-                  <span className="price-row-copy">
-                    <strong>{item.name}</strong>
-                    <small>{item.note}</small>
-                    <span className="price-points">{item.points.join(" · ")}</span>
-                  </span>
-                  <span className="price-value">{item.price}</span>
-                  <span className="price-arrow">
-                    <ArrowUpRight size={16} />
-                  </span>
-                </button>
-              ))}
+              {prices
+                .filter((item) => item.name !== "Paket Eksklusif")
+                .map((item, index) => (
+                  <button
+                    type="button"
+                    key={item.name}
+                    className={`price-row ${selectedCategory === item.name ? "price-row-selected" : ""}`}
+                    onClick={() => {
+                      setSelectedCategory(item.name);
+                      document
+                        .getElementById("order-form")
+                        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                    }}
+                    aria-pressed={selectedCategory === item.name}
+                  >
+                    <span className="price-row-number">0{index + 1}</span>
+                    <span className="price-row-copy">
+                      <strong>{item.name}</strong>
+                      <small>{item.note}</small>
+                      <span className="price-points">{item.points.join(" · ")}</span>
+                    </span>
+                    <span className="price-value">{item.price}</span>
+                    <span className="price-arrow">
+                      <ArrowUpRight size={16} />
+                    </span>
+                  </button>
+                ))}
             </div>
             <section className="terms-block addon-static" aria-labelledby="addons-heading">
               <h3 className="addon-heading" id="addons-heading">
@@ -663,6 +667,33 @@ function OrderPanel({
                 ))}
               </ul>
             </div>
+            {exclusivePackage && (
+              <button
+                type="button"
+                className={`exclusive-card ${selectedCategory === exclusivePackage.name ? "exclusive-card-selected" : ""}`}
+                onClick={() => {
+                  setSelectedCategory(exclusivePackage.name);
+                  document
+                    .getElementById("order-form")
+                    ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
+                aria-pressed={selectedCategory === exclusivePackage.name}
+              >
+                <span className="exclusive-card-top">
+                  <strong className="exclusive-name">{exclusivePackage.name}</strong>
+                  <strong className="exclusive-price">{exclusivePackage.price}</strong>
+                </span>
+                <span className="exclusive-note">{exclusivePackage.note}</span>
+                <span className="exclusive-points">
+                  {exclusivePackage.points.map((point) => (
+                    <span key={point}>
+                      <Check size={14} aria-hidden="true" />
+                      {point}
+                    </span>
+                  ))}
+                </span>
+              </button>
+            )}
             <div className={`terms-block ${termsOpen ? "terms-open" : ""}`}>
               <button
                 type="button"
@@ -691,7 +722,12 @@ function OrderPanel({
             </div>
           </section>
 
-          <section className="order-form-card" id="order-form" aria-labelledby="order-form-heading">
+          <section
+            className="order-form-card"
+            id="order-form"
+            aria-labelledby="order-form-heading"
+            tabIndex={0}
+          >
             <div className="form-heading">
               <div>
                 <h2 id="order-form-heading">Pemesanan / Diskusi Harga</h2>
