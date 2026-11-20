@@ -321,7 +321,7 @@ function HomePanel({
         </section>
         <section className="process-section" aria-labelledby="process-title">
           <header className="process-heading">
-            <h2 id="process-title">Cara Kerja</h2>
+            <h2 id="process-title">Alur Pemesanan</h2>
             <span className="process-heading-accent" aria-hidden="true" />
             <p>Dari pesan sampai proyek jadi, ini alurnya.</p>
           </header>

@@ -51,7 +51,7 @@ const english: Record<string, string> = {
     "Get a direct discount when you let us showcase the finished work.",
   "Mulai dari ide kecil, lalu kita rancang langkah terbaik bersama.":
     "Start with a small idea, and we’ll plan the best next steps together.",
-  "Cara Kerja": "How It Works",
+  "Alur Pemesanan": "Order Flow",
   "Dari pesan sampai proyek jadi, ini alurnya.": "From order to delivery, here’s the flow.",
   Pemesanan: "Order",
   "Mau tanya-tanya dulu atau minta perkiraan harga? Boleh lewat DM sosial media. Kalau sudah siap memesan, isi form order di halaman Harga & Order. Pemesanan resmi selalu lewat form ini.":
