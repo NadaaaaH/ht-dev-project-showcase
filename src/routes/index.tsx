@@ -35,10 +35,18 @@ import { LocalizedContent, type Language } from "@/lib/localization";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "HT Dev — Solusi Digital Cepat & Rapi" },
-      { name: "description", content: "Website, aplikasi Android, UI/UX, dan integrasi AI yang rapi dengan harga masuk akal. Lihat karya dan mulai konsultasi bersama HT Dev." },
-      { property: "og:title", content: "HT Dev — Solusi Digital Cepat & Rapi" },
-      { property: "og:description", content: "Website, aplikasi Android, UI/UX, dan integrasi AI yang rapi dengan harga masuk akal." },
+      { title: "HaifaTeam Dev | Jasa Pembuatan Proyek Software" },
+      {
+        name: "description",
+        content:
+          "HaifaTeam Dev menyediakan jasa pembuatan proyek software, website, aplikasi Android, UI/UX, dan integrasi AI dengan pengerjaan rapi dan harga transparan.",
+      },
+      { property: "og:title", content: "HaifaTeam Dev | Jasa Pembuatan Proyek Software" },
+      {
+        property: "og:description",
+        content:
+          "Jasa pembuatan proyek software, website, aplikasi Android, UI/UX, dan integrasi AI bersama HaifaTeam Dev.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -116,8 +124,8 @@ function HTDevSite() {
         <LocalizedContent language={language}>
         <header className="site-header items-center gap-3 px-4 py-4 sm:px-8 sm:py-5">
           <a className="brand-lockup min-w-0" href="#beranda" onClick={() => changePanel(1)} aria-label="HT Dev, ke beranda">
-            <span className="brand-mark"><span>ht</span><Sparkles size={12} aria-hidden="true" /></span>
-            <span className="brand-name">HT Dev<span className="brand-period">.</span><span className="brand-caption">Studio digital independen</span></span>
+            <span className="brand-mark"><img className="brand-logo" src="/haifateam-logo.png" alt="" /></span>
+            <span className="brand-name">HT Dev<span className="brand-period">.</span><span className="brand-caption">HaifaTeam Dev · Jasa Pembuatan Proyek Software</span></span>
           </a>
           <nav className="panel-tabs" aria-label="Navigasi utama" role="tablist">
             {panels.map((panel, index) => (

@@ -81,11 +81,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "HT Dev — Solusi Digital Cepat & Rapi" },
-      { name: "description", content: "Website, aplikasi Android, UI/UX, dan integrasi AI yang rapi dengan harga masuk akal." },
+      { title: "HaifaTeam Dev | Jasa Pembuatan Proyek Software" },
+      {
+        name: "description",
+        content:
+          "HaifaTeam Dev menyediakan jasa pembuatan proyek software, website, aplikasi Android, UI/UX, dan integrasi AI dengan pengerjaan rapi dan harga transparan.",
+      },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "HT Dev — Solusi Digital Cepat & Rapi" },
-      { property: "og:description", content: "Website, aplikasi Android, UI/UX, dan integrasi AI yang rapi dengan harga masuk akal." },
+      { property: "og:title", content: "HaifaTeam Dev | Jasa Pembuatan Proyek Software" },
+      {
+        property: "og:description",
+        content:
+          "Jasa pembuatan proyek software, website, aplikasi Android, UI/UX, dan integrasi AI bersama HaifaTeam Dev.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
