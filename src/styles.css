@@ -183,13 +183,13 @@ button, input, textarea, select { font: inherit; }
 .brand-name { display: block; font-size: 18px; font-weight: 800; line-height: 1.05; white-space: nowrap; }
 .brand-period { color: var(--peach-dark); }
 .brand-caption { display: block; margin-top: 4px; color: var(--muted-foreground); font-size: 9px; font-weight: 500; letter-spacing: .04em; }
-.panel-tabs { position: relative; grid-column: 2; justify-self: center; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 350px); padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--muted); }
+.panel-tabs { position: relative; grid-column: 2; justify-self: center; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 350px); padding: 4px; border: none; border-radius: 999px; background: var(--background); }
 .language-toggle { grid-column: 3; justify-self: end; display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; padding: 0 13px; border: 1px solid var(--border); border-radius: 999px; background: var(--background); color: var(--foreground); font-size: 11px; font-weight: 700; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
 .language-toggle:hover { border-color: var(--primary); background: var(--muted); }
 .language-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .panel-tab { position: relative; z-index: 1; min-width: 0; min-height: 36px; padding: 7px 11px; border: 0; border-radius: 999px; background: transparent; color: var(--muted-foreground); font-size: 12px; font-weight: 650; white-space: nowrap; cursor: pointer; transition: color .2s ease; }
-.panel-tab.is-active { color: var(--foreground); }
-.tab-indicator { position: absolute; z-index: -1; inset: 0; border: 1px solid var(--border); border-radius: 999px; background: var(--background); box-shadow: 0 2px 7px color-mix(in oklab, var(--foreground) 7%, transparent); }
+.panel-tab.is-active { color: #ffffff; }
+.tab-indicator { position: absolute; z-index: -1; inset: 0; border: 1px solid var(--border); border-radius: 999px; background: var(--primary); box-shadow: 0 2px 7px color-mix(in oklab, var(--foreground) 7%, transparent); }
 .panel-window { min-height: 0; overflow: hidden; touch-action: pan-y; }
 .panel-track { display: flex; width: 300%; height: 100%; min-height: 0; align-items: stretch; }
 .panel-slide { width: 33.333333%; height: 100%; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 clamp(20px, 4.5vw, 64px); }
