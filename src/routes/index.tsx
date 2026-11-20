@@ -555,7 +555,6 @@ function OrderPanel({
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
 }) {
-  const [addonsOpen, setAddonsOpen] = useState(false);
   const [termsOpen, setTermsOpen] = useState(false);
   const [includeAddons, setIncludeAddons] = useState(false);
   const [status, setStatus] = useState("");
@@ -635,32 +634,24 @@ function OrderPanel({
                 </button>
               ))}
             </div>
-            <div className={`terms-block ${addonsOpen ? "terms-open" : ""}`}>
-              <button
-                type="button"
-                className="terms-toggle"
-                onClick={() => setAddonsOpen(!addonsOpen)}
-                aria-expanded={addonsOpen}
-              >
+            <section className="terms-block addon-static" aria-labelledby="addons-heading">
+              <h3 className="addon-heading" id="addons-heading">
                 <span>
-                  <FileText size={17} /> Lihat Detail Add-On
+                  <FileText size={17} /> Add-On Opsional
                 </span>
-                <ChevronDown size={17} />
-              </button>
-              {addonsOpen && (
-                <div className="terms-copy addon-list">
-                  {addons.map((addon) => (
-                    <div className="addon-row" key={addon.name}>
-                      <span>
-                        <strong>{addon.name}</strong>
-                        <small>{addon.note}</small>
-                      </span>
-                      <b>{addon.price}</b>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+              </h3>
+              <div className="addon-list">
+                {addons.map((addon) => (
+                  <div className="addon-row" key={addon.name}>
+                    <span>
+                      <strong>{addon.name}</strong>
+                      <small>{addon.note}</small>
+                    </span>
+                    <b>{addon.price}</b>
+                  </div>
+                ))}
+              </div>
+            </section>
             <div className="benefits-block">
               <span className="column-kicker">TERMASUK DI SETIAP PROYEK</span>
               <ul className="benefits-list">

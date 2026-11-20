@@ -334,6 +334,17 @@ button, input, textarea, select { font: inherit; }
 .terms-toggle span svg { color: var(--primary); }
 .terms-toggle > svg { color: var(--muted-foreground); transition: transform .2s ease; }
 .terms-open .terms-toggle > svg { transform: rotate(180deg); }
+.addon-static { overflow: hidden; }
+.addon-heading { margin: 0; padding: 11px 13px; border-bottom: 1px solid var(--border); color: var(--foreground); font-size: 12px; font-weight: 700; }
+.addon-heading span { display: inline-flex; align-items: center; gap: 8px; }
+.addon-heading svg { color: var(--primary); }
+.addon-list { display: grid; }
+.addon-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 10px 13px; }
+.addon-row + .addon-row { border-top: 1px solid var(--border); }
+.addon-row > span { display: grid; min-width: 0; gap: 4px; }
+.addon-row strong { color: var(--foreground); font-size: 11px; }
+.addon-row small { color: var(--muted-foreground); font-size: 10px; line-height: 1.5; }
+.addon-row b { color: var(--primary); font-size: 11px; white-space: nowrap; }
 .terms-copy { padding: 0 14px 13px; border-top: 1px solid var(--border); }
 .terms-copy p { margin: 11px 0 0; color: var(--muted-foreground); font-size: 11px; line-height: 1.7; }
 .terms-copy strong { color: var(--foreground); }
