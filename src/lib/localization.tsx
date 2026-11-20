@@ -107,24 +107,51 @@ const english: Record<string, string> = {
   "UI/UX Design (Figma)": "UI/UX Design (Figma)",
   "Paket Eksklusif": "Custom Package",
   "Machine Learning / Computer Vision": "Machine Learning / Computer Vision",
-  "Mockup UI/UX Figma — tanpa verifikasi": "Figma UI/UX Mockup — no review",
-  "Mockup UI/UX Figma — dengan verifikasi": "Figma UI/UX Mockup — with review",
-  "Verifikasi & persetujuan sebelum coding": "Review & approval before coding",
-  "Bundle dokumen sistem": "System document bundle",
-  "Satu dokumen sistem": "Single system document",
-  "Revisi tambahan": "Additional revision",
+  "Mockup UI/UX Figma": "Figma UI/UX Mockup",
+  "Lo-Fi + Hi-Fi": "Lo-Fi + Hi-Fi",
+  "Per halaman": "Per page",
+  "Tanpa verifikasi": "Without verification",
+  "Dengan verifikasi": "With verification",
+  "Desain Figma dan pengembangan berjalan paralel. Semua hasil diserahkan di akhir, revisi dilakukan setelahnya.":
+    "Figma design and development run in parallel. All deliverables are handed over at the end, with revisions afterward.",
+  "Alur formal bertahap. Desain Figma disetujui klien dulu sebelum coding dimulai.":
+    "A formal, staged workflow. The client approves the Figma design before coding begins.",
+  "Dokumen Perancangan Sistem": "System Design Documents",
+  "Dokumen formal untuk proyek yang butuh perancangan terdokumentasi.":
+    "Formal documentation for projects that need a documented design process.",
+  "Dokumen formal untuk proyek terdokumentasi": "Formal project documentation",
+  "Paket lengkap (4 dokumen)": "Complete package (4 documents)",
+  Satuan: "Individual document",
+  "Verifikasi bertahap": "Step-by-step verification",
+  "Bundle · Hemat Rp20.000": "Bundle · Save Rp20,000",
+  "Revisi Tambahan": "Additional Revisions",
+  "Dipakai jika 3x revisi gratis sudah terpakai atau masa revisi 7 hari sudah lewat, tapi masih ada yang ingin diubah. Biaya mengikuti tingkat kompleksitas.":
+    "Applies after the 3 free revisions are used or the 7-day revision period has ended, when further changes are requested. Pricing depends on complexity.",
   "Integrasi deteksi objek, klasifikasi, pengenalan gambar, atau rekomendasi.":
     "Object detection, classification, image recognition, or recommendation integration.",
-  "Desain langsung dilanjutkan ke proses pengerjaan.": "Design proceeds directly to development.",
-  "Desain disetujui terlebih dahulu sebelum proses coding.":
-    "Design is approved before coding begins.",
-  "Sesi review alur atau desain sebelum pengembangan dimulai.":
-    "A workflow or design review session before development.",
-  "SRS/DPPL, Class Diagram, ERD, dan Use Case Diagram.":
-    "SRS/DPPL, class diagram, ERD, and use case diagram.",
-  "SRS/DPPL, Class Diagram, ERD, atau Use Case Diagram.":
-    "SRS/DPPL, class diagram, ERD, or use case diagram.",
-  "Biaya mengikuti tingkat kompleksitas revisi.": "Pricing depends on revision complexity.",
+  "Dokumen dibuat berurutan dan disetujui klien di tiap tahap sebelum lanjut ke tahap berikutnya (termasuk sebelum coding dimulai).":
+    "Documents are prepared sequentially and approved by the client at each stage before proceeding, including before coding begins.",
+  "SRS/DPPL": "SRS/DPPL",
+  "Class Diagram": "Class Diagram",
+  ERD: "ERD",
+  "Use Case Diagram": "Use Case Diagram",
+  "+Rp300.000/fitur": "+Rp300,000/feature",
+  "+Rp20.000/halaman": "+Rp20,000/page",
+  "+Rp25.000/halaman": "+Rp25,000/page",
+  "+Rp280.000": "+Rp280,000",
+  "+Rp75.000/dokumen": "+Rp75,000/document",
+  "+Rp50.000": "+Rp50,000",
+  "+Rp5.000-25.000/revisi": "+Rp5,000–25,000/revision",
+  "Diskon Rp25.000 berlaku jika proyek boleh dijadikan portofolio dan bahan promosi.":
+    "A Rp25,000 discount applies if the project may be featured in our portfolio and promotional materials.",
+  "DP 50% dibayar sebelum pengerjaan dimulai. DP tidak dapat dikembalikan jika proyek dibatalkan sepihak oleh pemesan.":
+    "A 50% deposit is due before work begins. It is non-refundable if the orderer cancels the project unilaterally.",
+  "Demo dijalankan di akun HT Dev. Setelah pelunasan, repository, hosting, dan database dipindahkan ke akun milik pemesan.":
+    "The demo runs on an HT Dev account. After full payment, the repository, hosting, and database are transferred to the orderer’s account.",
+  "Setelah Deployment berhasil berjalan di akun pemesan, maka kontrak antara pemesan dan HT Dev resmi berakhir.":
+    "Once the deployment is running successfully in the orderer’s account, the contract between the orderer and HT Dev officially ends.",
+  "A Rp25,000 discount applies if the project may be featured in our portfolio and promotional materials.":
+    "A Rp25,000 discount applies if the project may be featured in our portfolio and promotional materials.",
   "Portofolio, company profile, landing page, undangan digital, website event tanpa server dan backend.":
     "Portfolios, company profiles, landing pages, digital invitations, and event sites without a server or backend.",
   "Tampilan responsif": "Responsive design",

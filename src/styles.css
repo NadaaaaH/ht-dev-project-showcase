@@ -358,13 +358,27 @@ button, input, textarea, select { font: inherit; }
 .addon-heading { margin: 0; padding: 11px 13px; border-bottom: 1px solid var(--border); color: var(--foreground); font-size: 12px; font-weight: 700; }
 .addon-heading span { display: inline-flex; align-items: center; gap: 8px; }
 .addon-heading svg { color: var(--primary); }
-.addon-list { display: grid; }
-.addon-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 10px 13px; }
+.addon-list { display: grid; gap: 0; }
+.addon-row { display: grid; gap: 7px; padding: 12px 13px; }
 .addon-row + .addon-row { border-top: 1px solid var(--border); }
-.addon-row > span { display: grid; min-width: 0; gap: 4px; }
+.addon-card-heading, .addon-option-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .addon-row strong { color: var(--foreground); font-size: 11px; }
 .addon-row small { color: var(--muted-foreground); font-size: 10px; line-height: 1.5; }
-.addon-row b { color: var(--primary); font-size: 11px; white-space: nowrap; }
+.addon-row > b, .addon-option-heading b { color: var(--primary); font-size: 11px; white-space: nowrap; }
+.addon-badge { flex: 0 0 auto; padding: 3px 7px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted-foreground); font-size: 9px; font-weight: 650; }
+.addon-suboptions { display: grid; gap: 6px; }
+.addon-suboption { display: grid; gap: 5px; padding: 8px 9px; border: 1px solid var(--border); border-radius: 8px; background: color-mix(in oklab, var(--background) 78%, var(--muted)); }
+.addon-doc-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.addon-doc-chips span { padding: 3px 7px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted-foreground); font-size: 9px; }
+.addon-form-group { display: grid; gap: 7px; }
+.addon-nested-options { display: grid; gap: 8px; margin: 0 0 0 22px; padding: 8px 0 2px 10px; border: 0; border-left: 1px solid var(--border); }
+.addon-nested-options legend { margin-bottom: 3px; color: var(--muted-foreground); font-size: 10px; }
+.addon-form-row { display: flex; width: 100%; align-items: flex-start; gap: 8px; }
+.addon-form-row > span { display: grid; min-width: 0; flex: 1; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 3px 8px; }
+.addon-form-row strong { font-size: 11px; }
+.addon-form-row b { color: var(--primary); font-size: 10px; font-weight: 700; white-space: nowrap; }
+.addon-form-row small { grid-column: 1 / -1; color: var(--muted-foreground); font-size: 10px; line-height: 1.5; }
+.addon-form-row input { margin-top: 2px; }
 .terms-copy { padding: 0 14px 13px; border-top: 1px solid var(--border); }
 .terms-copy p { margin: 11px 0 0; color: var(--muted-foreground); font-size: 11px; line-height: 1.7; }
 .terms-copy strong { color: var(--foreground); }

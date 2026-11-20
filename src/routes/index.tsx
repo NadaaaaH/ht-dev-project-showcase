@@ -55,12 +55,7 @@ const motionEase = [0.22, 1, 0.36, 1] as const;
 const WHATSAPP_NUMBER = "62XXXXXXXXXX";
 
 function HTDevSite() {
-  const [activePanel, setActivePanel] = useState(() => {
-    if (typeof window === "undefined") return 1;
-    const hash = window.location.hash.slice(1);
-    const index = panels.findIndex((panel) => panel.id === hash);
-    return index === -1 ? 1 : index;
-  });
+  const [activePanel, setActivePanel] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<string>(
     projectCategories[0] ?? "Web Statis",
   );
@@ -544,7 +539,15 @@ function OrderPanel({
   setSelectedCategory: (category: string) => void;
 }) {
   const [termsOpen, setTermsOpen] = useState(false);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
   const [includeAddons, setIncludeAddons] = useState(false);
+  const [machineLearningSelected, setMachineLearningSelected] = useState(false);
+  const [figmaSelected, setFigmaSelected] = useState(false);
+  const [documentsSelected, setDocumentsSelected] = useState(false);
+
+  useEffect(() => {
+    setPortalTarget(document.body);
+  }, []);
 
   useEffect(() => {
     if (!termsOpen) return;
@@ -565,8 +568,20 @@ function OrderPanel({
     const form = event.currentTarget;
     const formData = new FormData(form);
     const selectedAddons = Array.from(
-      form.querySelectorAll<HTMLInputElement>('input[name="layanan_tambahan"]:checked'),
-    ).map((input) => input.closest("label")?.querySelector("strong")?.textContent?.trim() ?? "");
+      form.querySelectorAll<HTMLInputElement>(
+        'input[name="layanan_tambahan"]:checked, input[name="figma_option"]:checked, input[name="documents_option"]:checked',
+      ),
+    ).map((input) => {
+      const label = input.closest("label");
+      const optionName = label?.querySelector("strong")?.textContent?.trim() ?? input.value;
+      const price = label?.querySelector("b")?.textContent?.trim();
+      const category = input
+        .closest(".addon-form-group")
+        ?.querySelector(".addon-form-row > span > strong")
+        ?.textContent?.trim();
+      const selection = `${optionName}${price ? ` (${price})` : ""}`;
+      return category && category !== optionName ? `${category}: ${selection}` : selection;
+    });
     const name = String(formData.get("nama") ?? "").trim();
     const deadline = String(formData.get("deadline") ?? "").trim();
     const category =
@@ -653,13 +668,68 @@ function OrderPanel({
               </h3>
               <div className="addon-list">
                 {addons.map((addon) => (
-                  <div className="addon-row" key={addon.name}>
-                    <span>
-                      <strong>{addon.name}</strong>
-                      <small>{addon.note}</small>
-                    </span>
-                    <b>{addon.price}</b>
-                  </div>
+                  <article className="addon-row" key={addon.id}>
+                    {addon.id === "machine-learning" || addon.id === "additional-revisions" ? (
+                      <>
+                        <div className="addon-card-heading">
+                          <strong>{addon.name}</strong>
+                        </div>
+                        <small>{addon.note}</small>
+                        <b>{addon.price}</b>
+                      </>
+                    ) : addon.id === "figma" ? (
+                      <>
+                        <div className="addon-card-heading">
+                          <strong>{addon.name}</strong>
+                          <span className="addon-badge">{addon.badge}</span>
+                        </div>
+                        <small>{addon.note}</small>
+                        <div className="addon-suboptions">
+                          {addon.options.map((option) => (
+                            <div className="addon-suboption" key={option.id}>
+                              <div className="addon-option-heading">
+                                <strong>{option.name}</strong>
+                                <b>{option.price}</b>
+                              </div>
+                              <small>{option.note}</small>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="addon-card-heading">
+                          <strong>{addon.name}</strong>
+                        </div>
+                        <small>{addon.note}</small>
+                        <div className="addon-doc-chips">
+                          {addon.documents.map((document) => (
+                            <span key={document}>{document}</span>
+                          ))}
+                        </div>
+                        <div className="addon-suboptions">
+                          {addon.options.map((option) => (
+                            <div className="addon-suboption" key={option.id}>
+                              <div className="addon-option-heading">
+                                <strong>{option.name}</strong>
+                                <b>{option.price}</b>
+                              </div>
+                              {"badge" in option && (
+                                <span className="addon-badge">{option.badge}</span>
+                              )}
+                            </div>
+                          ))}
+                          <div className="addon-suboption">
+                            <div className="addon-option-heading">
+                              <strong>{addon.verification.name}</strong>
+                              <b>{addon.verification.price}</b>
+                            </div>
+                            <small>{addon.verification.note}</small>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </article>
                 ))}
               </div>
             </section>
@@ -701,148 +771,149 @@ function OrderPanel({
                 </span>
               </button>
             )}
-            {createPortal(
-              <AnimatePresence>
-                {termsOpen && (
-                  <motion.div
-                    className="terms-modal-backdrop"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    onMouseDown={(event) => {
-                      if (event.target === event.currentTarget) setTermsOpen(false);
-                    }}
-                  >
-                    <motion.section
-                      id="terms-dialog"
-                      className="terms-modal"
-                      role="dialog"
-                      aria-modal="true"
-                      aria-labelledby="terms-modal-title"
-                      initial={{ opacity: 0, scale: 0.96 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.96 }}
+            {portalTarget &&
+              createPortal(
+                <AnimatePresence>
+                  {termsOpen && (
+                    <motion.div
+                      className="terms-modal-backdrop"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       transition={{ duration: 0.2 }}
+                      onMouseDown={(event) => {
+                        if (event.target === event.currentTarget) setTermsOpen(false);
+                      }}
                     >
-                      <header className="terms-modal-header">
-                        <h2 id="terms-modal-title">
-                          {language === "en" ? "Terms & Conditions" : "Syarat & Ketentuan"}
-                        </h2>
-                        <button
-                          type="button"
-                          className="terms-modal-close"
-                          onClick={() => setTermsOpen(false)}
-                          aria-label={
-                            language === "en"
-                              ? "Close terms and conditions"
-                              : "Tutup syarat dan ketentuan"
-                          }
-                        >
-                          <X size={18} aria-hidden="true" />
-                        </button>
-                      </header>
-                      <div className="terms-modal-content">
-                        {[
-                          {
-                            id: "pricing",
-                            title: language === "en" ? "Pricing & costs" : "Harga & biaya",
-                            items:
+                      <motion.section
+                        id="terms-dialog"
+                        className="terms-modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="terms-modal-title"
+                        initial={{ opacity: 0, scale: 0.96 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.96 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <header className="terms-modal-header">
+                          <h2 id="terms-modal-title">
+                            {language === "en" ? "Terms & Conditions" : "Syarat & Ketentuan"}
+                          </h2>
+                          <button
+                            type="button"
+                            className="terms-modal-close"
+                            onClick={() => setTermsOpen(false)}
+                            aria-label={
                               language === "en"
-                                ? [
-                                    "Listed prices are minimum prices for basic specifications. The final cost depends on complexity, number of pages, features, and add-ons, and is agreed before the deposit.",
-                                    "Timeline affects pricing: Standard (more than 14 business days) ×1.0, Express (7–14 business days) ×1.25, Urgent (under 7 business days) ×1.5.",
-                                    "A Rp25,000 discount applies if the project may be featured in our portfolio. Private projects are charged at the standard rate.",
-                                    "Paid domain and hosting fees are not included.",
-                                  ]
-                                : [
-                                    "Harga yang tertera adalah harga minimum untuk spesifikasi dasar. Biaya akhir menyesuaikan kompleksitas, jumlah halaman, fitur, dan add-on, dan disepakati sebelum DP.",
-                                    "Durasi pengerjaan memengaruhi harga: Normal (lebih dari 14 hari kerja) ×1,0, Ekspres (7–14 hari kerja) ×1,25, Mendesak (kurang dari 7 hari kerja) ×1,5.",
-                                    "Diskon Rp25.000 berlaku jika proyek boleh dijadikan portofolio. Untuk proyek privat berlaku harga normal.",
-                                    "Biaya domain dan hosting berbayar tidak termasuk.",
-                                  ],
-                          },
-                          {
-                            id: "payment",
-                            title: language === "en" ? "Payment" : "Pembayaran",
-                            items:
-                              language === "en"
-                                ? [
-                                    "A 50% deposit is due before work begins. It is non-refundable if the client cancels the project unilaterally.",
-                                    "The remaining 50% is due after the demo and revision period end.",
-                                  ]
-                                : [
-                                    "DP 50% dibayar sebelum pengerjaan dimulai. DP tidak dapat dikembalikan jika proyek dibatalkan sepihak oleh klien.",
-                                    "Pelunasan 50% dibayar setelah demo dan masa revisi berakhir.",
-                                  ],
-                          },
-                          {
-                            id: "work",
-                            title: language === "en" ? "Work & revisions" : "Pengerjaan & revisi",
-                            items:
-                              language === "en"
-                                ? [
-                                    "Three minor revisions are included within 7 days after the demo. Revisions are limited to the original specifications. New features or additional revisions incur extra charges.",
-                                    "If the client is more than 3 days late providing content or answers, the deadline moves by the length of the delay.",
-                                    "Mobile apps are for Android only (APK file). iOS versions and Google Play Store publishing are not included.",
-                                  ]
-                                : [
-                                    "Gratis 3x revisi minor dalam 7 hari setelah demo. Revisi hanya perbaikan dari spesifikasi awal. Fitur baru atau revisi tambahan dikenakan biaya.",
-                                    "Jika klien terlambat menyediakan konten atau jawaban lebih dari 3 hari, deadline mundur sesuai keterlambatan.",
-                                    "Aplikasi mobile hanya untuk Android (file APK). Tidak termasuk versi iOS dan publikasi ke Google Play Store.",
-                                  ],
-                          },
-                          {
-                            id: "handoff",
-                            title:
-                              language === "en" ? "Handoff & warranty" : "Serah terima & garansi",
-                            items:
-                              language === "en"
-                                ? [
-                                    "The demo runs on an HT Dev account. After full payment, the repository, hosting, and database are transferred to the client’s account.",
-                                    "Initial deployment assistance is provided for about 1 month. Hosting and domain renewal costs are the client’s responsibility.",
-                                    "Bug-fix warranty lasts 14 days after handoff and is void if the client modifies the code.",
-                                  ]
-                                : [
-                                    "Demo dijalankan di akun HT Dev. Setelah pelunasan, repository, hosting, dan database dipindahkan ke akun milik klien.",
-                                    "Bantuan deployment awal sekitar 1 bulan. Biaya perpanjangan hosting/domain ditanggung klien.",
-                                    "Garansi perbaikan bug 14 hari setelah serah terima, gugur jika kode diubah sendiri oleh klien.",
-                                  ],
-                          },
-                          {
-                            id: "privacy",
-                            title: language === "en" ? "Confidentiality" : "Kerahasiaan",
-                            items: [
-                              language === "en"
-                                ? "Both parties keep data, account credentials, and sensitive information confidential during and after the project."
-                                : "Kedua pihak menjaga kerahasiaan data, kredensial akun, dan informasi sensitif selama dan setelah proyek.",
-                            ],
-                          },
-                        ].map((group) => (
-                          <section className="terms-group" key={group.id}>
-                            <h3>{group.title}</h3>
-                            <ul>
-                              {group.items.map((item) => (
-                                <li key={item}>
-                                  <Check size={13} aria-hidden="true" />
-                                  {item}
-                                </li>
-                              ))}
-                            </ul>
-                          </section>
-                        ))}
-                        <p className="terms-modal-footnote">
-                          {language === "en"
-                            ? "Any other details are agreed via chat before the DP."
-                            : "Rincian lain disepakati lewat chat sebelum DP."}
-                        </p>
-                      </div>
-                    </motion.section>
-                  </motion.div>
-                )}
-              </AnimatePresence>,
-              document.body,
-            )}
+                                ? "Close terms and conditions"
+                                : "Tutup syarat dan ketentuan"
+                            }
+                          >
+                            <X size={18} aria-hidden="true" />
+                          </button>
+                        </header>
+                        <div className="terms-modal-content">
+                          {[
+                            {
+                              id: "pricing",
+                              title: language === "en" ? "Pricing & costs" : "Harga & biaya",
+                              items:
+                                language === "en"
+                                  ? [
+                                      "Listed prices are minimum prices for basic specifications. The final cost depends on complexity, number of pages, features, and add-ons, and is agreed before the deposit.",
+                                      "Timeline affects pricing: Standard (more than 14 business days) ×1.0, Express (7–14 business days) ×1.25, Urgent (under 7 business days) ×1.5.",
+                                      "A Rp25,000 discount applies if the project may be featured in our portfolio and promotional materials.",
+                                      "Paid domain and hosting fees are not included.",
+                                    ]
+                                  : [
+                                      "Harga yang tertera adalah harga minimum untuk spesifikasi dasar. Biaya akhir menyesuaikan kompleksitas, jumlah halaman, fitur, dan add-on, dan disepakati sebelum DP.",
+                                      "Durasi pengerjaan memengaruhi harga: Normal (lebih dari 14 hari kerja) ×1,0, Ekspres (7–14 hari kerja) ×1,25, Mendesak (kurang dari 7 hari kerja) ×1,5.",
+                                      "Diskon Rp25.000 berlaku jika proyek boleh dijadikan portofolio dan bahan promosi.",
+                                      "Biaya domain dan hosting berbayar tidak termasuk.",
+                                    ],
+                            },
+                            {
+                              id: "payment",
+                              title: language === "en" ? "Payment" : "Pembayaran",
+                              items:
+                                language === "en"
+                                  ? [
+                                      "A 50% deposit is due before work begins. It is non-refundable if the orderer cancels the project unilaterally.",
+                                      "The remaining 50% is due after the demo and revision period end.",
+                                    ]
+                                  : [
+                                      "DP 50% dibayar sebelum pengerjaan dimulai. DP tidak dapat dikembalikan jika proyek dibatalkan sepihak oleh pemesan.",
+                                      "Pelunasan 50% dibayar setelah demo dan masa revisi berakhir.",
+                                    ],
+                            },
+                            {
+                              id: "work",
+                              title: language === "en" ? "Work & revisions" : "Pengerjaan & revisi",
+                              items:
+                                language === "en"
+                                  ? [
+                                      "Three minor revisions are included within 7 days after the demo. Revisions are limited to the original specifications. New features or additional revisions incur extra charges.",
+                                      "If the client is more than 3 days late providing content or answers, the deadline moves by the length of the delay.",
+                                      "Mobile apps are for Android only (APK file). iOS versions and Google Play Store publishing are not included.",
+                                    ]
+                                  : [
+                                      "Gratis 3x revisi minor dalam 7 hari setelah demo. Revisi hanya perbaikan dari spesifikasi awal. Fitur baru atau revisi tambahan dikenakan biaya.",
+                                      "Jika klien terlambat menyediakan konten atau jawaban lebih dari 3 hari, deadline mundur sesuai keterlambatan.",
+                                      "Aplikasi mobile hanya untuk Android (file APK). Tidak termasuk versi iOS dan publikasi ke Google Play Store.",
+                                    ],
+                            },
+                            {
+                              id: "handoff",
+                              title:
+                                language === "en" ? "Handoff & warranty" : "Serah terima & garansi",
+                              items:
+                                language === "en"
+                                  ? [
+                                      "The demo runs on an HT Dev account. After full payment, the repository, hosting, and database are transferred to the orderer’s account.",
+                                      "Once the deployment is running successfully in the orderer’s account, the contract between the orderer and HT Dev officially ends.",
+                                      "Bug-fix warranty lasts 14 days after handoff and is void if the client modifies the code.",
+                                    ]
+                                  : [
+                                      "Demo dijalankan di akun HT Dev. Setelah pelunasan, repository, hosting, dan database dipindahkan ke akun milik pemesan.",
+                                      "Setelah Deployment berhasil berjalan di akun pemesan, maka kontrak antara pemesan dan HT Dev resmi berakhir.",
+                                      "Garansi perbaikan bug 14 hari setelah serah terima, gugur jika kode diubah sendiri oleh klien.",
+                                    ],
+                            },
+                            {
+                              id: "privacy",
+                              title: language === "en" ? "Confidentiality" : "Kerahasiaan",
+                              items: [
+                                language === "en"
+                                  ? "Both parties keep data, account credentials, and sensitive information confidential during and after the project."
+                                  : "Kedua pihak menjaga kerahasiaan data, kredensial akun, dan informasi sensitif selama dan setelah proyek.",
+                              ],
+                            },
+                          ].map((group) => (
+                            <section className="terms-group" key={group.id}>
+                              <h3>{group.title}</h3>
+                              <ul>
+                                {group.items.map((item) => (
+                                  <li key={item}>
+                                    <Check size={13} aria-hidden="true" />
+                                    {item}
+                                  </li>
+                                ))}
+                              </ul>
+                            </section>
+                          ))}
+                          <p className="terms-modal-footnote">
+                            {language === "en"
+                              ? "Any other details are agreed via chat before the DP."
+                              : "Rincian lain disepakati lewat chat sebelum DP."}
+                          </p>
+                        </div>
+                      </motion.section>
+                    </motion.div>
+                  )}
+                </AnimatePresence>,
+                portalTarget,
+              )}
           </section>
 
           <section className="order-form-card" id="order-form" aria-labelledby="order-form-heading">
@@ -925,19 +996,128 @@ function OrderPanel({
               {includeAddons && (
                 <fieldset className="addon-options">
                   <legend>Pilih add-on</legend>
-                  {addons.map((addon) => (
-                    <label className="addon-option" key={addon.name}>
+                  <label className="addon-option addon-form-row">
+                    <input
+                      type="checkbox"
+                      name="layanan_tambahan"
+                      value="Machine Learning / Computer Vision (+Rp300.000/fitur)"
+                      checked={machineLearningSelected}
+                      onChange={(event) => setMachineLearningSelected(event.target.checked)}
+                    />
+                    <span>
+                      <strong>Machine Learning / Computer Vision</strong>
+                      <b>+Rp300.000/fitur</b>
+                      <small>
+                        Integrasi deteksi objek, klasifikasi, pengenalan gambar, atau rekomendasi.
+                      </small>
+                    </span>
+                  </label>
+                  <div className="addon-form-group">
+                    <label className="addon-option addon-form-row">
                       <input
                         type="checkbox"
-                        name="layanan_tambahan"
-                        value={`${addon.name} (${addon.price})`}
+                        checked={figmaSelected}
+                        onChange={(event) => setFigmaSelected(event.target.checked)}
                       />
                       <span>
-                        <strong>{addon.name}</strong>
-                        <small>{addon.price}</small>
+                        <strong>Mockup UI/UX Figma</strong>
+                        <small>Lo-Fi + Hi-Fi</small>
                       </span>
                     </label>
-                  ))}
+                    {figmaSelected && (
+                      <fieldset className="addon-nested-options">
+                        <legend>Mockup UI/UX Figma · Per halaman</legend>
+                        <label className="addon-option addon-form-row">
+                          <input
+                            type="radio"
+                            name="figma_option"
+                            value="Mockup UI/UX Figma — Tanpa verifikasi (+Rp20.000/halaman)"
+                            defaultChecked
+                          />
+                          <span>
+                            <strong>Tanpa verifikasi</strong>
+                            <b>+Rp20.000/halaman</b>
+                            <small>
+                              Desain Figma dan pengembangan berjalan paralel. Semua hasil diserahkan
+                              di akhir, revisi dilakukan setelahnya.
+                            </small>
+                          </span>
+                        </label>
+                        <label className="addon-option addon-form-row">
+                          <input
+                            type="radio"
+                            name="figma_option"
+                            value="Mockup UI/UX Figma — Dengan verifikasi (+Rp25.000/halaman)"
+                          />
+                          <span>
+                            <strong>Dengan verifikasi</strong>
+                            <b>+Rp25.000/halaman</b>
+                            <small>
+                              Alur formal bertahap. Desain Figma disetujui klien dulu sebelum coding
+                              dimulai.
+                            </small>
+                          </span>
+                        </label>
+                      </fieldset>
+                    )}
+                  </div>
+                  <div className="addon-form-group">
+                    <label className="addon-option addon-form-row">
+                      <input
+                        type="checkbox"
+                        checked={documentsSelected}
+                        onChange={(event) => setDocumentsSelected(event.target.checked)}
+                      />
+                      <span>
+                        <strong>Dokumen Perancangan Sistem</strong>
+                        <small>Dokumen formal untuk proyek terdokumentasi</small>
+                      </span>
+                    </label>
+                    {documentsSelected && (
+                      <fieldset className="addon-nested-options">
+                        <legend>Paket dokumen</legend>
+                        <label className="addon-option addon-form-row">
+                          <input
+                            type="radio"
+                            name="documents_option"
+                            value="Dokumen Perancangan Sistem — Paket lengkap (4 dokumen) (+Rp280.000)"
+                            defaultChecked
+                          />
+                          <span>
+                            <strong>Paket lengkap (4 dokumen)</strong>
+                            <b>+Rp280.000</b>
+                            <small>Bundle · Hemat Rp20.000</small>
+                          </span>
+                        </label>
+                        <label className="addon-option addon-form-row">
+                          <input
+                            type="radio"
+                            name="documents_option"
+                            value="Dokumen Perancangan Sistem — Satuan (+Rp75.000/dokumen)"
+                          />
+                          <span>
+                            <strong>Satuan</strong>
+                            <b>+Rp75.000/dokumen</b>
+                          </span>
+                        </label>
+                        <label className="addon-option addon-form-row">
+                          <input
+                            type="checkbox"
+                            name="layanan_tambahan"
+                            value="Verifikasi bertahap (+Rp50.000)"
+                          />
+                          <span>
+                            <strong>Verifikasi bertahap</strong>
+                            <b>+Rp50.000</b>
+                            <small>
+                              Dokumen dibuat berurutan dan disetujui klien di tiap tahap sebelum
+                              lanjut ke tahap berikutnya (termasuk sebelum coding dimulai).
+                            </small>
+                          </span>
+                        </label>
+                      </fieldset>
+                    )}
+                  </div>
                 </fieldset>
               )}
               <label className="form-field">

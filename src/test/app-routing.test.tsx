@@ -26,9 +26,9 @@ describe("App routing", () => {
     );
   });
 
-  it("lists the Android app minimum at Rp500,000", () => {
+  it("lists the Android app minimum at Rp700,000", () => {
     expect(prices.find((item) => item.name === "Mobile App (Android)")?.price).toBe(
-      "Mulai Rp500.000",
+      "Mulai Rp700.000",
     );
   });
 

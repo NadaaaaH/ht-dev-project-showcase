@@ -92,39 +92,57 @@ export const projectCategories = prices.map(({ name }) => name);
 
 export const addons = [
   {
+    id: "machine-learning",
     name: "Machine Learning / Computer Vision",
     price: "+Rp300.000/fitur",
     note: "Integrasi deteksi objek, klasifikasi, pengenalan gambar, atau rekomendasi.",
   },
   {
-    name: "Mockup UI/UX Figma — tanpa verifikasi",
-    price: "+Rp20.000/halaman",
-    note: "Desain langsung dilanjutkan ke proses pengerjaan.",
+    id: "figma",
+    name: "Mockup UI/UX Figma",
+    badge: "Lo-Fi + Hi-Fi",
+    note: "Per halaman",
+    options: [
+      {
+        id: "figma-parallel",
+        name: "Tanpa verifikasi",
+        price: "+Rp20.000/halaman",
+        note: "Desain Figma dan pengembangan berjalan paralel. Semua hasil diserahkan di akhir, revisi dilakukan setelahnya.",
+      },
+      {
+        id: "figma-review",
+        name: "Dengan verifikasi",
+        price: "+Rp25.000/halaman",
+        note: "Alur formal bertahap. Desain Figma disetujui klien dulu sebelum coding dimulai.",
+      },
+    ],
   },
   {
-    name: "Mockup UI/UX Figma — dengan verifikasi",
-    price: "+Rp25.000/halaman",
-    note: "Desain disetujui terlebih dahulu sebelum proses coding.",
+    id: "system-documents",
+    name: "Dokumen Perancangan Sistem",
+    note: "Dokumen formal untuk proyek yang butuh perancangan terdokumentasi.",
+    documents: ["SRS/DPPL", "Class Diagram", "ERD", "Use Case Diagram"],
+    options: [
+      {
+        id: "docs-bundle",
+        name: "Paket lengkap (4 dokumen)",
+        price: "+Rp280.000",
+        badge: "Bundle · Hemat Rp20.000",
+      },
+      { id: "docs-single", name: "Satuan", price: "+Rp75.000/dokumen" },
+    ],
+    verification: {
+      id: "docs-verification",
+      name: "Verifikasi bertahap",
+      price: "+Rp50.000",
+      note: "Dokumen dibuat berurutan dan disetujui klien di tiap tahap sebelum lanjut ke tahap berikutnya (termasuk sebelum coding dimulai).",
+    },
   },
   {
-    name: "Verifikasi & persetujuan sebelum coding",
-    price: "+Rp50.000",
-    note: "Sesi review alur atau desain sebelum pengembangan dimulai.",
-  },
-  {
-    name: "Bundle dokumen sistem",
-    price: "+Rp280.000",
-    note: "SRS/DPPL, Class Diagram, ERD, dan Use Case Diagram.",
-  },
-  {
-    name: "Satu dokumen sistem",
-    price: "+Rp75.000/dokumen",
-    note: "SRS/DPPL, Class Diagram, ERD, atau Use Case Diagram.",
-  },
-  {
-    name: "Revisi tambahan",
-    price: "+Rp5.000–25.000/revisi",
-    note: "Biaya mengikuti tingkat kompleksitas revisi.",
+    id: "additional-revisions",
+    name: "Revisi Tambahan",
+    price: "+Rp5.000-25.000/revisi",
+    note: "Dipakai jika 3x revisi gratis sudah terpakai atau masa revisi 7 hari sudah lewat, tapi masih ada yang ingin diubah. Biaya mengikuti tingkat kompleksitas.",
   },
 ] as const;
 
