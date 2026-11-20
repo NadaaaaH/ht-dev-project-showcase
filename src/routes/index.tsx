@@ -19,14 +19,11 @@ import {
   Languages,
   Mail,
   Menu,
-  MessageCircle,
   MonitorSmartphone,
   MoveUpRight,
-  Palette,
   Send,
   Sparkles,
   X,
-  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -278,24 +275,24 @@ function HomePanel({
 }) {
   const features = [
     {
-      icon: <Zap />,
-      title: "Pengerjaan Cepat & Terukur",
-      text: "Pilihan durasi fleksibel mulai dari standar hingga mendesak.",
+      icon: <FileText />,
+      title: "Harga Transparan di Awal",
+      text: "Estimasi harga tertera jelas dan setiap biaya tambahan selalu disepakati sebelum DP tanpa biaya tersembunyi.",
+    },
+    {
+      icon: <Layers3 />,
+      title: "Hak Milik Penuh 100%",
+      text: "Seluruh source code, akses database, dan konfigurasi deployment dipindahkan sepenuhnya ke akunmu setelah pelunasan.",
     },
     {
       icon: <Code2 />,
-      title: "Code + Starter Guide",
-      text: "Setiap proyek dilengkapi panduan alur sistem agar mudah dikembangkan.",
+      title: "Kode Bersih + Dokumentasi",
+      text: "Proyek diserahkan lewat repositori GitHub yang rapi lengkap dengan file README dan PDF alur sistem agar mudah dikembangkan kembali.",
     },
     {
-      icon: <MessageCircle />,
-      title: "Konsultasi Santai & Transparan",
-      text: "Bebas diskusi kebutuhan di awal tanpa biaya tersembunyi.",
-    },
-    {
-      icon: <Palette />,
-      title: "Diskon Portofolio Rp25k",
-      text: "Potongan harga langsung jika hasil karya diizinkan untuk showcase.",
+      icon: <Check />,
+      title: "Revisi & Garansi Terjamin",
+      text: "Dapatkan 3x kesempatan revisi dalam 7 hari serta garansi perbaikan bug selama 14 hari setelah serah terima.",
     },
   ];
   return (
@@ -318,22 +315,24 @@ function HomePanel({
           <div className="hero-proof" />
         </div>
         <section className="feature-section" aria-label="Keunggulan HT Dev">
-          <div className="section-kicker">
-            <span>01 / CARA KAMI BEKERJA</span>
-            <span>Rapi dari awal, sampai selesai.</span>
-          </div>
           <div className="feature-grid">
             {features.map((feature, index) => (
               <motion.article
                 className={`feature-card feature-tint-${index + 1}`}
                 key={feature.title}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -4, scale: 1.035 }}
                 transition={{ duration: 0.22 }}
               >
-                <div className="feature-icon">{feature.icon}</div>
-                <h2>{feature.title}</h2>
-                <p>{feature.text}</p>
-                <span className="feature-number">0{index + 1}</span>
+                <div className="feature-top">
+                  <div className="feature-icon" aria-hidden="true">
+                    {feature.icon}
+                  </div>
+                  <h2>{feature.title}</h2>
+                </div>
+                <div className="feature-detail">
+                  <p>{feature.text}</p>
+                  <span className="feature-number">0{index + 1}</span>
+                </div>
               </motion.article>
             ))}
           </div>
