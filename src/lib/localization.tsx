@@ -184,40 +184,33 @@ const english: Record<string, string> = {
     "Tell us what you need below. The HT Dev team will get back to you within 24 hours.",
   "Nama lengkap / panggilan": "Full name / preferred name",
   "Masukkan namamu atau nama brand/instansi...": "Enter your name or your brand/organization...",
-  "Kontak yang bisa dihubungi": "Preferred contact method",
-  "Telegram (Diutamakan)": "Telegram (preferred)",
-  "Username / nomor": "Username / number",
-  "Contoh: @username atau 0812xxxxxxxx": "Example: @username or +1 555 123 4567",
   "Pilih skema layanan": "Choose a service",
   "Target tenggat waktu": "Target deadline",
   "Contoh: 25 November 2026 atau 7 hari kerja": "Example: November 25, 2026 or 7 business days",
-  "Butuh layanan tambahan?": "Need any add-ons?",
-  "Tidak ada tambahan": "No add-ons",
-  "Ya, pilih layanan tambahan": "Yes, choose add-ons",
-  "Pilih layanan tambahan": "Choose add-ons",
+  "Butuh add-on?": "Need add-ons?",
+  "Tidak perlu add-on": "No add-ons",
+  "Ya, pilih add-on": "Yes, choose add-ons",
+  "Pilih add-on": "Choose add-ons",
   "Penjelasan desain & alur sistem": "Design and system workflow details",
   "Ceritakan gambaran proyek, fitur utama, referensi desain, atau pertanyaan lainnya...":
     "Describe your project, key features, design references, or any questions...",
   "Saya mengizinkan proyek ditampilkan sebagai portofolio HT Dev":
     "I allow my project to be featured in the HT Dev portfolio",
   "(diskon Rp25.000)": "(Rp25,000 discount)",
-  "Pesanmu berhasil dikirim!": "Your request was sent!",
-  "Terima kasih sudah menghubungi HT Dev. Kami akan segera menyapa lewat kontak pilihanmu.":
-    "Thanks for contacting HT Dev. We’ll be in touch through your preferred contact method soon.",
-  "Sedang mengirim...": "Sending...",
-  "Kirim permintaan via email": "Send request",
+  "harga akhir menyesuaikan kompleksitas proyek.": "Final pricing depends on project complexity.",
+  "Tampil rapi di HP dan desktop · Siap diterbitkan online":
+    "Polished on mobile and desktop · Ready to publish online",
+  "Fitur seperti login, kelola data, dan dashboard · Source code + Starter Guide":
+    "Features like login, data management, and dashboards · Source code + Starter Guide",
+  "Fitur inti sesuai ide · File APK + source code":
+    "Core features tailored to your idea · APK + source code",
+  "Desain baru atau redesain · Siap dilanjutkan ke coding":
+    "New design or redesign · Ready for development",
+  "Kirim via WhatsApp": "Send via WhatsApp",
   "Respon cepat, kurang dari 24 jam kerja.": "Fast response, within one business day.",
-  "atau, langsung menyapa": "or say hello directly",
-  "Atau langsung order via Telegram": "Or order directly via Telegram",
-  "Email HT Dev": "Email HT Dev",
-  "Threads HT Dev": "HT Dev on Threads",
-  "Instagram HT Dev": "HT Dev on Instagram",
   "© 2026 HT Dev. Dibuat dengan perhatian pada detail.":
     "© 2026 HT Dev. Made with attention to detail.",
   "Web · Aplikasi · UI/UX · AI": "Web · Apps · UI/UX · AI",
-  "Formulir belum terkirim. Silakan coba lagi.": "Your form could not be sent. Please try again.",
-  "Pengiriman belum berhasil. Coba lagi sebentar, ya.":
-    "Your request was not sent. Please try again shortly.",
 };
 
 function translateText(value: string, language: Language) {

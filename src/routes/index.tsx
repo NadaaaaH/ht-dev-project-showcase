@@ -16,11 +16,7 @@ import {
   FileText,
   Layers3,
   Languages,
-  Mail,
-  Menu,
-  MonitorSmartphone,
   MoveUpRight,
-  Send,
   Sparkles,
   X,
 } from "lucide-react";
@@ -64,7 +60,7 @@ const panels = [
 ] as const;
 
 const motionEase = [0.22, 1, 0.36, 1] as const;
-const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+const WHATSAPP_NUMBER = "62XXXXXXXXXX";
 
 function HTDevSite() {
   const [activePanel, setActivePanel] = useState(() => {
@@ -557,36 +553,32 @@ function OrderPanel({
 }) {
   const [termsOpen, setTermsOpen] = useState(false);
   const [includeAddons, setIncludeAddons] = useState(false);
-  const [status, setStatus] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
-  async function submitOrder(event: React.FormEvent<HTMLFormElement>) {
+  function submitOrder(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitting(true);
-    setStatus("");
     const form = event.currentTarget;
     const formData = new FormData(form);
-    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", "Permintaan proyek baru — HT Dev");
-    formData.append("from_name", "HT Dev — Situs");
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
-      const result = (await response.json()) as { success?: boolean; message?: string };
-      if (!response.ok || !result.success)
-        throw new Error(result.message || "Pengiriman belum berhasil. Coba lagi sebentar, ya.");
-      setStatus("success");
-      form.reset();
-      setSelectedCategory(projectCategories[0] ?? "Web Statis");
-    } catch (error) {
-      setStatus(
-        error instanceof Error ? error.message : "Formulir belum terkirim. Silakan coba lagi.",
-      );
-    } finally {
-      setSubmitting(false);
-    }
+    const selectedAddons = Array.from(
+      form.querySelectorAll<HTMLInputElement>('input[name="layanan_tambahan"]:checked'),
+    ).map((input) => input.closest("label")?.querySelector("strong")?.textContent?.trim() ?? "");
+    const name = String(formData.get("nama") ?? "").trim();
+    const deadline = String(formData.get("deadline") ?? "").trim();
+    const category =
+      form
+        .querySelector<HTMLSelectElement>('select[name="kategori"]')
+        ?.selectedOptions[0]?.textContent?.split("(")[0]
+        ?.trim() ?? "";
+    const description = String(formData.get("deskripsi") ?? "").trim();
+    const portfolioAllowed = formData.has("izin_portofolio");
+    const message =
+      language === "en"
+        ? `Hello HT Dev, I’d like to place an order.\n\nName: ${name}\nService: ${category}\nDeadline: ${deadline}\nAdd-ons: ${selectedAddons.length ? selectedAddons.join(", ") : "None"}\nPortfolio permission (Rp25,000 discount): ${portfolioAllowed ? "Yes" : "No"}\n\nProject overview:\n${description}`
+        : `Halo HT Dev, saya mau order.\n\nNama: ${name}\nSkema: ${category}\nDeadline: ${deadline}\nAdd-on: ${selectedAddons.length ? selectedAddons.join(", ") : "Tidak ada"}\nIzin portofolio (diskon Rp25.000): ${portfolioAllowed ? "Ya" : "Tidak"}\n\nGambaran proyek:\n${description}`;
+    window.open(
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
   }
 
   const exclusivePackage = prices.find((item) => item.name === "Paket Eksklusif");
@@ -722,12 +714,7 @@ function OrderPanel({
             </div>
           </section>
 
-          <section
-            className="order-form-card"
-            id="order-form"
-            aria-labelledby="order-form-heading"
-            tabIndex={0}
-          >
+          <section className="order-form-card" id="order-form" aria-labelledby="order-form-heading">
             <div className="form-heading">
               <div>
                 <h2 id="order-form-heading">Pemesanan / Diskusi Harga</h2>
@@ -751,28 +738,6 @@ function OrderPanel({
                   minLength={2}
                 />
               </label>
-              <div className="form-field-grid">
-                <label className="form-field">
-                  <span>
-                    Kontak yang bisa dihubungi <i>*</i>
-                  </span>
-                  <select name="platform_kontak" required defaultValue="Telegram (Diutamakan)">
-                    <option>Telegram (Diutamakan)</option>
-                    <option>WhatsApp</option>
-                  </select>
-                </label>
-                <label className="form-field">
-                  <span>
-                    Username / nomor <i>*</i>
-                  </span>
-                  <input
-                    name="kontak"
-                    type="text"
-                    placeholder="Contoh: @username atau 0812xxxxxxxx"
-                    required
-                  />
-                </label>
-              </div>
               <div className="form-field-grid">
                 <label className="form-field">
                   <span>
@@ -804,31 +769,31 @@ function OrderPanel({
                 </label>
               </div>
               <fieldset className="addon-choice">
-                <legend>Butuh layanan tambahan?</legend>
+                <legend>Butuh add-on?</legend>
                 <label>
                   <input
                     type="radio"
                     name="pilih_addon"
-                    value="Tidak ada tambahan"
+                    value="Tidak perlu add-on"
                     checked={!includeAddons}
                     onChange={() => setIncludeAddons(false)}
                   />
-                  <span>Tidak ada tambahan</span>
+                  <span>Tidak perlu add-on</span>
                 </label>
                 <label>
                   <input
                     type="radio"
                     name="pilih_addon"
-                    value="Ya, pilih layanan tambahan"
+                    value="Ya, pilih add-on"
                     checked={includeAddons}
                     onChange={() => setIncludeAddons(true)}
                   />
-                  <span>Ya, pilih layanan tambahan</span>
+                  <span>Ya, pilih add-on</span>
                 </label>
               </fieldset>
               {includeAddons && (
                 <fieldset className="addon-options">
-                  <legend>Pilih layanan tambahan</legend>
+                  <legend>Pilih add-on</legend>
                   {addons.map((addon) => (
                     <label className="addon-option" key={addon.name}>
                       <input
@@ -866,63 +831,12 @@ function OrderPanel({
                   <strong>(diskon Rp25.000)</strong>
                 </span>
               </label>
-              {status === "success" ? (
-                <div className="form-success" role="status">
-                  <span>
-                    <Sparkles />
-                  </span>
-                  <div>
-                    <strong>Pesanmu berhasil dikirim!</strong>
-                    <small>
-                      Terima kasih sudah menghubungi HT Dev. Kami akan segera menyapa lewat kontak
-                      pilihanmu.
-                    </small>
-                  </div>
-                </div>
-              ) : (
-                status && (
-                  <p className="form-error" role="alert">
-                    {status}
-                  </p>
-                )
-              )}
-              <Button type="submit" className="pill-button form-submit" disabled={submitting}>
-                {submitting ? "Sedang mengirim..." : "Kirim permintaan via email"}
-                <span className="button-icon">
-                  <ArrowUpRight />
-                </span>
+              <Button type="submit" className="pill-button form-submit">
+                <img className="whatsapp-icon" src="/whatsapp.svg" alt="" aria-hidden="true" />
+                Kirim via WhatsApp
               </Button>
               <p className="response-note">Respon cepat, kurang dari 24 jam kerja.</p>
             </form>
-            <div className="form-divider">
-              <span>atau, langsung menyapa</span>
-            </div>
-            <div className="quick-contact">
-              <a href="https://t.me/" target="_blank" rel="noreferrer">
-                <Send size={15} /> Atau langsung order via Telegram <ArrowUpRight size={14} />
-              </a>
-              <span>
-                <a href="mailto:hello@htdev.id" aria-label="Email HT Dev">
-                  <Mail size={15} />
-                </a>
-                <a
-                  href="https://www.threads.net/"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Threads HT Dev"
-                >
-                  <Menu size={15} />
-                </a>
-                <a
-                  href="https://www.instagram.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Instagram HT Dev"
-                >
-                  <MonitorSmartphone size={15} />
-                </a>
-              </span>
-            </div>
           </section>
         </div>
       </LocalizedContent>
