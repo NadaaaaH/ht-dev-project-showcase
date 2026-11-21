@@ -49,8 +49,8 @@ const english: Record<string, string> = {
   "Diskon Portofolio Rp25k": "Rp25k portfolio discount",
   "Potongan harga langsung jika hasil karya diizinkan untuk showcase.":
     "Get a direct discount when you let us showcase the finished work.",
-  "Mulai dari ide kecil, lalu kita rancang langkah terbaik bersama.":
-    "Start with a small idea, and we’ll plan the best next steps together.",
+  "Mulai dari ide kecil, rancang langkah terbaik bersama.":
+    "Start with a small idea, and we'll plan the best steps together.",
   "Alur Pemesanan": "Order Flow",
   "Dari pesan sampai proyek jadi, ini alurnya.": "From order to delivery, here’s the flow.",
   Pemesanan: "Order",
@@ -69,7 +69,7 @@ const english: Record<string, string> = {
   "Pelunasan & Serah Terima": "Final Payment & Handover",
   "Lunasi sisa pembayaran, lalu kamu menerima Starter Guide PDF, README, dan repository GitHub. Kami memandu langkah deployment di akunmu sendiri. Setelah itu proyek selesai dan semuanya jadi milikmu.":
     "Pay the remaining balance to receive the Starter Guide PDF, README, and GitHub repository. We’ll guide you through deploying to your own account. Once that’s done, the project is complete and everything is yours.",
-  "Mulai diskusi": "Start a conversation",
+  "Mulai diskusi": "Start a discussion",
   "PILIHAN KARYA": "SELECTED WORK",
   "Hal yang pernah": "Things we’ve",
   "kami buat.": "made.",
@@ -263,8 +263,8 @@ const english: Record<string, string> = {
     "New design or redesign · Ready for development",
   "Kirim via WhatsApp": "Send via WhatsApp",
   "Respon cepat, kurang dari 24 jam kerja.": "Fast response, within one business day.",
-  "© 2026 HT Dev. Dibuat dengan perhatian pada detail.":
-    "© 2026 HT Dev. Made with attention to detail.",
+  "© 2026 Haifa Team Dev. Dibuat dengan perhatian pada detail.":
+    "© 2026 Haifa Team Dev. Crafted with attention to detail.",
   "Web · Aplikasi · UI/UX · AI": "Web · Apps · UI/UX · AI",
 };
 

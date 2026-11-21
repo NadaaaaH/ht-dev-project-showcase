@@ -15,7 +15,6 @@ import {
   FileText,
   Layers3,
   Languages,
-  MoveUpRight,
   Sparkles,
   X,
 } from "lucide-react";
@@ -221,7 +220,7 @@ function HTDevSite() {
 
         <LocalizedContent language={language}>
           <footer className="site-footer flex flex-col gap-2 border-t border-border/70 px-5 py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
-            <span>© 2026 HT Dev. Dibuat dengan perhatian pada detail.</span>
+            <span>© 2026 Haifa Team Dev. Dibuat dengan perhatian pada detail.</span>
             <span className="footer-services">
               Web <i>·</i> Aplikasi <i>·</i> UI/UX <i>·</i> AI
             </span>
@@ -410,13 +409,19 @@ function HomePanel({
             ))}
           </div>
         </section>
-        <div className="home-note">
-          <span className="note-star">✳</span>
-          <p>Mulai dari ide kecil, lalu kita rancang langkah terbaik bersama.</p>
-          <Button variant="ghost" className="text-link-button" onClick={() => onPanelChange(2)}>
-            Mulai diskusi <MoveUpRight size={15} />
-          </Button>
-        </div>
+        <button
+          type="button"
+          className="home-cta"
+          aria-label="Mulai diskusi"
+          onClick={() => onPanelChange(2)}
+        >
+          <span className="home-cta-headline">
+            Mulai dari ide kecil, rancang langkah terbaik bersama.
+          </span>
+          <span className="home-cta-arrow" aria-hidden="true">
+            <ArrowRight size={22} />
+          </span>
+        </button>
       </LocalizedContent>
     </div>
   );
