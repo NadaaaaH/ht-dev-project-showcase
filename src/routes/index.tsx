@@ -443,11 +443,7 @@ function PortfolioPanel({
             <span className="title-underline">bukan janji.</span>
           </h1>
         </div>
-        <section className="portfolio-grid" aria-label="Galeri proyek">
-          {projects.map((item) => (
-            <PortfolioProjectCard item={item} language={language} key={item.name} />
-          ))}
-        </section>
+        <PortfolioProjectGallery />
         <div className="portfolio-end-note">
           <span>Punya ide? Ceritakan, kami wujudkan.</span>
           <Button
@@ -463,50 +459,73 @@ function PortfolioPanel({
   );
 }
 
-function PortfolioProjectCard({
-  item,
-  language,
-}: {
-  item: (typeof projects)[number];
-  language: Language;
-}) {
-  const imageRef = useRef<HTMLImageElement>(null);
-  const [imageFailed, setImageFailed] = useState(false);
+function PortfolioProjectGallery() {
+  const [activeProject, setActiveProject] = useState(0);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const image = imageRef.current;
-    if (image?.complete && image.naturalWidth === 0) setImageFailed(true);
+    galleryRef.current?.querySelectorAll("img").forEach((image) => {
+      if (image.complete && image.naturalWidth === 0) image.style.display = "none";
+    });
   }, []);
 
   return (
-    <LocalizedContent language={language}>
-      <article className="project-card">
-        {item.image && !imageFailed ? (
-          <img
-            ref={imageRef}
-            className="project-card-image"
-            src={item.image}
-            alt=""
-            aria-hidden="true"
-            decoding="async"
-            onError={() => setImageFailed(true)}
-          />
-        ) : null}
-        <div className="project-shade" aria-hidden="true" />
-        <div className="project-card-copy">
-          <h2 className="project-card-title type-item-title">{item.name}</h2>
-          <p className="project-card-description type-body">{item.description}</p>
-          <ul className="project-card-features">
-            {item.features.map((feature) => (
-              <li className="type-helper" key={feature}>
-                <Check size={12} aria-hidden="true" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </article>
-    </LocalizedContent>
+    <div ref={galleryRef} className="portfolio-gallery" aria-label="Galeri proyek">
+      {projects.map((item, index) => {
+        const isActive = activeProject === index;
+        return (
+          <button
+            key={item.name}
+            type="button"
+            className={`project-card ${isActive ? "project-expanded" : "project-collapsed"}`}
+            onClick={() => setActiveProject(index)}
+            aria-label={`Lihat ${item.name}`}
+            aria-pressed={isActive}
+          >
+            {item.image ? (
+              <img
+                className="project-card-image"
+                src={item.image}
+                alt=""
+                aria-hidden="true"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none";
+                }}
+              />
+            ) : null}
+            <span className="project-shade" aria-hidden="true" />
+            {isActive ? (
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={item.name}
+                  className="project-card-copy"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <strong className="project-card-title">{item.name}</strong>
+                  <span className="project-card-description">{item.description}</span>
+                  <span className="project-card-features">
+                    {item.features.map((feature) => (
+                      <span key={feature}>
+                        <Check size={12} aria-hidden="true" />
+                        <span>{feature}</span>
+                      </span>
+                    ))}
+                  </span>
+                </motion.span>
+              </AnimatePresence>
+            ) : (
+              <span className="collapsed-project-mark" aria-hidden="true">
+                <span>{item.icon}</span>
+                <small>{item.name}</small>
+              </span>
+            )}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
