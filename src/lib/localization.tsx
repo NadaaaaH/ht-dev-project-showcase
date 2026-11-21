@@ -49,8 +49,10 @@ const english: Record<string, string> = {
   "Diskon Portofolio Rp25k": "Rp25k portfolio discount",
   "Potongan harga langsung jika hasil karya diizinkan untuk showcase.":
     "Get a direct discount when you let us showcase the finished work.",
-  "Mulai dari ide kecil, rancang langkah terbaik bersama.":
-    "Start with a small idea, and we'll plan the best steps together.",
+  "Project kuliah belum kelar?": "College project not finished yet?",
+  "Butuh website untuk usaha atau event?": "Need a website for your business or event?",
+  "Punya ide aplikasi yang belum terwujud?": "Have an app idea waiting to happen?",
+  "Ayo selesaikan bersama HT Dev.": "Let's finish it together with HT Dev.",
   "Alur Pemesanan": "Order Flow",
   "Dari pesan sampai proyek jadi, ini alurnya.": "From order to delivery, here’s the flow.",
   Pemesanan: "Order",

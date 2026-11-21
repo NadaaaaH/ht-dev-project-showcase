@@ -415,8 +415,13 @@ function HomePanel({
           aria-label="Mulai diskusi"
           onClick={() => onPanelChange(2)}
         >
-          <span className="home-cta-headline">
-            Mulai dari ide kecil, rancang langkah terbaik bersama.
+          <span className="home-cta-copy">
+            <span className="home-cta-questions">
+              <span>Project kuliah belum kelar?</span>
+              <span>Butuh website untuk usaha atau event?</span>
+              <span>Punya ide aplikasi yang belum terwujud?</span>
+            </span>
+            <span className="home-cta-headline">Ayo selesaikan bersama HT Dev.</span>
           </span>
           <span className="home-cta-arrow" aria-hidden="true">
             <ArrowRight size={22} />
