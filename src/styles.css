@@ -225,19 +225,26 @@ button, input, textarea, select { font: inherit; }
 .sparkle-one { top: 112px; left: 5%; }
 .sparkle-two { top: 174px; right: 3%; width: 26px; height: 26px; color: var(--peach-dark); animation-delay: 1.3s; }
 .feature-section { margin-top: 44px; }
-.feature-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; gap: 13px; }
-.feature-card { position: relative; min-height: 272px; padding: 15px; overflow: hidden; border: 1px solid var(--border); border-radius: 21px; background: var(--background); box-shadow: 0 12px 30px color-mix(in oklab, var(--foreground) 9%, transparent); transition: box-shadow .25s ease; transform-origin: center; }
-.feature-card:nth-child(odd) { margin-top: 18px; }
-.feature-card:hover { box-shadow: 0 18px 38px color-mix(in oklab, var(--foreground) 15%, transparent); }
-.feature-top { display: flex; min-height: 109px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
-.feature-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 15px; background: var(--lilac-wash); color: var(--primary); }
-.feature-icon svg { width: 21px; height: 21px; stroke-width: 1.8; }
+.feature-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; gap: 13px; }
+.feature-card { --feature-color: var(--primary); --feature-light: color-mix(in oklab, var(--primary) 85%, white); display: flex; height: 340px; min-height: 340px; flex-direction: column; overflow: hidden; border: 0; border-radius: 24px; background: var(--card); box-shadow: 0 16px 40px color-mix(in oklab, var(--primary) 10%, transparent); transform-origin: center; transition: transform .25s ease, box-shadow .25s ease; }
+.feature-card:hover, .feature-card:active { transform: translateY(-8px) scale(1.03); box-shadow: 0 22px 48px color-mix(in oklab, var(--primary) 17%, transparent); }
+.feature-tint-2, .feature-tint-4 { --feature-color: var(--peach); --feature-light: color-mix(in oklab, var(--peach) 85%, white); }
+.feature-top { display: flex; flex: 0 0 45%; min-height: 153px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 14px; background: var(--card); text-align: center; }
+.feature-icon { display: grid; width: 60px; height: 60px; place-items: center; border-radius: 16px; background: var(--lilac-wash); color: var(--primary); }
+.feature-icon svg { width: 28px; height: 28px; stroke-width: 1.8; }
 .feature-card h2 { margin: 0; font-size: clamp(12px, 1.08vw, 15px); font-weight: 760; line-height: 1.35; }
-.feature-detail { position: relative; display: flex; min-height: 130px; flex-direction: column; justify-content: center; margin: 0 -15px -15px; padding: 26px 15px 18px; border-radius: 42% 42% 0 0 / 14px 14px 0 0; background: var(--primary); color: var(--primary-foreground); text-align: center; }
-.feature-detail p { margin: 0; color: inherit; font-size: clamp(10px, .9vw, 12px); line-height: 1.65; }
-.feature-tint-2 .feature-detail, .feature-tint-4 .feature-detail { background: var(--peach); color: var(--peach-dark); }
+.feature-detail { position: relative; z-index: 0; display: flex; flex: 1 1 auto; min-height: 187px; flex-direction: column; justify-content: center; padding: 38px 20px 18px; background: transparent; color: var(--primary-foreground); text-align: center; }
+.feature-detail::before { position: absolute; z-index: 0; inset: 50px 0 0; background: linear-gradient(180deg, var(--feature-color), var(--feature-light)); content: ""; }
+.feature-detail p { position: relative; z-index: 2; margin: 0; color: inherit; font-size: clamp(10px, .9vw, 12px); line-height: 1.65; }
+.feature-tint-2 .feature-detail, .feature-tint-4 .feature-detail { color: var(--peach-dark); }
 .feature-tint-2 .feature-icon, .feature-tint-4 .feature-icon { background: color-mix(in oklab, var(--peach) 28%, white); color: var(--peach-dark); }
-.feature-number { position: absolute; top: 14px; right: 16px; color: color-mix(in oklab, currentColor 50%, transparent); font-size: 10px; font-weight: 800; }
+.feature-wave { position: absolute; left: -5%; width: 110%; height: 50px; pointer-events: none; }
+.feature-wave-back { top: -9px; z-index: 0; color: var(--feature-color); opacity: .35; }
+.feature-wave-front { top: 0; z-index: 1; color: var(--feature-color); }
+.feature-number { position: absolute; z-index: 2; top: 14px; right: 16px; color: color-mix(in oklab, currentColor 50%, transparent); font-size: 10px; font-weight: 800; }
+.feature-card:hover .feature-wave-front { animation: feature-wave-drift 5s ease-in-out infinite alternate; }
+@keyframes feature-wave-drift { from { transform: translateX(-2%); } to { transform: translateX(2%); } }
+@media (prefers-reduced-motion: reduce) { .feature-card, .feature-wave-front { transition: none; animation: none !important; } .feature-card:hover, .feature-card:active { transform: none; } }
 .process-section { margin-top: 46px; }
 .process-heading { margin-bottom: 8px; }
 .process-heading h2 { margin: 0; color: var(--foreground); font-size: clamp(24px, 3vw, 34px); font-weight: 750; line-height: 1.2; }
@@ -497,14 +504,14 @@ button, input, textarea, select { font: inherit; }
   .sparkle-two { top: 185px; right: 0; width: 20px; }
   .feature-section { margin-top: 34px; }
   .feature-grid { grid-template-columns: 1fr; gap: 14px; }
-  .feature-card, .feature-card:nth-child(odd), .feature-card:nth-child(even) { min-height: 0; margin-top: 0; padding: 12px; border-radius: 18px; }
-  .feature-top { min-height: 95px; }
+  .feature-card { height: 340px; min-height: 340px; border-radius: 22px; }
+  .feature-top { flex-basis: 45%; min-height: 153px; }
   .feature-card h2 { max-width: 100%; font-size: 13px; }
-  .feature-detail { min-height: 110px; margin: 0 -12px -12px; padding: 23px 15px 16px; }
+  .feature-detail { min-height: 187px; padding: 38px 18px 18px; }
   .feature-detail p { font-size: 11px; }
   .feature-number { top: 12px; right: 13px; font-size: 9px; }
-  .feature-icon { width: 36px; height: 36px; border-radius: 12px; }
-  .feature-icon svg { width: 18px; }
+  .feature-icon { width: 60px; height: 60px; border-radius: 16px; }
+  .feature-icon svg { width: 28px; height: 28px; }
   .process-section { margin-top: 38px; }
   .process-heading h2 { font-size: 25px; }
   .process-heading p { font-size: 12px; }

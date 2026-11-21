@@ -302,8 +302,6 @@ function HomePanel({
               <motion.article
                 className={`feature-card feature-tint-${index + 1}`}
                 key={feature.title}
-                whileHover={{ y: -4, scale: 1.035 }}
-                transition={{ duration: 0.22 }}
               >
                 <div className="feature-top">
                   <div className="feature-icon" aria-hidden="true">
@@ -312,6 +310,30 @@ function HomePanel({
                   <h2>{feature.title}</h2>
                 </div>
                 <div className="feature-detail">
+                  <svg
+                    className="feature-wave feature-wave-back"
+                    viewBox="0 0 400 60"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path
+                      d="M0 26 C78 5 148 52 224 24 C290 2 337 40 400 17 L400 60 L0 60 Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <svg
+                    className="feature-wave feature-wave-front"
+                    viewBox="0 0 400 60"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path
+                      d="M0 30 C80 0 140 60 220 30 C290 5 340 35 400 20 L400 60 L0 60 Z"
+                      fill="currentColor"
+                    />
+                  </svg>
                   <p>{feature.text}</p>
                   <span className="feature-number">0{index + 1}</span>
                 </div>
