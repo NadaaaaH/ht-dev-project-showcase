@@ -72,43 +72,35 @@ const english: Record<string, string> = {
   "Lunasi sisa pembayaran, lalu kamu menerima Starter Guide PDF, README, dan repository GitHub. Kami memandu langkah deployment di akunmu sendiri. Setelah itu proyek selesai dan semuanya jadi milikmu.":
     "Pay the remaining balance to receive the Starter Guide PDF, README, and GitHub repository. We’ll guide you through deploying to your own account. Once that’s done, the project is complete and everything is yours.",
   "Mulai diskusi": "Start a discussion",
-  "PILIHAN KARYA": "SELECTED WORK",
-  "Hal yang pernah": "Things we’ve",
-  "kami buat.": "made.",
-  "Setiap proyek dimulai dari cerita yang berbeda. Ini beberapa di antaranya.":
-    "Every project starts with a different story. Here are a few of them.",
+  "Bukti,": "Proof,",
+  "bukan janji.": "not promises.",
   "Galeri proyek": "Project gallery",
-  "Pilih proyek": "Choose a project",
-  "Proyek sebelumnya": "Previous project",
-  "Proyek berikutnya": "Next project",
-  Lihat: "View",
-  "Tampilan proyek": "Project preview",
-  Tampilkan: "Show",
-  "Marketplace Barang Preloved": "Pre-loved Marketplace",
-  "Ruang jual-beli preloved dengan alur yang aman, ringkas, dan mudah dipercaya.":
-    "A trusted, streamlined place to buy and sell pre-loved goods.",
-  "Arsip Riset Putusan Hukum": "Legal Decision Research Archive",
-  "Pencarian putusan dan arsip hukum dalam satu ruang kerja yang teratur.":
-    "Search decisions and legal archives in one organized workspace.",
-  "Inspeksi Fasilitas Lapangan": "Field Facility Inspections",
-  "Checklist kondisi fasilitas yang praktis dipakai langsung di lapangan.":
-    "Practical facility checklists designed for use in the field.",
-  "Eksperimen Alur Kerja Kreatif": "Creative Workflow Experiments",
-  "Contoh konsep dashboard kreatif yang menghubungkan ide dan alur AI.":
-    "A creative dashboard concept connecting ideas with AI workflows.",
-  "Pencarian Dokumen": "Document Search",
-  "Klasifikasi Putusan": "Decision Classification",
-  "Ruang Admin": "Admin Workspace",
-  "Checklist Digital": "Digital Checklist",
-  "Catatan Temuan": "Findings Log",
-  "Riwayat Inspeksi": "Inspection History",
-  "Eksplorasi UI": "UI Exploration",
-  "Konsep Produk": "Product Concept",
-  "Alur AI": "AI Workflow",
+  "Marketplace barang preloved berbasis web dengan alur jual-beli yang aman dan mudah.":
+    "A web-based pre-loved marketplace with a safe, easy buying and selling flow.",
+  "Website rekomendasi dan validasi program KKN berbasis Case-Based Reasoning.":
+    "A website for recommending and validating community service programs using Case-Based Reasoning.",
+  "Website skrining awal Bell's Palsy memakai deteksi wajah dan machine learning.":
+    "An early-screening website for Bell's Palsy using facial detection and machine learning.",
+  "Konsep dashboard kreatif untuk mengeksplorasi ide dan merancang alur kerja berbasis AI.":
+    "A creative dashboard concept for exploring ideas and shaping AI-powered workflows.",
+  "Case-Based Reasoning": "Case-Based Reasoning",
+  "Rekomendasi program": "Program recommendations",
+  "Validasi program": "Program validation",
+  "Deteksi wajah (MediaPipe)": "Face detection (MediaPipe)",
+  "Klasifikasi Random Forest": "Random Forest classification",
+  "Hasil skrining instan": "Instant screening results",
+  "Eksplorasi UI": "UI exploration",
+  "Dashboard kreatif": "Creative dashboard",
+  "Konsep produk": "Product concept",
+  "Alur AI": "AI workflow",
+  "Auth & Multi-Role": "Auth & multi-role",
+  "CRUD Produk": "Product CRUD",
+  "Cloud Storage": "Cloud storage",
+  "Responsive UI": "Responsive UI",
   "Pesan yang serupa": "Order a similar project",
   "Lihat gambar penuh": "View full image",
-  "Punya ide sendiri? Kita bisa mulai dari sana.": "Have your own idea? Let’s start there.",
-  "Ceritakan idemu": "Tell us your idea",
+  "Punya ide? Ceritakan, kami wujudkan.": "Got an idea? Tell us, we'll build it.",
+  "Ceritakan idemu →": "Tell us your idea →",
   "Tutup gambar": "Close image",
   "Gambar proyek": "Project image",
   "Tampilan penuh proyek": "Full project preview",
@@ -265,9 +257,8 @@ const english: Record<string, string> = {
     "New design or redesign · Ready for development",
   "Kirim via WhatsApp": "Send via WhatsApp",
   "Respon cepat, kurang dari 24 jam kerja.": "Fast response, within one business day.",
-  "© 2026 Haifa Team Dev. Dibuat dengan perhatian pada detail.":
-    "© 2026 Haifa Team Dev. Crafted with attention to detail.",
-  "Web · Aplikasi · UI/UX · AI": "Web · Apps · UI/UX · AI",
+  "© 2026 Haifa Team Dev.": "© 2026 Haifa Team Dev.",
+  "Jasa Pembuatan Proyek Software": "Software Project Development Services",
 };
 
 function translateText(value: string, language: Language) {

@@ -8,10 +8,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  ChevronLeft,
-  ChevronRight,
   Code2,
-  ExternalLink,
   FileText,
   Layers3,
   Languages,
@@ -220,10 +217,8 @@ function HTDevSite() {
 
         <LocalizedContent language={language}>
           <footer className="site-footer flex flex-col gap-2 border-t border-border/70 px-5 py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
-            <span>© 2026 Haifa Team Dev. Dibuat dengan perhatian pada detail.</span>
-            <span className="footer-services">
-              Web <i>·</i> Aplikasi <i>·</i> UI/UX <i>·</i> AI
-            </span>
+            <span>© 2026 Haifa Team Dev.</span>
+            <span className="footer-services">Jasa Pembuatan Proyek Software</span>
           </footer>
         </LocalizedContent>
       </div>
@@ -439,194 +434,79 @@ function PortfolioPanel({
   language: Language;
   onOrder: (category: string) => void;
 }) {
-  const [activeProject, setActiveProject] = useState(0);
-  const [showLightbox, setShowLightbox] = useState(false);
-  const project = projects[activeProject] ?? projects[0];
-  const associatedCategory = project?.orderCategory ?? projectCategories[0] ?? "Website Static";
-
-  useEffect(() => {
-    if (!showLightbox) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setShowLightbox(false);
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [showLightbox]);
-
   return (
     <div className="portfolio-panel content-wrap">
       <LocalizedContent language={language}>
         <div className="page-heading-row">
-          <div>
-            <p className="eyebrow">
-              <span className="eyebrow-line" /> PILIHAN KARYA
-            </p>
-            <h1 className="page-title">
-              Hal yang pernah <span className="title-underline">kami buat.</span>
-            </h1>
-            <p className="page-subtitle">
-              Setiap proyek dimulai dari cerita yang berbeda. Ini beberapa di antaranya.
-            </p>
-          </div>
-          <div className="gallery-counter">
-            <span>0{activeProject + 1}</span> <i>/</i> 0{projects.length}
-          </div>
+          <h1 className="page-title">
+            {"Bukti, "}
+            <span className="title-underline">bukan janji.</span>
+          </h1>
         </div>
-        <div className="portfolio-gallery" aria-label="Galeri proyek">
-          {projects.map((item, index) => (
-            <button
-              key={item.name}
-              className={`project-card ${activeProject === index ? "project-expanded" : "project-collapsed"}`}
-              onClick={() => setActiveProject(index)}
-              aria-label={`Lihat ${item.name}, ${item.category}`}
-              aria-expanded={activeProject === index}
-            >
-              <img src={item.image} alt={`Tampilan proyek ${item.name}`} loading="lazy" />
-              <span className="project-shade" />
-              {activeProject === index ? (
-                <span className="project-cover-copy">
-                  <span className="project-logo">{item.icon}</span>
-                  <span>
-                    <strong>{item.name}</strong>
-                    <small>{item.title}</small>
-                  </span>
-                  <span className="project-category-pill">{item.category}</span>
-                </span>
-              ) : (
-                <span className="collapsed-project-mark">
-                  <span>{item.icon}</span>
-                  <small>{item.name}</small>
-                </span>
-              )}
-              {activeProject === index && (
-                <span className="project-expand-icon">
-                  <ArrowUpRight size={18} />
-                </span>
-              )}
-            </button>
+        <section className="portfolio-grid" aria-label="Galeri proyek">
+          {projects.map((item) => (
+            <PortfolioProjectCard item={item} language={language} key={item.name} />
           ))}
-        </div>
-        <div className="gallery-pagination" aria-label="Pilih proyek">
-          <button
-            className="gallery-arrow"
-            onClick={() =>
-              setActiveProject((activeProject + projects.length - 1) % projects.length)
-            }
-            aria-label="Proyek sebelumnya"
-          >
-            <ChevronLeft size={18} />
-          </button>
-          {projects.map((item, index) => (
-            <button
-              key={item.name}
-              className={`gallery-dot ${index === activeProject ? "dot-active" : ""}`}
-              aria-label={`Tampilkan ${item.name}`}
-              onClick={() => setActiveProject(index)}
-            />
-          ))}
-          <button
-            className="gallery-arrow"
-            onClick={() => setActiveProject((activeProject + 1) % projects.length)}
-            aria-label="Proyek berikutnya"
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
-        <AnimatePresence mode="wait">
-          {project && (
-            <motion.article
-              className="project-details"
-              key={project.name}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.24 }}
-            >
-              <div className="project-detail-copy">
-                <div className="detail-title-row">
-                  <span className="detail-project-index">0{activeProject + 1}</span>
-                  <h2>
-                    {project.name} <span>—</span> {project.title}
-                  </h2>
-                </div>
-                <p>{project.description}</p>
-                <div className="project-tags">
-                  {project.features.map((feature) => (
-                    <span key={feature}>
-                      <Check size={12} /> {feature}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="project-detail-action">
-                <span className="category-tag">{project.category}</span>
-                <strong>Mulai {project.price}</strong>
-                <div className="project-actions">
-                  <Button
-                    variant="outline"
-                    className="small-pill-button"
-                    onClick={() => onOrder(associatedCategory)}
-                  >
-                    Pesan yang serupa <ArrowUpRight />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="icon-button lightbox-trigger"
-                    aria-label="Lihat gambar penuh"
-                    title="Lihat gambar penuh"
-                    onClick={() => setShowLightbox(true)}
-                  >
-                    <ExternalLink size={17} />
-                  </Button>
-                </div>
-              </div>
-            </motion.article>
-          )}
-        </AnimatePresence>
+        </section>
         <div className="portfolio-end-note">
-          <span className="end-note-mark">✳</span>
-          <span>Punya ide sendiri? Kita bisa mulai dari sana.</span>
+          <span>Punya ide? Ceritakan, kami wujudkan.</span>
           <Button
             variant="ghost"
             className="text-link-button"
-            onClick={() => onOrder("Web Statis")}
+            onClick={() => onOrder("Website Static")}
           >
-            Ceritakan idemu <ArrowUpRight size={15} />
+            Ceritakan idemu →
           </Button>
         </div>
-        {showLightbox && project && (
-          <div
-            className="lightbox-backdrop"
-            role="presentation"
-            onClick={() => setShowLightbox(false)}
-          >
-            <div
-              className="lightbox-content"
-              role="dialog"
-              aria-modal="true"
-              aria-label={`Gambar proyek ${project.name}`}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <img src={project.image} alt={`Tampilan penuh proyek ${project.name}`} />
-              <div className="lightbox-caption">
-                <span>
-                  <strong>{project.name}</strong>
-                  <small>{project.category}</small>
-                </span>
-                <Button
-                  variant="ghost"
-                  className="lightbox-close icon-button"
-                  onClick={() => setShowLightbox(false)}
-                  aria-label="Tutup gambar"
-                >
-                  <X />
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
       </LocalizedContent>
     </div>
+  );
+}
+
+function PortfolioProjectCard({
+  item,
+  language,
+}: {
+  item: (typeof projects)[number];
+  language: Language;
+}) {
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [imageFailed, setImageFailed] = useState(false);
+
+  useEffect(() => {
+    const image = imageRef.current;
+    if (image?.complete && image.naturalWidth === 0) setImageFailed(true);
+  }, []);
+
+  return (
+    <LocalizedContent language={language}>
+      <article className="project-card">
+        {item.image && !imageFailed ? (
+          <img
+            ref={imageRef}
+            className="project-card-image"
+            src={item.image}
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            onError={() => setImageFailed(true)}
+          />
+        ) : null}
+        <div className="project-shade" aria-hidden="true" />
+        <div className="project-card-copy">
+          <h2 className="project-card-title type-item-title">{item.name}</h2>
+          <p className="project-card-description type-body">{item.description}</p>
+          <ul className="project-card-features">
+            {item.features.map((feature) => (
+              <li className="type-helper" key={feature}>
+                <Check size={12} aria-hidden="true" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </article>
+    </LocalizedContent>
   );
 }
 
