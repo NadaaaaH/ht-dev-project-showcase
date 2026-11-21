@@ -501,13 +501,13 @@ function PortfolioPanel({
         </div>
         <PortfolioProjectGallery />
         <div className="portfolio-end-note">
-          <span>Punya ide? Ceritakan, kami wujudkan.</span>
+          <span>Butuh yang seperti ini untuk kuliah, usaha, atau event?</span>
           <Button
             variant="ghost"
             className="text-link-button"
             onClick={() => onOrder("Website Static")}
           >
-            Ceritakan idemu →
+            Ceritakan kebutuhanmu →
           </Button>
         </div>
       </LocalizedContent>

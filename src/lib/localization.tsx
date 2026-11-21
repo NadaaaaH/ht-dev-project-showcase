@@ -99,8 +99,9 @@ const english: Record<string, string> = {
   "Responsive UI": "Responsive UI",
   "Pesan yang serupa": "Order a similar project",
   "Lihat gambar penuh": "View full image",
-  "Punya ide? Ceritakan, kami wujudkan.": "Got an idea? Tell us, we'll build it.",
-  "Ceritakan idemu →": "Tell us your idea →",
+  "Butuh yang seperti ini untuk kuliah, usaha, atau event?":
+    "Need something like this for school, business, or an event?",
+  "Ceritakan kebutuhanmu →": "Tell us what you need →",
   "Tutup gambar": "Close image",
   "Gambar proyek": "Project image",
   "Tampilan penuh proyek": "Full project preview",
