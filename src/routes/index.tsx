@@ -12,7 +12,6 @@ import {
   FileText,
   Layers3,
   Languages,
-  Sparkles,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -249,6 +248,7 @@ function HomePanel({
   language: Language;
   onPanelChange: (index: number) => void;
 }) {
+  const reduceMotion = useReducedMotion();
   const features = [
     {
       icon: <FileText />,
@@ -275,8 +275,6 @@ function HomePanel({
     <div className="home-panel content-wrap">
       <LocalizedContent language={language}>
         <div className="hero-intro">
-          <Sparkles className="sparkle sparkle-one" aria-hidden="true" />
-          <Sparkles className="sparkle sparkle-two" aria-hidden="true" />
           <p className="hero-headline">
             Solusi Digital
             <br className="desktop-break" />{" "}
@@ -292,47 +290,105 @@ function HomePanel({
         </div>
         <section className="feature-section" aria-label="Keunggulan HT Dev">
           <div className="feature-grid">
-            {features.map((feature, index) => (
-              <motion.article
-                className={`feature-card feature-tint-${index + 1}`}
-                key={feature.title}
-              >
-                <div className="feature-top">
-                  <div className="feature-icon" aria-hidden="true">
-                    {feature.icon}
-                  </div>
-                  <h2>{feature.title}</h2>
-                </div>
-                <div className="feature-detail">
-                  <svg
-                    className="feature-wave feature-wave-back"
-                    viewBox="0 0 400 60"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                    focusable="false"
+            {features.map((feature, index) => {
+              const tilt = index % 2 === 0 ? 1.5 : -1.5;
+              return (
+                <motion.div
+                  className="feature-card-wrap"
+                  key={feature.title}
+                  initial="rest"
+                  whileHover={reduceMotion ? "reduced" : "hover"}
+                  whileTap={reduceMotion ? "reduced" : "hover"}
+                >
+                  <motion.article
+                    className={`feature-card feature-tint-${index + 1}`}
+                    variants={{
+                      rest: { y: 0, scale: 1, rotate: 0 },
+                      hover: {
+                        y: [-10, -16, -10],
+                        scale: 1.04,
+                        rotate: tilt,
+                        transition: {
+                          y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                          scale: { type: "spring", stiffness: 250, damping: 18 },
+                          rotate: { type: "spring", stiffness: 250, damping: 18 },
+                        },
+                      },
+                      reduced: { y: 0, scale: 1, rotate: 0 },
+                    }}
                   >
-                    <path
-                      d="M0 26 C78 5 148 52 224 24 C290 2 337 40 400 17 L400 60 L0 60 Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  <svg
-                    className="feature-wave feature-wave-front"
-                    viewBox="0 0 400 60"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path
-                      d="M0 30 C80 0 140 60 220 30 C290 5 340 35 400 20 L400 60 L0 60 Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  <p>{feature.text}</p>
-                  <span className="feature-number">0{index + 1}</span>
-                </div>
-              </motion.article>
-            ))}
+                    <div className="feature-top">
+                      <motion.div
+                        className="feature-icon"
+                        aria-hidden="true"
+                        variants={{
+                          rest: { y: 0, rotate: 0 },
+                          hover: {
+                            y: -4,
+                            rotate: -tilt,
+                            transition: { type: "spring", stiffness: 250, damping: 18 },
+                          },
+                          reduced: { y: 0, rotate: 0 },
+                        }}
+                      >
+                        {feature.icon}
+                      </motion.div>
+                      <h2>{feature.title}</h2>
+                    </div>
+                    <div className="feature-detail">
+                      <motion.svg
+                        className="feature-wave feature-wave-back"
+                        viewBox="0 0 400 60"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                        focusable="false"
+                        variants={{
+                          rest: {
+                            x: ["-2%", "2%", "-2%"],
+                            transition: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+                          },
+                          hover: {
+                            x: ["-2%", "2%", "-2%"],
+                            transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                          },
+                          reduced: { x: 0, transition: { duration: 0 } },
+                        }}
+                      >
+                        <path
+                          d="M0 26 C78 5 148 52 224 24 C290 2 337 40 400 17 L400 60 L0 60 Z"
+                          fill="currentColor"
+                        />
+                      </motion.svg>
+                      <motion.svg
+                        className="feature-wave feature-wave-front"
+                        viewBox="0 0 400 60"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                        focusable="false"
+                        variants={{
+                          rest: {
+                            x: ["-2%", "2%", "-2%"],
+                            transition: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+                          },
+                          hover: {
+                            x: ["-2%", "2%", "-2%"],
+                            transition: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                          },
+                          reduced: { x: 0, transition: { duration: 0 } },
+                        }}
+                      >
+                        <path
+                          d="M0 30 C80 0 140 60 220 30 C290 5 340 35 400 20 L400 60 L0 60 Z"
+                          fill="currentColor"
+                        />
+                      </motion.svg>
+                      <p>{feature.text}</p>
+                      <span className="feature-number">0{index + 1}</span>
+                    </div>
+                  </motion.article>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
         <section className="process-section" aria-labelledby="process-title">

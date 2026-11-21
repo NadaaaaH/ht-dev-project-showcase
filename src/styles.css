@@ -221,13 +221,11 @@ button, input, textarea, select { font: inherit; }
 .button-icon-lilac { background: var(--lilac-wash); color: var(--primary); }
 .hero-proof { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 22px; color: var(--muted-foreground); font-size: 11px; }
 .hero-proof i { width: 4px; height: 4px; border-radius: 50%; background: var(--peach); }
-.sparkle { position: absolute; width: 21px; height: 21px; color: var(--primary); animation: twinkle 4s ease-in-out infinite; }
-.sparkle-one { top: 112px; left: 5%; }
-.sparkle-two { top: 174px; right: 3%; width: 26px; height: 26px; color: var(--peach-dark); animation-delay: 1.3s; }
 .feature-section { margin-top: 44px; }
-.feature-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; gap: 13px; }
-.feature-card { --feature-color: var(--primary); --feature-light: color-mix(in oklab, var(--primary) 85%, white); display: flex; height: 340px; min-height: 340px; flex-direction: column; overflow: hidden; border: 0; border-radius: 24px; background: var(--card); box-shadow: 0 16px 40px color-mix(in oklab, var(--primary) 10%, transparent); transform-origin: center; transition: transform .25s ease, box-shadow .25s ease; }
-.feature-card:hover, .feature-card:active { transform: translateY(-8px) scale(1.03); box-shadow: 0 22px 48px color-mix(in oklab, var(--primary) 17%, transparent); }
+.feature-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; gap: 13px; padding-block: 32px; }
+.feature-card-wrap { height: 100%; }
+.feature-card { --feature-color: var(--primary); --feature-light: color-mix(in oklab, var(--primary) 85%, white); display: flex; height: 340px; min-height: 340px; flex-direction: column; overflow: hidden; border: 0; border-radius: 24px; background: var(--card); box-shadow: 0 16px 40px color-mix(in oklab, var(--primary) 10%, transparent); transform-origin: center; transition: box-shadow .25s ease; }
+.feature-card-wrap:hover .feature-card { box-shadow: 0 22px 48px color-mix(in oklab, var(--primary) 17%, transparent); }
 .feature-tint-2, .feature-tint-4 { --feature-color: var(--peach); --feature-light: color-mix(in oklab, var(--peach) 85%, white); }
 .feature-top { display: flex; flex: 0 0 45%; min-height: 153px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 14px; background: var(--card); text-align: center; }
 .feature-icon { display: grid; width: 60px; height: 60px; place-items: center; border-radius: 16px; background: var(--lilac-wash); color: var(--primary); }
@@ -242,9 +240,6 @@ button, input, textarea, select { font: inherit; }
 .feature-wave-back { top: -9px; z-index: 0; color: var(--feature-color); opacity: .35; }
 .feature-wave-front { top: 0; z-index: 1; color: var(--feature-color); }
 .feature-number { position: absolute; z-index: 2; top: 14px; right: 16px; color: color-mix(in oklab, currentColor 50%, transparent); font-size: 10px; font-weight: 800; }
-.feature-card:hover .feature-wave-front { animation: feature-wave-drift 5s ease-in-out infinite alternate; }
-@keyframes feature-wave-drift { from { transform: translateX(-2%); } to { transform: translateX(2%); } }
-@media (prefers-reduced-motion: reduce) { .feature-card, .feature-wave-front { transition: none; animation: none !important; } .feature-card:hover, .feature-card:active { transform: none; } }
 .process-section { margin-top: 46px; }
 .process-heading { margin-bottom: 8px; }
 .process-heading h2 { margin: 0; color: var(--foreground); font-size: clamp(24px, 3vw, 34px); font-weight: 750; line-height: 1.2; }
@@ -445,7 +440,15 @@ button, input, textarea, select { font: inherit; }
 .contact-disclaimer { margin: 10px 0 0; color: var(--muted-foreground); font-size: 8px; line-height: 1.5; }
 
 @keyframes breathe { 50% { box-shadow: 0 0 0 7px color-mix(in oklab, var(--mint) 5%, transparent); } }
-@keyframes twinkle { 0%, 100% { transform: rotate(-8deg) scale(.93); opacity: .62; } 50% { transform: rotate(8deg) scale(1.08); opacity: 1; } }
+
+@media (min-width: 1024px) {
+  .feature-card-wrap:nth-child(odd) { transform: translateY(20px); }
+  .feature-card-wrap:nth-child(even) { transform: translateY(-20px); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 @media (min-width: 768px) {
   .site-shell { border-radius: 25px; }
@@ -475,8 +478,6 @@ button, input, textarea, select { font: inherit; }
   .pill-button { min-height: 42px; gap: 8px; padding-left: 13px; font-size: 10px; }
   .button-icon { width: 29px; height: 29px; }
   .hero-proof { flex-wrap: wrap; gap: 8px; margin-top: 18px; font-size: 9px; }
-  .sparkle-one { top: 115px; left: 1%; width: 16px; }
-  .sparkle-two { top: 185px; right: 0; width: 20px; }
   .feature-section { margin-top: 34px; }
   .feature-grid { grid-template-columns: 1fr; gap: 14px; }
   .feature-card { height: 340px; min-height: 340px; border-radius: 22px; }
